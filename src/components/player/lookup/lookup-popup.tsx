@@ -1,8 +1,8 @@
-import { Check, Loader2, Plus, RotateCw, Sparkles, Volume2, X } from "lucide-react";
+import { Check, Copy, ExternalLink, Loader2, Plus, RotateCw, Sparkles, Volume2, X } from "lucide-react";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSettings } from "@/lib/settings";
-import { addNoteFromLookup, type MiningContext } from "@/lib/mining/anki";
+import { addNoteFromLookup, findDuplicateNotes, openNotesInAnki, type MiningContext } from "@/lib/mining/anki";
 import {
   aiExplainReady,
   cachedAiExplanation,
@@ -409,14 +409,40 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
   const { settings } = useSettings();
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
   const [msg, setMsg] = useState("Add to Anki");
+  // Notes already in the deck for this word (Anki's duplicate rule: same
+  // first field), plus any added from this popup.
+  const [notes, setNotes] = useState<number[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    setNotes([]);
+    findDuplicateNotes(settings, { ...mining, term })
+      .then((ids) => alive && setNotes(ids))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+    // Re-check only when the word or the deck/note type changes.
+  }, [term.headword, term.reading, mining.sentence, settings.ankiDeck, settings.ankiModel, settings.ankiUrl]);
+
+  const duplicate = notes.length > 0 && state !== "done";
+  const blocked = duplicate && !settings.ankiAllowDuplicates;
 
   const add = async () => {
     if (state === "busy") return;
+    if (blocked) {
+      void openNotesInAnki(settings, notes).catch((e) => {
+        setState("error");
+        setMsg(String(e).replace(/^Error:\s*/, ""));
+      });
+      return;
+    }
     setState("busy");
     setMsg("Adding…");
     try {
       const res = await addNoteFromLookup(settings, { ...mining, term, popupSelection: selectionInPopup() });
       setState("done");
+      setNotes((n) => [...n, res.noteId]);
       setMsg(res.warnings.length ? `Added, with issues: ${res.warnings.join("; ")}` : "Added to Anki");
     } catch (e) {
       setState("error");
@@ -424,30 +450,54 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
     }
   };
 
+  const title =
+    state === "idle" && duplicate
+      ? blocked
+        ? `Already in your deck (${notes.length}). Click to open it in Anki.`
+        : `Already in your deck (${notes.length}). Click to add another card.`
+      : msg;
+
   return (
-    <button
-      type="button"
-      // Keep a text selection made in the popup: it can be exported to Anki.
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={add}
-      title={msg}
-      className={`flex h-8 items-center gap-1 rounded-lg px-2.5 text-[12px] font-semibold transition-colors ${
-        state === "done"
-          ? "bg-success/20 text-success"
-          : state === "error"
-            ? "bg-danger/15 text-danger"
-            : "bg-ink text-canvas hover:opacity-90"
-      }`}
-    >
-      {state === "busy" ? (
-        <Loader2 size={14} className="animate-spin" />
-      ) : state === "done" ? (
-        <Check size={14} strokeWidth={2.6} />
-      ) : (
-        <Plus size={14} strokeWidth={2.6} />
+    <div className="flex items-center gap-1">
+      {notes.length > 0 && (
+        <button
+          type="button"
+          title={notes.length > 1 ? `Open the ${notes.length} notes in Anki` : "Open the note in Anki"}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => void openNotesInAnki(settings, notes).catch(() => {})}
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-edge-soft text-ink-muted transition-colors hover:border-edge hover:text-ink"
+        >
+          <ExternalLink size={14} strokeWidth={2.2} />
+        </button>
       )}
-      Anki
-    </button>
+      <button
+        type="button"
+        // Keep a text selection made in the popup: it can be exported to Anki.
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={add}
+        title={title}
+        className={`flex h-8 items-center gap-1 rounded-lg px-2.5 text-[12px] font-semibold transition-colors ${
+          state === "done"
+            ? "bg-success/20 text-success"
+            : state === "error"
+              ? "bg-danger/15 text-danger"
+              : duplicate
+                ? "bg-amber-300/20 text-amber-300 hover:bg-amber-300/30"
+                : "bg-ink text-canvas hover:opacity-90"
+        }`}
+      >
+        {state === "busy" ? (
+          <Loader2 size={14} className="animate-spin" />
+        ) : state === "done" ? (
+          <Check size={14} strokeWidth={2.6} />
+        ) : duplicate ? (
+          <Copy size={14} strokeWidth={2.4} />
+        ) : (
+          <Plus size={14} strokeWidth={2.6} />
+        )}
+        Anki
+      </button>
+    </div>
   );
 }
 

@@ -208,6 +208,60 @@ const MEDIA_SOURCES = new Set<AnkiFieldSource>(["picture", "clip", "sentence-aud
 
 export type AddNoteResult = { noteId: number; warnings: string[] };
 
+// Sources cheap and stable enough to identify a note by its first field.
+const DUPLICATE_KEY_SOURCES = new Set<AnkiFieldSource>([
+  "expression",
+  "reading",
+  "furigana",
+  "glossary",
+  "glossary-first",
+  "sentence",
+  "sentence-plain",
+  "sentence-cloze",
+  "title",
+]);
+
+const modelFieldsCache = new Map<string, Promise<string[]>>();
+
+function cachedModelFields(settings: Settings, model: string): Promise<string[]> {
+  const key = `${settings.ankiUrl}\u0000${model}`;
+  let p = modelFieldsCache.get(key);
+  if (!p) {
+    p = ankiModelFields(settings, model).catch((e) => {
+      modelFieldsCache.delete(key);
+      throw e;
+    });
+    modelFieldsCache.set(key, p);
+  }
+  return p;
+}
+
+// Anki search text inside double quotes: escape quotes, backslashes and the
+// `*` / `_` wildcards.
+function ankiSearchText(value: string): string {
+  return value.replace(/[\\"*_]/g, (c) => `\\${c}`);
+}
+
+/** Notes in the mining deck whose first field matches what this lookup would
+ *  put there, the way Anki itself detects duplicates. [] when Anki is not
+ *  reachable or the first field is not a text field. */
+export async function findDuplicateNotes(settings: Settings, ctx: MiningContext): Promise<number[]> {
+  if (!settings.ankiDeck || !settings.ankiModel) return [];
+  const fields = await cachedModelFields(settings, settings.ankiModel);
+  const first = fields[0];
+  const src = first ? settings.ankiFieldMap?.[first] : undefined;
+  if (!first || !src || !DUPLICATE_KEY_SOURCES.has(src)) return [];
+  const value = await fieldValue(settings, src, ctx, () => {});
+  if (!value.trim()) return [];
+  const query = `"deck:${ankiSearchText(settings.ankiDeck)}" "note:${ankiSearchText(settings.ankiModel)}" "${ankiSearchText(first)}:${ankiSearchText(value)}"`;
+  return ankiInvoke<number[]>(settings, "findNotes", { query });
+}
+
+/** Opens Anki's card browser on the given notes. */
+export function openNotesInAnki(settings: Settings, noteIds: number[]): Promise<unknown> {
+  return ankiInvoke(settings, "guiBrowse", { query: `nid:${noteIds.join(",")}` });
+}
+
 export async function addNoteFromLookup(settings: Settings, ctx: MiningContext): Promise<AddNoteResult> {
   if (!settings.ankiDeck || !settings.ankiModel) throw new Error("Pick an Anki deck and note type in Settings → Dictionary & Anki");
   const map = settings.ankiFieldMap || {};
