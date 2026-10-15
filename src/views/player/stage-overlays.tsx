@@ -60,7 +60,7 @@ export function StageOverlays({
           text={snap.subText}
           startSec={snap.subStartSec}
           scale={pipMode ? 0.45 : 1}
-          lookup={lookupControls && !pipMode ? { controls: lookupControls, endSec: snap.subEndSec } : undefined}
+          lookup={lookupControls && !pipMode ? { controls: lookupControls, endSec: snap.subEndSec, chromeVisible } : undefined}
         />
       )}
       {!pipMode && subAssNative && engine === "mpv" && lookupControls && (

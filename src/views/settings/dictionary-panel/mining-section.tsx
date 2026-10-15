@@ -108,6 +108,27 @@ function DictionarySection() {
         value={settings.subLookupPauseOnHover}
         onChange={(v) => update({ subLookupPauseOnHover: v })}
       />
+      <Row
+        label={t("Look up with")}
+        sub={t("Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.")}
+      >
+        <select
+          value={settings.subLookupScanKey ?? "none"}
+          onChange={(e) => update({ subLookupScanKey: e.target.value as typeof settings.subLookupScanKey })}
+          className={selectCls}
+        >
+          <option value="none">{t("Hover")}</option>
+          <option value="shift">{t("Hold Shift")}</option>
+          <option value="ctrl">{t("Hold Ctrl")}</option>
+          <option value="alt">{t("Hold Alt")}</option>
+        </select>
+      </Row>
+      <ToggleRow
+        label={t("Keep subtitles above the seek bar")}
+        sub={t("The seek bar covers the lowest subtitle line. Subtitle size and distance from the bottom are under Player → Subtitles.")}
+        value={settings.subLookupLiftAboveControls !== false}
+        onChange={(v) => update({ subLookupLiftAboveControls: v })}
+      />
       <Row label={t("Subtitle language")} sub={t("Picks the deinflection rules used for lookups.")}>
         <select
           value={settings.subLookupLanguage}

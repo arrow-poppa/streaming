@@ -5,8 +5,6 @@ import { isTauri } from "./player-panel/internals";
 import { Anime4kShaderList } from "./player-panel/anime4k-shader-list";
 import { SvpSection } from "./anime-panel/svp-section";
 import { isIOS, isMobileTauri } from "@/lib/platform";
-import { MiningSection } from "./anime-panel/mining-section";
-import { miningAvailable } from "@/lib/mining/dictionary";
 
 export function AnimePanel() {
   const { settings, update } = useSettings();
@@ -76,7 +74,6 @@ export function AnimePanel() {
 
       {!mobile && <SvpSection />}
 
-      {miningAvailable() && <MiningSection />}
     </>
   );
 }

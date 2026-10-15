@@ -11,6 +11,35 @@ export type LookupControls = {
 };
 
 export type LookupHit = { line: number; start: number; length: number };
+export type ScanKey = "none" | "shift" | "ctrl" | "alt";
+
+const WORD_CHAR = /[\p{L}\p{M}\p{N}'’-]/u;
+
+const NO_SPACE_CHAR = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}]/u;
+
+// Words in space-delimited scripts are looked up from their start, as Yomitan
+// does; otherwise hovering the "o" of "don't" finds "on". Japanese/Chinese
+// text keeps the exact hovered position. Decided per character, so it works
+// whatever the lookup language is set to.
+export function wordStartIndex(text: string, index: number): number {
+  if (NO_SPACE_CHAR.test(text[index] ?? "")) return index;
+  let i = index;
+  while (i > 0 && WORD_CHAR.test(text[i - 1]) && !NO_SPACE_CHAR.test(text[i - 1])) i--;
+  return i;
+}
+
+function scanKeyHeld(key: ScanKey, e: { shiftKey: boolean; ctrlKey: boolean; altKey: boolean; metaKey?: boolean }) {
+  if (key === "shift") return e.shiftKey;
+  if (key === "ctrl") return e.ctrlKey || !!e.metaKey;
+  if (key === "alt") return e.altKey;
+  return true;
+}
+
+const SCAN_KEY_NAMES: Record<Exclude<ScanKey, "none">, string[]> = {
+  shift: ["Shift"],
+  ctrl: ["Control", "Meta"],
+  alt: ["Alt"],
+};
 
 const HOVER_DELAY_MS = 70;
 const CLOSE_GRACE_MS = 280;
@@ -46,11 +75,13 @@ export function useSubtitleLookup({
   language,
   pauseOnHover,
   controls,
+  scanKey = "none",
 }: {
   lines: string[];
   language: string;
   pauseOnHover: boolean;
   controls: LookupControls;
+  scanKey?: ScanKey;
 }) {
   const [hit, setHit] = useState<LookupHit | null>(null);
   const [result, setResult] = useState<DictLookupResult | null>(null);
@@ -62,6 +93,9 @@ export function useSubtitleLookup({
   const lastKey = useRef("");
   const controlsRef = useRef(controls);
   controlsRef.current = controls;
+  // Last pointer position over the subtitle, so pressing the scan key can
+  // look up whatever the cursor is resting on.
+  const pointerRef = useRef<{ x: number; y: number } | null>(null);
 
   const open = !!(hit && result && result.terms.length);
 
@@ -86,8 +120,9 @@ export function useSubtitleLookup({
   }, [close]);
 
   const runLookup = useCallback(
-    (line: number, index: number) => {
+    (line: number, rawIndex: number) => {
       const text = lines[line] ?? "";
+      const index = wordStartIndex(text, rawIndex);
       const key = `${line}:${index}:${text}`;
       if (key === lastKey.current) return;
       lastKey.current = key;
@@ -116,18 +151,38 @@ export function useSubtitleLookup({
 
   const onPointerMove = useCallback(
     (e: React.PointerEvent | React.MouseEvent) => {
-      if (pinned) return;
-      cancelClose();
       const x = e.clientX;
       const y = e.clientY;
+      pointerRef.current = { x, y };
+      if (pinned) return;
+      cancelClose();
+      if (!scanKeyHeld(scanKey, e)) return;
       if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
       hoverTimer.current = window.setTimeout(() => {
         const h = hitTestSubtitle(x, y);
         if (h) runLookup(h.line, h.index);
       }, HOVER_DELAY_MS);
     },
-    [pinned, runLookup],
+    [pinned, runLookup, scanKey],
   );
+
+  const onPointerExit = useCallback(() => {
+    pointerRef.current = null;
+  }, []);
+
+  // With a scan key, pressing it while resting on a word looks that word up.
+  useEffect(() => {
+    if (scanKey === "none") return;
+    const names = SCAN_KEY_NAMES[scanKey];
+    const onKey = (e: KeyboardEvent) => {
+      const at = pointerRef.current;
+      if (!at || pinned || e.repeat || !names.includes(e.key)) return;
+      const h = hitTestSubtitle(at.x, at.y);
+      if (h) runLookup(h.line, h.index);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [scanKey, pinned, runLookup]);
 
   const onClick = useCallback(
     (e: React.MouseEvent) => {
@@ -182,6 +237,7 @@ export function useSubtitleLookup({
     scheduleClose,
     cancelClose,
     onPointerMove,
+    onPointerExit,
     onClick,
   };
 }

@@ -21,6 +21,7 @@ export type SectionId =
   | "player"
   | "mpv"
   | "anime"
+  | "dictionary"
   | "playerLayout"
   | "hotkeys"
   | "theme"

@@ -383,6 +383,8 @@ export const DEFAULT: Settings = {
   subLookupEnabled: false,
   subLookupLanguage: "japanese",
   subLookupPauseOnHover: true,
+  subLookupScanKey: "none",
+  subLookupLiftAboveControls: true,
   localAudioDbPath: "",
   ankiUrl: "http://127.0.0.1:8765",
   ankiDeck: "",

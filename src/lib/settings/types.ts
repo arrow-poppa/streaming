@@ -439,6 +439,10 @@ export type Settings = {
   subLookupEnabled: boolean;
   subLookupLanguage: string;
   subLookupPauseOnHover: boolean;
+  // Modifier that must be held to look up on hover ("none" = plain hover).
+  subLookupScanKey: "none" | "shift" | "ctrl" | "alt";
+  // Raise lookup subtitles above the seek bar while the player controls show.
+  subLookupLiftAboveControls: boolean;
   localAudioDbPath: string;
   ankiUrl: string;
   ankiDeck: string;

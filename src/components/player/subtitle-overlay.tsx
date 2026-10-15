@@ -11,7 +11,7 @@ type Props = {
   scale?: number;
   // Dictionary lookup on hover. `native`: mpv renders this subtitle (ASS), so
   // only an invisible, hoverable copy is drawn here.
-  lookup?: { controls: LookupControls; endSec?: number; native?: boolean };
+  lookup?: { controls: LookupControls; endSec?: number; native?: boolean; chromeVisible?: boolean };
 };
 
 export function SubtitleOverlay({ text, startSec, scale = 1, lookup }: Props) {
@@ -28,8 +28,16 @@ export function SubtitleOverlay({ text, startSec, scale = 1, lookup }: Props) {
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [text]);
-  if (!text) return null;
   const lookupOn = !!lookup && settings.subLookupEnabled && miningAvailable();
+  // The seek bar overlaps the lowest subtitle line and swallows its hover.
+  // Keep hoverable subtitles above it; the lift stays put when the controls
+  // hide so the line does not jump away from the cursor.
+  const liftPx = useSeekBarLift(
+    wrapRef,
+    lookupOn && !lookup?.native && settings.subLookupLiftAboveControls !== false,
+    `${text}|${lookup?.chromeVisible ? 1 : 0}`,
+  );
+  if (!text) return null;
   if (lookup?.native && !lookupOn) return null;
 
   const responsive = boxH > 0 ? Math.max(0.3, Math.min(2.5, boxH / 1080)) : scale;
@@ -83,7 +91,11 @@ export function SubtitleOverlay({ text, startSec, scale = 1, lookup }: Props) {
       key={startSec}
       ref={wrapRef}
       className={`pointer-events-none absolute inset-x-0 z-10 flex ${justify} px-[6%]`}
-      style={{ bottom: `${marginY}%`, opacity: lookup?.native ? 1 : opacity }}
+      style={{
+        bottom: liftPx > 0 ? `max(${marginY}%, ${liftPx}px)` : `${marginY}%`,
+        opacity: lookup?.native ? 1 : opacity,
+        transition: lookupOn ? "bottom 160ms ease-out" : undefined,
+      }}
     >
       {lookupOn && lookup ? (
         <InteractiveSubtitle
@@ -150,4 +162,27 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
     g: parseInt(m.slice(2, 4), 16) || 0,
     b: parseInt(m.slice(4, 6), 16) || 0,
   };
+}
+
+function useSeekBarLift(wrapRef: React.RefObject<HTMLDivElement | null>, enabled: boolean, remeasureKey: string): number {
+  const [lift, setLift] = useState(0);
+  useEffect(() => {
+    if (!enabled) {
+      setLift(0);
+      return;
+    }
+    const measure = () => {
+      const host = wrapRef.current?.offsetParent as HTMLElement | null;
+      const root = host?.closest("[data-harbor-player]") ?? document;
+      const bar = root.querySelector<HTMLElement>("[data-hb-seekbar]");
+      if (!host || !bar) return;
+      const hostRect = host.getBoundingClientRect();
+      const barRect = bar.getBoundingClientRect();
+      if (barRect.height > 0) setLift(Math.max(0, Math.round(hostRect.bottom - barRect.top + 6)));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [enabled, remeasureKey, wrapRef]);
+  return lift;
 }

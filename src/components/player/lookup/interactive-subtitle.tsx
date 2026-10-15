@@ -3,7 +3,19 @@ import { useSettings } from "@/lib/settings";
 import { LookupPopup } from "./lookup-popup";
 import { useSubtitleLookup, type LookupControls, type LookupHit } from "./use-subtitle-lookup";
 
-const NO_SPACE_LANGS = new Set(["japanese", "chinese", "cantonese", "thai", "lao", "khmer"]);
+// Scripts written without spaces between words (CJK, kana, Thai, Lao, Khmer).
+const NO_SPACE_CHAR = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}\u3000-\u303f\uff00-\uffef]/u;
+
+// Separator used when a subtitle's lines are joined into one sentence: none
+// between two no-space scripts, a space otherwise. Decided from the text
+// itself, so an English line is never glued even if the lookup language is
+// still set to Japanese.
+export function lineSeparator(prev: string, next: string): string {
+  const a = prev.trimEnd().slice(-1);
+  const b = next.trimStart().charAt(0);
+  if (!a || !b) return "";
+  return NO_SPACE_CHAR.test(a) && NO_SPACE_CHAR.test(b) ? "" : " ";
+}
 
 type Props = {
   lines: string[];
@@ -24,6 +36,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     language: settings.subLookupLanguage || "japanese",
     pauseOnHover: settings.subLookupPauseOnHover,
     controls,
+    scanKey: settings.subLookupScanKey ?? "none",
   });
   const markRef = useRef<HTMLSpanElement>(null);
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
@@ -49,15 +62,16 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
   );
 
   const mining = useMemo(() => {
-    const sep = NO_SPACE_LANGS.has(settings.subLookupLanguage) ? "" : " ";
     const hit = lookup.hit;
+    let sentence = "";
     let matchStart = 0;
-    if (hit) {
-      for (let i = 0; i < hit.line; i++) matchStart += lines[i].length + sep.length;
-      matchStart += hit.start;
-    }
+    lines.forEach((line, i) => {
+      if (i > 0) sentence += lineSeparator(lines[i - 1], line);
+      if (hit && hit.line === i) matchStart = sentence.length + hit.start;
+      sentence += line;
+    });
     return {
-      sentence: lines.join(sep),
+      sentence,
       matchStart,
       matchLength: hit?.length ?? 0,
       title: controls.title,
@@ -65,7 +79,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       subEndSec: endSec,
       mpvEngine: controls.mpvEngine,
     };
-  }, [lines, lookup.hit, settings.subLookupLanguage, controls.title, controls.mpvEngine, startSec, endSec]);
+  }, [lines, lookup.hit, controls.title, controls.mpvEngine, startSec, endSec]);
 
   const hiddenText: React.CSSProperties = { color: "transparent", textShadow: "none" };
   return (
@@ -78,6 +92,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       }}
       onPointerLeave={() => {
         setHovering(false);
+        lookup.onPointerExit();
         if (!lookup.pinned) lookup.scheduleClose();
       }}
       onPointerMove={lookup.onPointerMove}
