@@ -81,7 +81,6 @@ function unknownWordTerm(word: string): DictTerm {
   };
 }
 
-const HOVER_DELAY_MS = 70;
 const CLOSE_GRACE_MS = 280;
 
 // Maps a pointer position to a UTF-16 offset inside one rendered subtitle line.
@@ -116,6 +115,7 @@ export function useSubtitleLookup({
   pauseOnHover,
   controls,
   scanKey = "none",
+  scanDelayMs = 20,
   unknownWords = false,
 }: {
   lines: string[];
@@ -123,6 +123,8 @@ export function useSubtitleLookup({
   pauseOnHover: boolean;
   controls: LookupControls;
   scanKey?: ScanKey;
+  // Wait before a hover lookup; only used when no scan key is required.
+  scanDelayMs?: number;
   // Open the popup for words no dictionary knows (for the AI explanation).
   unknownWords?: boolean;
 }) {
@@ -207,9 +209,9 @@ export function useSubtitleLookup({
       hoverTimer.current = window.setTimeout(() => {
         const h = hitTestSubtitle(x, y);
         if (h) runLookup(h.line, h.index);
-      }, HOVER_DELAY_MS);
+      }, scanKey === "none" ? Math.max(0, Math.min(1000, scanDelayMs)) : 0);
     },
-    [pinned, runLookup, scanKey],
+    [pinned, runLookup, scanKey, scanDelayMs],
   );
 
   const onPointerExit = useCallback(() => {

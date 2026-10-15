@@ -139,6 +139,19 @@ function DictionarySection() {
           <option value="alt">{t("Hold Alt")}</option>
         </select>
       </Row>
+      {(settings.subLookupScanKey ?? "none") === "none" && (
+        <TextRow
+          label={t("Scan delay (in milliseconds)")}
+          sub={t("Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.")}
+          value={String(settings.subLookupScanDelayMs ?? 20)}
+          placeholder="20"
+          narrow
+          onCommit={(v) => {
+            const n = Math.round(Number(v.trim()));
+            update({ subLookupScanDelayMs: Number.isFinite(n) && v.trim() ? Math.max(0, Math.min(1000, n)) : 20 });
+          }}
+        />
+      )}
       <ToggleRow
         label={t("Keep subtitles above the seek bar")}
         sub={t("The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.")}

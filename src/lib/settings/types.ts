@@ -441,6 +441,8 @@ export type Settings = {
   subLookupPauseOnHover: boolean;
   // Modifier that must be held to look up on hover ("none" = plain hover).
   subLookupScanKey: "none" | "shift" | "ctrl" | "alt";
+  // Wait before looking up a hovered word when no key is required (Yomitan's "Scan delay").
+  subLookupScanDelayMs: number;
   // Raise lookup subtitles above the seek bar while the player controls show.
   subLookupLiftAboveControls: boolean;
   // AI explanation of the looked-up word, from any OpenAI-compatible

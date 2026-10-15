@@ -38,6 +38,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     pauseOnHover: settings.subLookupPauseOnHover,
     controls,
     scanKey: settings.subLookupScanKey ?? "none",
+    scanDelayMs: settings.subLookupScanDelayMs ?? 20,
     unknownWords: settings.subLookupAiUnknown && aiExplainReady(settings),
   });
   const markRef = useRef<HTMLSpanElement>(null);
