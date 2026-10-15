@@ -505,11 +505,6 @@ pub async fn mpv_start(
             }
         }
     }
-    // Recent mpv builds read http(s) through a new libcurl backend by default.
-    // It ignores the stream-lavf-o reconnect tuning below and corrupted
-    // long debrid streams on Windows, so keep FFmpeg's HTTP. Older mpv lacks
-    // the option and rejects it, which is fine; mpv.conf lines can re-enable it.
-    let _ = mpv.set_property("curl-enabled", "no");
     let is_live = args.is_live.unwrap_or(false);
     if is_live {
         let _ = mpv.set_property("cache", "yes");
