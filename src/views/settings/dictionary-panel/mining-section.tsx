@@ -1,7 +1,7 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { Loader2, Plus, RefreshCw, Trash2, Wand2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useSettings, type AnkiFieldSource } from "@/lib/settings";
+import { useSettings, type AnkiFieldSource, type Settings } from "@/lib/settings";
 import { useT } from "@/lib/i18n";
 import {
   deleteDictionary,
@@ -11,8 +11,8 @@ import {
   type DictionaryInfo,
 } from "@/lib/mining/dictionary";
 import { ANKI_FIELD_SOURCES, ankiDeckNames, ankiModelFields, ankiModelNames, guessFieldMap } from "@/lib/mining/anki";
-import { AI_MODELS, GROQ_MODELS, keyForProvider, providerForModel } from "@/lib/ai-models";
-import { aiExplainModel } from "@/lib/mining/ai-explain";
+import { isOpenRouterEndpoint, validateBodyJson } from "@/lib/mining/ai-explain";
+import { AI_EXPLAIN_DEFAULT_PROMPT } from "@/lib/settings/defaults";
 import { Section, ToggleRow } from "../shared";
 
 const LANGUAGES = [
@@ -220,83 +220,248 @@ function DictionarySection() {
 function AiExplanationSection() {
   const { settings, update } = useSettings();
   const t = useT();
-  const model = aiExplainModel(settings);
-  const modelForKey = settings.subLookupAiModel || settings.aiSearchModel;
-  const hasKey = !!keyForProvider(settings, providerForModel(modelForKey || AI_MODELS[0].id)).trim();
-  const [prompt, setPrompt] = useState(settings.subLookupAiPrompt);
-  const [answer, setAnswer] = useState(settings.subLookupAiAnswerLanguage);
+  const openRouter = isOpenRouterEndpoint(settings.aiExplainEndpoint);
+  const bodyProblem = validateBodyJson(settings.aiExplainBodyJson);
 
   return (
     <Section
-      title={t("AI explanation")}
-      subtitle={t("Explains the looked-up word in the context of its subtitle, above the dictionary entries. Uses your OpenRouter or Groq key from Settings → Library → AI Search.")}
+      title={t("AI Explanation")}
+      subtitle={t("Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).")}
     >
       <ToggleRow
-        label={t("Explain words with AI")}
-        sub={hasKey ? t("Model: {model}").replace("{model}", model) : t("No key yet: add one under Library → AI Search.")}
+        label={t("AI explanation in the popup")}
+        sub={t("Shows the explanation above the dictionary entries.")}
         value={settings.subLookupAiEnabled}
         onChange={(v) => update({ subLookupAiEnabled: v })}
       />
+      <TextRow
+        label={t("Custom endpoint")}
+        sub={t("Full URL, used exactly as entered. No path is appended.")}
+        value={settings.aiExplainEndpoint}
+        placeholder="https://api.example.com/v1/chat/completions"
+        onCommit={(v) => update({ aiExplainEndpoint: v.trim() })}
+      />
+      <TextRow
+        label={t("API key")}
+        sub={t("Stored on this device only.")}
+        value={settings.aiExplainKey}
+        secret
+        onCommit={(v) => update({ aiExplainKey: v.trim() })}
+      />
+      <TextRow
+        label={t("Model")}
+        sub={t("Model ID sent to the provider.")}
+        value={settings.aiExplainModel}
+        placeholder="vendor/model"
+        onCommit={(v) => update({ aiExplainModel: v.trim() })}
+      />
+      {openRouter && (
+        <>
+          <Row label={t("OpenRouter provider routing")}>
+            <select
+              value={settings.aiExplainRoutingMode}
+              onChange={(e) => update({ aiExplainRoutingMode: e.target.value as Settings["aiExplainRoutingMode"] })}
+              className={selectCls}
+            >
+              <option value="">{t("Default")}</option>
+              <option value="order">{t("Prioritize listed providers")}</option>
+              <option value="only">{t("Only listed providers")}</option>
+              <option value="ignore">{t("Ignore listed providers")}</option>
+            </select>
+          </Row>
+          <TextRow
+            label={t("OpenRouter provider slugs")}
+            sub={t("Separated by commas or line breaks.")}
+            value={settings.aiExplainRoutingSlugs}
+            placeholder="deepinfra/turbo, fireworks"
+            onCommit={(v) => update({ aiExplainRoutingSlugs: v })}
+          />
+          <ToggleRow
+            label={t("Allow OpenRouter fallbacks")}
+            value={settings.aiExplainAllowFallbacks}
+            onChange={(v) => update({ aiExplainAllowFallbacks: v })}
+          />
+        </>
+      )}
+      <Row label={t("Thinking mode")}>
+        <select
+          value={settings.aiExplainThinkingMode}
+          onChange={(e) => update({ aiExplainThinkingMode: e.target.value as Settings["aiExplainThinkingMode"] })}
+          className={selectCls}
+        >
+          <option value="">{t("Default")}</option>
+          <option value="enabled">{t("Enabled")}</option>
+          <option value="disabled">{t("Disabled")}</option>
+        </select>
+      </Row>
+      <Row label={t("Thinking intensity")}>
+        <select
+          value={settings.aiExplainThinkingIntensity}
+          onChange={(e) => update({ aiExplainThinkingIntensity: e.target.value as Settings["aiExplainThinkingIntensity"] })}
+          className={selectCls}
+        >
+          <option value="">{t("Default")}</option>
+          <option value="high">{t("High")}</option>
+          <option value="max">{t("Max")}</option>
+          <option value="custom">{t("Custom")}</option>
+        </select>
+      </Row>
+      {settings.aiExplainThinkingIntensity === "custom" && (
+        <TextRow
+          label={t("Custom thinking value")}
+          sub={t("A word, a token count, or a JSON object.")}
+          value={settings.aiExplainThinkingValue}
+          placeholder='medium, 2000, or {"max_tokens":2000}'
+          onCommit={(v) => update({ aiExplainThinkingValue: v })}
+        />
+      )}
+      <TextAreaRow
+        label={t("Custom request body JSON")}
+        sub={t("A JSON object merged over the generated request.")}
+        value={settings.aiExplainBodyJson}
+        placeholder='{"reasoning":{"max_tokens":2000}}'
+        error={bodyProblem ? t(bodyProblem) : null}
+        mono
+        onCommit={(v) => update({ aiExplainBodyJson: v })}
+      />
       <ToggleRow
-        label={t("Explain automatically")}
-        sub={t("Starts when the popup opens. Off: press Explain in the popup. Anki fields mapped to the AI explanation always generate it.")}
+        label={t("Auto generate on lookup")}
+        sub={t("When off, the box appears without sending a request and you generate it manually.")}
         value={settings.subLookupAiAuto}
         onChange={(v) => update({ subLookupAiAuto: v })}
       />
       <ToggleRow
-        label={t("Explain words missing from your dictionaries")}
-        sub={t("Opens the popup with only the AI explanation, so the word can still go to Anki.")}
+        label={t("Real time response")}
+        sub={t("Stream the explanation into the popup as it is written.")}
+        value={settings.aiExplainStream}
+        onChange={(v) => update({ aiExplainStream: v })}
+      />
+      <ToggleRow
+        label={t("Cancel unfinished requests")}
+        sub={t("Drop an explanation still being generated when the popup closes or another word is looked up.")}
+        value={settings.aiExplainCancelPending}
+        onChange={(v) => update({ aiExplainCancelPending: v })}
+      />
+      <ToggleRow
+        label={t("Fallback for unknown words")}
+        sub={t("Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.")}
         value={settings.subLookupAiUnknown}
         onChange={(v) => update({ subLookupAiUnknown: v })}
       />
-      <Row label={t("Model")} sub={t("Leave on AI Search's model or pick another one for explanations.")}>
-        <select
-          value={settings.subLookupAiModel}
-          onChange={(e) => update({ subLookupAiModel: e.target.value })}
-          className={selectCls}
-        >
-          <option value="">{t("Same as AI Search")}</option>
-          <optgroup label="OpenRouter">
-            {AI_MODELS.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.label}
-                {m.free ? " (free)" : ""}
-              </option>
-            ))}
-          </optgroup>
-          <optgroup label="Groq">
-            {GROQ_MODELS.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.label}
-              </option>
-            ))}
-          </optgroup>
-        </select>
-      </Row>
-      <Row label={t("Answer in")} sub={t("Language of the explanation, e.g. Português. Empty: English.")}>
-        <input
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-          onBlur={() => update({ subLookupAiAnswerLanguage: answer.trim() })}
-          placeholder="English"
-          className={`${inputCls} w-48`}
-        />
-      </Row>
-      <div className="flex flex-col gap-2 rounded-xl border border-edge-soft bg-canvas/40 px-4 py-3">
-        <span className="text-[14px] font-medium text-ink">{t("Custom prompt")}</span>
-        <span className="text-[12.5px] text-ink-subtle">
-          {t("Optional. Placeholders: {word} (dictionary form), {surface} (as written), {sentence}, {language}.")}
-        </span>
-        <textarea
-          value={prompt}
-          rows={3}
-          onChange={(e) => setPrompt(e.target.value)}
-          onBlur={() => update({ subLookupAiPrompt: prompt })}
-          placeholder={t("Explain what {surface} means in: {sentence}")}
-          className="w-full resize-y rounded-lg border border-edge-soft bg-canvas px-3 py-2 text-[13px] text-ink outline-none focus:border-edge"
-        />
-      </div>
+      <TextAreaRow
+        label={t("Custom prompt")}
+        sub={t("Use {{target}} for the word and {{sentence}} for its context.")}
+        value={settings.aiExplainPrompt}
+        placeholder={AI_EXPLAIN_DEFAULT_PROMPT}
+        onCommit={(v) => update({ aiExplainPrompt: v })}
+        onReset={() => update({ aiExplainPrompt: AI_EXPLAIN_DEFAULT_PROMPT })}
+      />
+      <TextAreaRow
+        label={t("System prompt")}
+        sub={t("Optional instructions sent before the user prompt. Leave empty to send none.")}
+        value={settings.aiExplainSystemPrompt}
+        onCommit={(v) => update({ aiExplainSystemPrompt: v })}
+      />
+      <TextRow
+        label={t("Temperature")}
+        sub={t("Between 0 and 2. Lower is more deterministic.")}
+        value={String(settings.aiExplainTemperature)}
+        placeholder="0.7"
+        narrow
+        onCommit={(v) => {
+          const n = Number(v.trim().replace(",", "."));
+          update({ aiExplainTemperature: Number.isFinite(n) && v.trim() ? Math.max(0, Math.min(2, n)) : 0.7 });
+        }}
+      />
     </Section>
+  );
+}
+
+// A text field that saves when it loses focus or Enter is pressed.
+function TextRow({
+  label,
+  sub,
+  value,
+  placeholder,
+  secret,
+  narrow,
+  onCommit,
+}: {
+  label: string;
+  sub?: string;
+  value: string;
+  placeholder?: string;
+  secret?: boolean;
+  narrow?: boolean;
+  onCommit: (v: string) => void;
+}) {
+  const [draft, setDraft] = useState(value);
+  useEffect(() => setDraft(value), [value]);
+  return (
+    <Row label={label} sub={sub}>
+      <input
+        type={secret ? "password" : "text"}
+        value={draft}
+        placeholder={placeholder}
+        spellCheck={false}
+        autoComplete="off"
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => draft !== value && onCommit(draft)}
+        onKeyDown={(e) => e.key === "Enter" && (e.target as HTMLInputElement).blur()}
+        className={`${inputCls} ${narrow ? "w-[90px]" : "w-full sm:w-[300px]"}`}
+      />
+    </Row>
+  );
+}
+
+function TextAreaRow({
+  label,
+  sub,
+  value,
+  placeholder,
+  error,
+  mono,
+  onCommit,
+  onReset,
+}: {
+  label: string;
+  sub?: string;
+  value: string;
+  placeholder?: string;
+  error?: string | null;
+  mono?: boolean;
+  onCommit: (v: string) => void;
+  onReset?: () => void;
+}) {
+  const t = useT();
+  const [draft, setDraft] = useState(value);
+  useEffect(() => setDraft(value), [value]);
+  return (
+    <div className="flex flex-col gap-2 rounded-xl border border-edge-soft bg-canvas/40 px-4 py-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <span className="text-[14px] font-medium text-ink">{label}</span>
+          {sub && <span className="text-[12.5px] text-ink-subtle">{sub}</span>}
+        </div>
+        {onReset && (
+          <button type="button" onClick={onReset} className={ghostBtn}>
+            {t("Reset")}
+          </button>
+        )}
+      </div>
+      <textarea
+        value={draft}
+        rows={3}
+        placeholder={placeholder}
+        spellCheck={false}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => draft !== value && onCommit(draft)}
+        className={`w-full resize-y rounded-lg border bg-raised px-3 py-2 text-[12.5px] text-ink outline-none focus:border-ink ${
+          error ? "border-danger" : "border-edge"
+        } ${mono ? "font-mono" : ""}`}
+      />
+      {error && <span className="text-[12px] text-danger">{error}</span>}
+    </div>
   );
 }
 

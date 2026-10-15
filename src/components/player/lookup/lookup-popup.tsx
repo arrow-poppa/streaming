@@ -4,7 +4,10 @@ import { createPortal } from "react-dom";
 import { useSettings } from "@/lib/settings";
 import { addNoteFromLookup, findDuplicateNotes, openNotesInAnki, type MiningContext } from "@/lib/mining/anki";
 import {
-  aiExplainReady,
+  AiCancelledError,
+  AiTimeoutError,
+  aiCacheKey,
+  aiExplainProblem,
   cachedAiExplanation,
   cancelAiExplanation,
   explainWord,
@@ -37,15 +40,14 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
   const { settings } = useSettings();
   const aiInput = useMemo<AiExplainInput | null>(() => {
     const first = terms[0];
-    if (!first) return null;
-    const surface = mining.sentence.slice(mining.matchStart, mining.matchStart + mining.matchLength) || first.headword;
-    return { word: first.headword, surface, sentence: mining.sentence };
-  }, [terms, mining.sentence, mining.matchStart, mining.matchLength]);
-  const aiOn = aiExplainReady(settings);
-  const ai = useAiExplanation(aiOn ? aiInput : null, settings.subLookupAiAuto);
+    return first ? { target: first.headword, sentence: mining.sentence } : null;
+  }, [terms, mining.sentence]);
+  const aiOn = settings.subLookupAiEnabled;
+  const aiProblem = aiOn ? aiExplainProblem(settings) : null;
+  const ai = useAiExplanation(aiOn && !aiProblem ? aiInput : null, settings.subLookupAiAuto);
   const termMining = useMemo<Omit<MiningContext, "term">>(
-    () => ({ ...mining, aiExplanation: aiOn ? ai.finalText : undefined }),
-    [mining, aiOn, ai.finalText],
+    () => ({ ...mining, aiExplanation: aiOn && !aiProblem ? ai.finalText : undefined }),
+    [mining, aiOn, aiProblem, ai.finalText],
   );
 
   useLayoutEffect(() => {
@@ -101,7 +103,7 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
       {css && <style>{css}</style>}
       <style>{POPUP_CSS}</style>
       <div className="flex flex-col divide-y divide-edge-soft">
-        {aiOn && <AiExplanationBox ai={ai} />}
+        {aiOn && <AiExplanationBox ai={ai} problem={aiProblem} />}
         {terms.map((t, i) => (
           <TermEntry key={`${t.headword}|${t.reading}|${i}`} term={t} mining={termMining} />
         ))}
@@ -129,56 +131,62 @@ function Furigana({ term }: { term: DictTerm }) {
   );
 }
 
-type AiState = "idle" | "loading" | "streaming" | "done" | "error";
+type AiState = "manual" | "loading" | "streaming" | "done" | "failed" | "timedOut" | "cancelled";
 
 function useAiExplanation(input: AiExplainInput | null, auto: boolean) {
   const { settings } = useSettings();
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
-  const key = input ? JSON.stringify(input) : "";
-  const [state, setState] = useState<AiState>("idle");
+  const inputKey = input ? aiCacheKey(settings, input) : "";
+  const [state, setState] = useState<AiState>("manual");
   const [text, setText] = useState("");
   const [error, setError] = useState("");
-  const live = useRef(key);
-  live.current = key;
+  // Bumped on every new request or word, so a late answer never paints.
+  const gen = useRef(0);
 
   const generate = useCallback(
     (force = false) => {
       if (!input) return Promise.resolve("");
-      const k = key;
-      setState("loading");
+      const id = ++gen.current;
       setError("");
+      if (force) setText("");
+      setState("loading");
       return explainWord(settingsRef.current, input, {
         force,
         onText: (t) => {
-          if (live.current !== k || !t) return;
+          if (gen.current !== id || !t) return;
           setText(t);
           setState((s) => (s === "loading" ? "streaming" : s));
         },
       })
         .then((t) => {
-          if (live.current === k) {
+          if (gen.current === id) {
             setText(t);
             setState("done");
           }
           return t;
         })
         .catch((e) => {
-          if (live.current === k) {
-            setError(String(e?.message ?? e));
-            setState("error");
+          if (gen.current === id) {
+            if (e instanceof AiCancelledError) setState("cancelled");
+            else if (e instanceof AiTimeoutError) setState("timedOut");
+            else {
+              setError(String(e?.message ?? e));
+              setState("failed");
+            }
           }
           return "";
         });
     },
-    [key],
+    [inputKey],
   );
 
   useEffect(() => {
+    gen.current++;
     setText("");
     setError("");
     if (!input) {
-      setState("idle");
+      setState("manual");
       return;
     }
     const cached = cachedAiExplanation(settingsRef.current, input);
@@ -187,16 +195,20 @@ function useAiExplanation(input: AiExplainInput | null, auto: boolean) {
       setState("done");
       return;
     }
-    setState("idle");
-    if (!auto) return;
-    const t = window.setTimeout(() => void generate(), AI_AUTO_DELAY_MS);
-    return () => window.clearTimeout(t);
-  }, [key, auto]);
+    // With auto-generate the request is only briefly deferred: show it as pending.
+    setState(auto ? "loading" : "manual");
+    const key = inputKey;
+    const t = auto ? window.setTimeout(() => void generate(), AI_AUTO_DELAY_MS) : 0;
+    return () => {
+      window.clearTimeout(t);
+      // Another word, or the popup closed: drop the unfinished request.
+      if (settingsRef.current.aiExplainCancelPending) cancelAiExplanation(key);
+    };
+  }, [inputKey, auto]);
 
   const cancel = useCallback(() => {
-    cancelAiExplanation();
-    setState(text ? "done" : "idle");
-  }, [text]);
+    if (inputKey) cancelAiExplanation(inputKey);
+  }, [inputKey]);
 
   // Anki export: the finished text, generating it first if needed.
   const finalText = useCallback(() => generate(false), [generate]);
@@ -204,52 +216,62 @@ function useAiExplanation(input: AiExplainInput | null, auto: boolean) {
   return { state, text, error, generate, cancel, finalText };
 }
 
-function AiExplanationBox({ ai }: { ai: ReturnType<typeof useAiExplanation> }) {
+function AiExplanationBox({ ai, problem }: { ai: ReturnType<typeof useAiExplanation>; problem: string | null }) {
   const busy = ai.state === "loading" || ai.state === "streaming";
+  const hasText = (ai.state === "streaming" || ai.state === "done") && !!ai.text;
   return (
-    <div className="flex flex-col gap-1.5 px-4 py-3">
+    <div data-hb-ai-box="" className="flex flex-col gap-1.5 px-4 py-3">
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-subtle">
           <Sparkles size={12} strokeWidth={2.4} />
-          AI explanation
+          AI Explanation
         </span>
-        <div className="flex items-center gap-1">
-          {busy ? (
+        {!problem && (
+          <div className="flex items-center gap-1">
+            {busy && (
+              <button
+                type="button"
+                title="Cancel"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={ai.cancel}
+                className="flex h-6 w-6 items-center justify-center rounded-md text-ink-muted hover:bg-ink/10 hover:text-ink"
+              >
+                <X size={13} strokeWidth={2.4} />
+              </button>
+            )}
             <button
               type="button"
-              title="Stop"
+              title={ai.state === "manual" ? "Generate explanation" : "Regenerate explanation"}
               onMouseDown={(e) => e.preventDefault()}
-              onClick={ai.cancel}
-              className="flex h-6 w-6 items-center justify-center rounded-md text-ink-muted hover:bg-ink/10 hover:text-ink"
-            >
-              <X size={13} strokeWidth={2.4} />
-            </button>
-          ) : (
-            <button
-              type="button"
-              title={ai.state === "idle" ? "Explain" : "Explain again"}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => void ai.generate(ai.state !== "idle")}
+              onClick={() => void ai.generate(ai.state !== "manual")}
               className="flex h-6 items-center gap-1 rounded-md px-1.5 text-[11px] font-semibold text-ink-muted hover:bg-ink/10 hover:text-ink"
             >
               <RotateCw size={12} strokeWidth={2.4} />
-              {ai.state === "idle" ? "Explain" : null}
+              {ai.state === "manual" ? "Generate" : null}
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      {ai.state === "loading" && (
+      {problem ? (
+        <div className="text-[12.5px] text-ink-subtle">AI explanation is not available. {problem}</div>
+      ) : ai.state === "manual" ? (
+        <div className="text-[12.5px] text-ink-subtle">Automatic generation is off. Use Generate to create it.</div>
+      ) : ai.state === "loading" ? (
         <div className="flex items-center gap-2 text-[13px] text-ink-muted">
           <Loader2 size={13} className="animate-spin" />
-          Thinking…
+          Generating explanation…
         </div>
-      )}
-      {(ai.state === "streaming" || ai.state === "done") && (
+      ) : hasText ? (
         <div className="whitespace-pre-wrap text-[14px] leading-relaxed">
           <AiText text={ai.text} />
         </div>
-      )}
-      {ai.state === "error" && <div className="text-[12.5px] text-danger">{ai.error}</div>}
+      ) : ai.state === "timedOut" ? (
+        <div className="text-[12.5px] text-danger">The AI request timed out. Please try again.</div>
+      ) : ai.state === "failed" ? (
+        <div className="text-[12.5px] text-danger">Failed to generate the AI explanation. {ai.error}</div>
+      ) : ai.state === "cancelled" ? (
+        <div className="text-[12.5px] text-ink-subtle">Cancelled.</div>
+      ) : null}
     </div>
   );
 }
