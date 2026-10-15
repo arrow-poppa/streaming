@@ -23,7 +23,20 @@ const LANGUAGES = [
   ["french", "French"],
   ["german", "German"],
   ["italian", "Italian"],
+  ["dutch", "Dutch"],
+  ["swedish", "Swedish"],
+  ["norwegian", "Norwegian"],
+  ["danish", "Danish"],
+  ["finnish", "Finnish"],
+  ["polish", "Polish"],
+  ["czech", "Czech"],
+  ["romanian", "Romanian"],
+  ["hungarian", "Hungarian"],
+  ["greek", "Greek"],
+  ["turkish", "Turkish"],
+  ["latin", "Latin"],
   ["russian", "Russian"],
+  ["ukrainian", "Ukrainian"],
   ["arabic", "Arabic"],
 ] as const;
 
@@ -125,10 +138,16 @@ function DictionarySection() {
       </Row>
       <ToggleRow
         label={t("Keep subtitles above the seek bar")}
-        sub={t("The seek bar covers the lowest subtitle line. Subtitle size and distance from the bottom are under Player → Subtitles.")}
+        sub={t("The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.")}
         value={settings.subLookupLiftAboveControls !== false}
         onChange={(v) => update({ subLookupLiftAboveControls: v })}
       />
+      <Row label={t("Subtitle size")} sub={t("Same setting as Player → Subtitles.")}>
+        <RangeInput value={settings.subFontSize} min={16} max={120} suffix="px" onChange={(n) => update({ subFontSize: n })} />
+      </Row>
+      <Row label={t("Subtitle height")} sub={t("Distance from the bottom of the video.")}>
+        <RangeInput value={settings.subMarginY} min={0} max={100} suffix="%" onChange={(n) => update({ subMarginY: n })} />
+      </Row>
       <Row label={t("Subtitle language")} sub={t("Picks the deinflection rules used for lookups.")}>
         <select
           value={settings.subLookupLanguage}
@@ -362,5 +381,40 @@ function AnkiSection() {
         onChange={(v) => update({ ankiAllowDuplicates: v })}
       />
     </Section>
+  );
+}
+
+function RangeInput({
+  value,
+  min,
+  max,
+  suffix,
+  onChange,
+}: {
+  value: number;
+  min: number;
+  max: number;
+  suffix: string;
+  onChange: (n: number) => void;
+}) {
+  return (
+    <div className="flex w-48 items-center gap-3">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={1}
+        value={value}
+        onChange={(e) => {
+          const n = parseInt(e.target.value, 10);
+          if (Number.isFinite(n)) onChange(Math.max(min, Math.min(max, n)));
+        }}
+        className="h-1 w-full appearance-none rounded-full bg-edge-soft accent-ink"
+      />
+      <span className="w-12 shrink-0 text-right text-[12px] tabular-nums text-ink-muted">
+        {value}
+        {suffix}
+      </span>
+    </div>
   );
 }
