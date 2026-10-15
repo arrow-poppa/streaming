@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { AnkiFieldSource, Settings } from "@/lib/settings";
 import type { DictTerm } from "./dictionary";
+import { aiTextToHtml } from "./ai-explain";
 import { escapeHtml, termGlossaryHtml } from "./glossary-html";
 import { audioExtension, findWordAudio, wordAudioDataUrl } from "./local-audio";
 
@@ -20,6 +21,7 @@ export const ANKI_FIELD_SOURCES: { id: AnkiFieldSource; label: string }[] = [
   { id: "furigana", label: "Word with furigana" },
   { id: "glossary", label: "Definitions (all)" },
   { id: "glossary-first", label: "Definition (first dictionary)" },
+  { id: "sentence-plain", label: "Sentence" },
   { id: "sentence", label: "Sentence (word in bold)" },
   { id: "sentence-cloze", label: "Sentence (word as cloze)" },
   { id: "sentence-audio", label: "Sentence audio" },
@@ -28,6 +30,8 @@ export const ANKI_FIELD_SOURCES: { id: AnkiFieldSource; label: string }[] = [
   { id: "frequency", label: "Frequency" },
   { id: "pitch", label: "Pitch accent" },
   { id: "title", label: "Title / episode" },
+  { id: "ai-explanation", label: "AI explanation" },
+  { id: "popup-selection", label: "Text selected in the popup (else first definition)" },
 ];
 
 // Guess a field mapping from common note type field names (Lapis, JPMN, Kiku, basic).
@@ -44,6 +48,8 @@ export function guessFieldMap(fields: string[]): Record<string, AnkiFieldSource>
     [/^(frequency|freq)/i, "frequency"],
     [/pitch/i, "pitch"],
     [/^(misc ?info|source|title|notes?)$/i, "title"],
+    [/^(ai|ai ?explanation|explanation)$/i, "ai-explanation"],
+    [/^(selection|selection ?text|popup ?selection)$/i, "popup-selection"],
   ];
   const out: Record<string, AnkiFieldSource> = {};
   const used = new Set<AnkiFieldSource>();
@@ -67,6 +73,10 @@ export type MiningContext = {
   subStartSec?: number;
   subEndSec?: number;
   mpvEngine: boolean;
+  // Final AI explanation text ("" when unavailable); may generate it first.
+  aiExplanation?: () => Promise<string>;
+  // Text the user selected inside the popup when adding the note.
+  popupSelection?: string;
 };
 
 export function furiganaAnki(term: DictTerm): string {
@@ -112,6 +122,8 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       return termGlossaryHtml(t);
     case "glossary-first":
       return termGlossaryHtml(t, true);
+    case "sentence-plain":
+      return escapeHtml(ctx.sentence);
     case "sentence":
       return markedSentence(ctx, false);
     case "sentence-cloze":
@@ -127,6 +139,17 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       );
     case "title":
       return escapeHtml(ctx.title);
+    case "ai-explanation": {
+      if (!ctx.aiExplanation) {
+        warn("AI explanation is off or has no key");
+        return "";
+      }
+      const text = await ctx.aiExplanation();
+      if (!text) warn("AI explanation failed");
+      return aiTextToHtml(text);
+    }
+    case "popup-selection":
+      return ctx.popupSelection ? escapeHtml(ctx.popupSelection).replace(/\r?\n/g, "<br>") : termGlossaryHtml(t, true);
     case "picture": {
       if (!ctx.mpvEngine) {
         warn("Screenshot needs the mpv player");
@@ -167,10 +190,10 @@ const MEDIA_SOURCES = new Set<AnkiFieldSource>(["picture", "sentence-audio", "wo
 export type AddNoteResult = { noteId: number; warnings: string[] };
 
 export async function addNoteFromLookup(settings: Settings, ctx: MiningContext): Promise<AddNoteResult> {
-  if (!settings.ankiDeck || !settings.ankiModel) throw new Error("Pick an Anki deck and note type in Settings → Anime");
+  if (!settings.ankiDeck || !settings.ankiModel) throw new Error("Pick an Anki deck and note type in Settings → Dictionary & Anki");
   const map = settings.ankiFieldMap || {};
   const entries = Object.entries(map).filter(([, src]) => !!src);
-  if (!entries.length) throw new Error("Map at least one Anki field in Settings → Anime");
+  if (!entries.length) throw new Error("Map at least one Anki field in Settings → Dictionary & Anki");
 
   const tags = settings.ankiTags.split(/[\s,]+/).filter(Boolean);
   const options = { allowDuplicate: settings.ankiAllowDuplicates, duplicateScope: "deck" };

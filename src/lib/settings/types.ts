@@ -443,6 +443,18 @@ export type Settings = {
   subLookupScanKey: "none" | "shift" | "ctrl" | "alt";
   // Raise lookup subtitles above the seek bar while the player controls show.
   subLookupLiftAboveControls: boolean;
+  // AI explanation of the looked-up word in its sentence (uses the AI Search key).
+  subLookupAiEnabled: boolean;
+  // Generate as soon as the popup opens; otherwise on a button press.
+  subLookupAiAuto: boolean;
+  // Open the popup for words no dictionary knows, with only the AI explanation.
+  subLookupAiUnknown: boolean;
+  // "" = the AI Search model.
+  subLookupAiModel: string;
+  // Language the explanation is written in ("" = English).
+  subLookupAiAnswerLanguage: string;
+  // Custom prompt with {word}, {surface}, {sentence}, {language}; "" = built-in.
+  subLookupAiPrompt: string;
   localAudioDbPath: string;
   ankiUrl: string;
   ankiDeck: string;
@@ -461,10 +473,13 @@ export type AnkiFieldSource =
   | "glossary"
   | "glossary-first"
   | "sentence"
+  | "sentence-plain"
   | "sentence-cloze"
   | "sentence-audio"
   | "word-audio"
   | "picture"
   | "frequency"
   | "pitch"
-  | "title";
+  | "title"
+  | "ai-explanation"
+  | "popup-selection";

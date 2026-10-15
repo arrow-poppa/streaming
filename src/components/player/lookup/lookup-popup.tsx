@@ -1,18 +1,30 @@
-import { Check, Loader2, Plus, Volume2 } from "lucide-react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Check, Loader2, Plus, RotateCw, Sparkles, Volume2, X } from "lucide-react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSettings } from "@/lib/settings";
 import { addNoteFromLookup, type MiningContext } from "@/lib/mining/anki";
+import {
+  aiExplainReady,
+  cachedAiExplanation,
+  cancelAiExplanation,
+  explainWord,
+  type AiExplainInput,
+} from "@/lib/mining/ai-explain";
 import { dictionaryMedia, type DictLookupResult, type DictTerm } from "@/lib/mining/dictionary";
 import { glossaryEntryHtml, scopedDictionaryCss } from "@/lib/mining/glossary-html";
 import { findWordAudio, playWordAudio, type LocalAudioEntry } from "@/lib/mining/local-audio";
 
 const MAX_TERMS = 8;
+// Wait this long before an automatic AI request, so sweeping the mouse
+// across a subtitle does not fire one per word.
+const AI_AUTO_DELAY_MS = 450;
+
+type PopupMining = Omit<MiningContext, "term" | "aiExplanation" | "popupSelection">;
 
 type Props = {
   result: DictLookupResult;
   anchor: DOMRect;
-  mining: Omit<MiningContext, "term">;
+  mining: PopupMining;
   onEnter: () => void;
   onLeave: () => void;
   onClose: () => void;
@@ -22,6 +34,19 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState<{ left: number; top: number; maxH: number } | null>(null);
   const terms = result.terms.slice(0, MAX_TERMS);
+  const { settings } = useSettings();
+  const aiInput = useMemo<AiExplainInput | null>(() => {
+    const first = terms[0];
+    if (!first) return null;
+    const surface = mining.sentence.slice(mining.matchStart, mining.matchStart + mining.matchLength) || first.headword;
+    return { word: first.headword, surface, sentence: mining.sentence };
+  }, [terms, mining.sentence, mining.matchStart, mining.matchLength]);
+  const aiOn = aiExplainReady(settings);
+  const ai = useAiExplanation(aiOn ? aiInput : null, settings.subLookupAiAuto);
+  const termMining = useMemo<Omit<MiningContext, "term">>(
+    () => ({ ...mining, aiExplanation: aiOn ? ai.finalText : undefined }),
+    [mining, aiOn, ai.finalText],
+  );
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -38,7 +63,7 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
     const left = Math.max(12, Math.min(vw - w - 12, anchor.left + anchor.width / 2 - w / 2));
     const top = placeAbove ? Math.max(12, anchor.top - gap - h) : anchor.bottom + gap;
     setPos({ left, top, maxH });
-  }, [anchor, result]);
+  }, [anchor, result, ai.state]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -65,7 +90,7 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
       onMouseDown={(e) => e.stopPropagation()}
       onClick={(e) => e.stopPropagation()}
       onWheel={(e) => e.stopPropagation()}
-      className="hb-lookup-popup pointer-events-auto fixed z-[95] w-[min(460px,calc(100vw-24px))] overflow-y-auto overscroll-contain rounded-2xl border border-edge-soft bg-elevated/95 text-ink shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-md"
+      className="hb-lookup-popup pointer-events-auto fixed select-text z-[95] w-[min(460px,calc(100vw-24px))] overflow-y-auto overscroll-contain rounded-2xl border border-edge-soft bg-elevated/95 text-ink shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-md"
       style={{
         left: pos?.left ?? -9999,
         top: pos?.top ?? -9999,
@@ -76,8 +101,9 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
       {css && <style>{css}</style>}
       <style>{POPUP_CSS}</style>
       <div className="flex flex-col divide-y divide-edge-soft">
+        {aiOn && <AiExplanationBox ai={ai} />}
         {terms.map((t, i) => (
-          <TermEntry key={`${t.headword}|${t.reading}|${i}`} term={t} mining={mining} />
+          <TermEntry key={`${t.headword}|${t.reading}|${i}`} term={t} mining={termMining} />
         ))}
       </div>
     </div>,
@@ -97,6 +123,149 @@ function Furigana({ term }: { term: DictTerm }) {
           </ruby>
         ) : (
           <span key={i}>{text}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+type AiState = "idle" | "loading" | "streaming" | "done" | "error";
+
+function useAiExplanation(input: AiExplainInput | null, auto: boolean) {
+  const { settings } = useSettings();
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
+  const key = input ? JSON.stringify(input) : "";
+  const [state, setState] = useState<AiState>("idle");
+  const [text, setText] = useState("");
+  const [error, setError] = useState("");
+  const live = useRef(key);
+  live.current = key;
+
+  const generate = useCallback(
+    (force = false) => {
+      if (!input) return Promise.resolve("");
+      const k = key;
+      setState("loading");
+      setError("");
+      return explainWord(settingsRef.current, input, {
+        force,
+        onText: (t) => {
+          if (live.current !== k || !t) return;
+          setText(t);
+          setState((s) => (s === "loading" ? "streaming" : s));
+        },
+      })
+        .then((t) => {
+          if (live.current === k) {
+            setText(t);
+            setState("done");
+          }
+          return t;
+        })
+        .catch((e) => {
+          if (live.current === k) {
+            setError(String(e?.message ?? e));
+            setState("error");
+          }
+          return "";
+        });
+    },
+    [key],
+  );
+
+  useEffect(() => {
+    setText("");
+    setError("");
+    if (!input) {
+      setState("idle");
+      return;
+    }
+    const cached = cachedAiExplanation(settingsRef.current, input);
+    if (cached) {
+      setText(cached);
+      setState("done");
+      return;
+    }
+    setState("idle");
+    if (!auto) return;
+    const t = window.setTimeout(() => void generate(), AI_AUTO_DELAY_MS);
+    return () => window.clearTimeout(t);
+  }, [key, auto]);
+
+  const cancel = useCallback(() => {
+    cancelAiExplanation();
+    setState(text ? "done" : "idle");
+  }, [text]);
+
+  // Anki export: the finished text, generating it first if needed.
+  const finalText = useCallback(() => generate(false), [generate]);
+
+  return { state, text, error, generate, cancel, finalText };
+}
+
+function AiExplanationBox({ ai }: { ai: ReturnType<typeof useAiExplanation> }) {
+  const busy = ai.state === "loading" || ai.state === "streaming";
+  return (
+    <div className="flex flex-col gap-1.5 px-4 py-3">
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-subtle">
+          <Sparkles size={12} strokeWidth={2.4} />
+          AI explanation
+        </span>
+        <div className="flex items-center gap-1">
+          {busy ? (
+            <button
+              type="button"
+              title="Stop"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={ai.cancel}
+              className="flex h-6 w-6 items-center justify-center rounded-md text-ink-muted hover:bg-ink/10 hover:text-ink"
+            >
+              <X size={13} strokeWidth={2.4} />
+            </button>
+          ) : (
+            <button
+              type="button"
+              title={ai.state === "idle" ? "Explain" : "Explain again"}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => void ai.generate(ai.state !== "idle")}
+              className="flex h-6 items-center gap-1 rounded-md px-1.5 text-[11px] font-semibold text-ink-muted hover:bg-ink/10 hover:text-ink"
+            >
+              <RotateCw size={12} strokeWidth={2.4} />
+              {ai.state === "idle" ? "Explain" : null}
+            </button>
+          )}
+        </div>
+      </div>
+      {ai.state === "loading" && (
+        <div className="flex items-center gap-2 text-[13px] text-ink-muted">
+          <Loader2 size={13} className="animate-spin" />
+          Thinking…
+        </div>
+      )}
+      {(ai.state === "streaming" || ai.state === "done") && (
+        <div className="whitespace-pre-wrap text-[14px] leading-relaxed">
+          <AiText text={ai.text} />
+        </div>
+      )}
+      {ai.state === "error" && <div className="text-[12.5px] text-danger">{ai.error}</div>}
+    </div>
+  );
+}
+
+// Renders **bold** and *italic* from the model's answer; everything else is text.
+function AiText({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g);
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.startsWith("**") && p.endsWith("**") && p.length > 4 ? (
+          <strong key={i}>{p.slice(2, -2)}</strong>
+        ) : p.startsWith("*") && p.endsWith("*") && p.length > 2 ? (
+          <em key={i}>{p.slice(1, -1)}</em>
+        ) : (
+          <span key={i}>{p}</span>
         ),
       )}
     </>
@@ -150,6 +319,9 @@ function TermEntry({ term, mining }: { term: DictTerm; mining: Omit<MiningContex
           <AnkiButton term={term} mining={mining} />
         </div>
       </div>
+      {term.synthetic && (
+        <div className="text-[12.5px] text-ink-subtle">Not in your dictionaries.</div>
+      )}
       {term.glossary.map((g, i) => (
         <GlossaryBlock key={`${g.dictionaryName}${i}`} dictionary={g.dictionaryName} tags={g.tags} content={g.content} />
       ))}
@@ -243,7 +415,7 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
     setState("busy");
     setMsg("Adding…");
     try {
-      const res = await addNoteFromLookup(settings, { ...mining, term });
+      const res = await addNoteFromLookup(settings, { ...mining, term, popupSelection: selectionInPopup() });
       setState("done");
       setMsg(res.warnings.length ? `Added, with issues: ${res.warnings.join("; ")}` : "Added to Anki");
     } catch (e) {
@@ -255,6 +427,8 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
   return (
     <button
       type="button"
+      // Keep a text selection made in the popup: it can be exported to Anki.
+      onMouseDown={(e) => e.preventDefault()}
       onClick={add}
       title={msg}
       className={`flex h-8 items-center gap-1 rounded-lg px-2.5 text-[12px] font-semibold transition-colors ${
@@ -275,6 +449,15 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
       Anki
     </button>
   );
+}
+
+function selectionInPopup(): string {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return "";
+  const node = sel.anchorNode;
+  const el = node && (node.nodeType === Node.ELEMENT_NODE ? (node as Element) : node.parentElement);
+  if (!el?.closest(".hb-lookup-popup")) return "";
+  return sel.toString().trim();
 }
 
 const POPUP_CSS = `

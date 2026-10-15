@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSettings } from "@/lib/settings";
+import { aiExplainReady } from "@/lib/mining/ai-explain";
 import { LookupPopup } from "./lookup-popup";
 import { useSubtitleLookup, type LookupControls, type LookupHit } from "./use-subtitle-lookup";
 
@@ -37,6 +38,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     pauseOnHover: settings.subLookupPauseOnHover,
     controls,
     scanKey: settings.subLookupScanKey ?? "none",
+    unknownWords: settings.subLookupAiUnknown && aiExplainReady(settings),
   });
   const markRef = useRef<HTMLSpanElement>(null);
   const [anchor, setAnchor] = useState<DOMRect | null>(null);

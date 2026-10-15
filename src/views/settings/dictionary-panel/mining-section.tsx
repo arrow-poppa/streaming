@@ -11,6 +11,8 @@ import {
   type DictionaryInfo,
 } from "@/lib/mining/dictionary";
 import { ANKI_FIELD_SOURCES, ankiDeckNames, ankiModelFields, ankiModelNames, guessFieldMap } from "@/lib/mining/anki";
+import { AI_MODELS, GROQ_MODELS, keyForProvider, providerForModel } from "@/lib/ai-models";
+import { aiExplainModel } from "@/lib/mining/ai-explain";
 import { Section, ToggleRow } from "../shared";
 
 const LANGUAGES = [
@@ -65,6 +67,7 @@ export function MiningSection() {
   return (
     <>
       <DictionarySection />
+      <AiExplanationSection />
       <WordAudioSection />
       <AnkiSection />
     </>
@@ -210,6 +213,89 @@ function DictionarySection() {
         </button>
       </div>
       {msg && <p className="whitespace-pre-wrap text-[12.5px] leading-relaxed text-ink-muted">{msg}</p>}
+    </Section>
+  );
+}
+
+function AiExplanationSection() {
+  const { settings, update } = useSettings();
+  const t = useT();
+  const model = aiExplainModel(settings);
+  const modelForKey = settings.subLookupAiModel || settings.aiSearchModel;
+  const hasKey = !!keyForProvider(settings, providerForModel(modelForKey || AI_MODELS[0].id)).trim();
+  const [prompt, setPrompt] = useState(settings.subLookupAiPrompt);
+  const [answer, setAnswer] = useState(settings.subLookupAiAnswerLanguage);
+
+  return (
+    <Section
+      title={t("AI explanation")}
+      subtitle={t("Explains the looked-up word in the context of its subtitle, above the dictionary entries. Uses your OpenRouter or Groq key from Settings → Library → AI Search.")}
+    >
+      <ToggleRow
+        label={t("Explain words with AI")}
+        sub={hasKey ? t("Model: {model}").replace("{model}", model) : t("No key yet: add one under Library → AI Search.")}
+        value={settings.subLookupAiEnabled}
+        onChange={(v) => update({ subLookupAiEnabled: v })}
+      />
+      <ToggleRow
+        label={t("Explain automatically")}
+        sub={t("Starts when the popup opens. Off: press Explain in the popup. Anki fields mapped to the AI explanation always generate it.")}
+        value={settings.subLookupAiAuto}
+        onChange={(v) => update({ subLookupAiAuto: v })}
+      />
+      <ToggleRow
+        label={t("Explain words missing from your dictionaries")}
+        sub={t("Opens the popup with only the AI explanation, so the word can still go to Anki.")}
+        value={settings.subLookupAiUnknown}
+        onChange={(v) => update({ subLookupAiUnknown: v })}
+      />
+      <Row label={t("Model")} sub={t("Leave on AI Search's model or pick another one for explanations.")}>
+        <select
+          value={settings.subLookupAiModel}
+          onChange={(e) => update({ subLookupAiModel: e.target.value })}
+          className={selectCls}
+        >
+          <option value="">{t("Same as AI Search")}</option>
+          <optgroup label="OpenRouter">
+            {AI_MODELS.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label}
+                {m.free ? " (free)" : ""}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Groq">
+            {GROQ_MODELS.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label}
+              </option>
+            ))}
+          </optgroup>
+        </select>
+      </Row>
+      <Row label={t("Answer in")} sub={t("Language of the explanation, e.g. Português. Empty: English.")}>
+        <input
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+          onBlur={() => update({ subLookupAiAnswerLanguage: answer.trim() })}
+          placeholder="English"
+          className={`${inputCls} w-48`}
+        />
+      </Row>
+      <div className="flex flex-col gap-2 rounded-xl border border-edge-soft bg-canvas/40 px-4 py-3">
+        <span className="text-[14px] font-medium text-ink">{t("Custom prompt")}</span>
+        <span className="text-[12.5px] text-ink-subtle">
+          {t("Optional. Placeholders: {word} (dictionary form), {surface} (as written), {sentence}, {language}.")}
+        </span>
+        <textarea
+          value={prompt}
+          rows={3}
+          onChange={(e) => setPrompt(e.target.value)}
+          onBlur={() => update({ subLookupAiPrompt: prompt })}
+          placeholder={t("Explain what {surface} means in: {sentence}")}
+          className="w-full resize-y rounded-lg border border-edge-soft bg-canvas px-3 py-2 text-[13px] text-ink outline-none focus:border-edge"
+        />
+      </div>
     </Section>
   );
 }

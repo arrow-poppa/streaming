@@ -21,6 +21,8 @@ export type DictTerm = {
   // Matched source length in Unicode code points.
   matchLen: number;
   styles?: Record<string, string>;
+  // No dictionary knows this word; the popup shows only the AI explanation.
+  synthetic?: boolean;
 };
 
 export type DictLookupResult = { terms: DictTerm[]; kanji: unknown[] };
