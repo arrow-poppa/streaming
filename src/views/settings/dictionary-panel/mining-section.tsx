@@ -460,6 +460,46 @@ function AnkiSection() {
           className={`${inputCls} w-[90px]`}
         />
       </Row>
+      <Row
+        label={t("Animated clip format")}
+        sub={t("For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.")}
+      >
+        <select
+          value={settings.ankiClipFormat}
+          onChange={(e) => update({ ankiClipFormat: e.target.value as "avif" | "webp" | "gif" })}
+          className={selectCls}
+        >
+          <option value="avif">AVIF</option>
+          <option value="webp">WebP</option>
+          <option value="gif">GIF</option>
+        </select>
+      </Row>
+      <Row label={t("Animated clip size")} sub={t("Width in pixels and frames per second. Clips stop after 12 seconds.")}>
+        <div className="flex items-center gap-2">
+          <select
+            value={settings.ankiClipWidth}
+            onChange={(e) => update({ ankiClipWidth: Number(e.target.value) })}
+            className={selectCls}
+          >
+            {[320, 480, 640, 854].map((w) => (
+              <option key={w} value={w}>
+                {w}px
+              </option>
+            ))}
+          </select>
+          <select
+            value={settings.ankiClipFps}
+            onChange={(e) => update({ ankiClipFps: Number(e.target.value) })}
+            className={selectCls}
+          >
+            {[8, 10, 12, 15, 24].map((f) => (
+              <option key={f} value={f}>
+                {f} fps
+              </option>
+            ))}
+          </select>
+        </div>
+      </Row>
       <ToggleRow
         label={t("Allow duplicate cards")}
         sub={t("When off, words already in the deck are refused.")}

@@ -463,6 +463,10 @@ export type Settings = {
   ankiTags: string;
   ankiAudioPadSec: number;
   ankiAllowDuplicates: boolean;
+  // Animated clip of the subtitle line for the "clip" Anki field.
+  ankiClipFormat: "avif" | "webp" | "gif";
+  ankiClipWidth: number;
+  ankiClipFps: number;
 };
 
 export type AnkiFieldSource =
@@ -478,6 +482,7 @@ export type AnkiFieldSource =
   | "sentence-audio"
   | "word-audio"
   | "picture"
+  | "clip"
   | "frequency"
   | "pitch"
   | "title"

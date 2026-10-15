@@ -399,4 +399,7 @@ export const DEFAULT: Settings = {
   ankiTags: "harbor",
   ankiAudioPadSec: 0.25,
   ankiAllowDuplicates: false,
+  ankiClipFormat: "avif",
+  ankiClipWidth: 480,
+  ankiClipFps: 12,
 };

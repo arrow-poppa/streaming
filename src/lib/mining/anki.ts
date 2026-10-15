@@ -27,6 +27,7 @@ export const ANKI_FIELD_SOURCES: { id: AnkiFieldSource; label: string }[] = [
   { id: "sentence-audio", label: "Sentence audio" },
   { id: "word-audio", label: "Word audio (local)" },
   { id: "picture", label: "Screenshot" },
+  { id: "clip", label: "Animated clip of the line (AVIF/WebP/GIF)" },
   { id: "frequency", label: "Frequency" },
   { id: "pitch", label: "Pitch accent" },
   { id: "title", label: "Title / episode" },
@@ -159,6 +160,24 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       const name = await storeMedia(settings, `harbor_${stamp()}.jpg`, dataUrlBase64(url));
       return `<img src="${escapeHtml(name)}">`;
     }
+    case "clip": {
+      if (!ctx.mpvEngine) {
+        warn("Animated clips need the mpv player");
+        return "";
+      }
+      const clip = await invoke<{ dataBase64: string; ext: string; format: string }>("mpv_sentence_clip", {
+        start: ctx.subStartSec ?? null,
+        end: ctx.subEndSec ?? null,
+        padBefore: settings.ankiAudioPadSec,
+        padAfter: settings.ankiAudioPadSec,
+        format: settings.ankiClipFormat || "avif",
+        width: settings.ankiClipWidth || 480,
+        fps: settings.ankiClipFps || 12,
+      });
+      if (clip.format !== (settings.ankiClipFormat || "avif")) warn(`Clip saved as ${clip.format.toUpperCase()} (no ${settings.ankiClipFormat} encoder)`);
+      const name = await storeMedia(settings, `harbor_clip_${stamp()}.${clip.ext}`, clip.dataBase64);
+      return `<img src="${escapeHtml(name)}">`;
+    }
     case "sentence-audio": {
       if (!ctx.mpvEngine) {
         warn("Sentence audio needs the mpv player");
@@ -185,7 +204,7 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
   }
 }
 
-const MEDIA_SOURCES = new Set<AnkiFieldSource>(["picture", "sentence-audio", "word-audio"]);
+const MEDIA_SOURCES = new Set<AnkiFieldSource>(["picture", "clip", "sentence-audio", "word-audio"]);
 
 export type AddNoteResult = { noteId: number; warnings: string[] };
 

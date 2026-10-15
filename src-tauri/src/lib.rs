@@ -676,6 +676,7 @@ fn run_desktop() {
             mpv::mpv_on_pip_changed,
             mpv::mpv_screenshot_data_url,
             mpv::mpv_sentence_audio,
+            mpv::mpv_sentence_clip,
             dictionary::dict_lookup,
             dictionary::dict_import,
             dictionary::dict_list,
