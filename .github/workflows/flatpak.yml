@@ -1,21 +1,9 @@
 name: flatpak
 
+# Flatpak is not built for now (releases ship .deb, .rpm and .AppImage). Run
+# this by hand from the Actions tab when Flatpak packaging is wanted again.
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - flatpak/**
-      - src-tauri/**
-      - harbor-core/**
-      - src/**
-      - public/**
-      - index.html
-      - vite.config.*
-      - tsconfig*.json
-      - package.json
-      - pnpm-lock.yaml
-      - pnpm-workspace.yaml
-      - .github/workflows/flatpak.yml
 
 jobs:
   build:
