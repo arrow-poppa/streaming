@@ -2,6 +2,25 @@ name: Desktop build
 
 on:
   workflow_dispatch:
+    inputs:
+      linux_bundles:
+        description: Linux packages to build
+        type: choice
+        default: deb,rpm,appimage
+        options:
+          - deb,rpm,appimage
+          - rpm
+          - deb
+          - appimage
+          - deb,rpm
+      windows_bundles:
+        description: Windows installers to build
+        type: choice
+        default: nsis,msi
+        options:
+          - nsis,msi
+          - nsis
+          - msi
   push:
     branches:
       - agent/ios-ux-0.9.94
@@ -38,12 +57,12 @@ jobs:
           - name: Windows-x64
             runner: windows-latest
             target: x86_64-pc-windows-msvc
-            bundles: nsis,msi
+            bundles: ${{ inputs.windows_bundles || 'nsis,msi' }}
             ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip
           - name: Linux-x64
             runner: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
-            bundles: deb,rpm,appimage
+            bundles: ${{ inputs.linux_bundles || 'deb,rpm,appimage' }}
             ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
 
     steps:
