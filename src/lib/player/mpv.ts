@@ -212,6 +212,7 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
       if (name === "audio-delay" && typeof data === "number") snap.audioDelaySec = data;
       if (name === "sub-text") snap.subText = typeof data === "string" ? data : "";
       if (name === "sub-start" && typeof data === "number") snap.subStartSec = data;
+      if (name === "sub-end" && typeof data === "number") snap.subEndSec = data;
       if (name === "dwidth" && typeof data === "number") snap.videoWidth = data;
       if (name === "dheight" && typeof data === "number") snap.videoHeight = data;
       if (name === "video-params/gamma" && typeof data === "string" && data) snap.hdrGamma = data;

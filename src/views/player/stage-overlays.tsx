@@ -4,6 +4,7 @@ import { StatsOverlay } from "@/components/player/stats-overlay";
 import { SubStyleBar } from "@/components/player/sub-style-bar";
 import { SubSyncBar } from "@/components/player/sub-sync-bar";
 import { SubtitleOverlay } from "@/components/player/subtitle-overlay";
+import type { LookupControls } from "@/components/player/lookup/use-subtitle-lookup";
 import {
   VolumeIndicator,
   type VolumeHudPosition,
@@ -30,6 +31,7 @@ export function StageOverlays({
   onSubDelay,
   onEnterSync,
   chromeVisible,
+  lookupControls,
 }: {
   snap: PlayerSnapshot;
   engine: "html5" | "mpv";
@@ -46,6 +48,7 @@ export function StageOverlays({
   onSubDelay: (sec: number) => void;
   onEnterSync?: () => void;
   chromeVisible: boolean;
+  lookupControls?: LookupControls;
 }) {
   const t = useT();
   const showVolumeIndicator = volumeIndicator.visible;
@@ -53,7 +56,19 @@ export function StageOverlays({
   return (
     <>
       {(!pipMode || subShowInPip) && !subAssNative && (
-        <SubtitleOverlay text={snap.subText} startSec={snap.subStartSec} scale={pipMode ? 0.45 : 1} />
+        <SubtitleOverlay
+          text={snap.subText}
+          startSec={snap.subStartSec}
+          scale={pipMode ? 0.45 : 1}
+          lookup={lookupControls && !pipMode ? { controls: lookupControls, endSec: snap.subEndSec } : undefined}
+        />
+      )}
+      {!pipMode && subAssNative && engine === "mpv" && lookupControls && (
+        <SubtitleOverlay
+          text={snap.subText}
+          startSec={snap.subStartSec}
+          lookup={{ controls: lookupControls, endSec: snap.subEndSec, native: true }}
+        />
       )}
       {showStats && !pipMode && <StatsOverlay snap={snap} engine={engine} />}
       {!pipMode && <Anime4kIndicator engine={engine} chromeVisible={chromeVisible} suppressed={topVolumeShowing} />}

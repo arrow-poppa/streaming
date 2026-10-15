@@ -436,4 +436,31 @@ export type Settings = {
   adSkipEnabled: boolean;
   adReportAlwaysShow: boolean;
   adReportFirstSeen: boolean;
+  subLookupEnabled: boolean;
+  subLookupLanguage: string;
+  subLookupPauseOnHover: boolean;
+  localAudioDbPath: string;
+  ankiUrl: string;
+  ankiDeck: string;
+  ankiModel: string;
+  ankiFieldMap: Record<string, AnkiFieldSource>;
+  ankiTags: string;
+  ankiAudioPadSec: number;
+  ankiAllowDuplicates: boolean;
 };
+
+export type AnkiFieldSource =
+  | ""
+  | "expression"
+  | "reading"
+  | "furigana"
+  | "glossary"
+  | "glossary-first"
+  | "sentence"
+  | "sentence-cloze"
+  | "sentence-audio"
+  | "word-audio"
+  | "picture"
+  | "frequency"
+  | "pitch"
+  | "title";

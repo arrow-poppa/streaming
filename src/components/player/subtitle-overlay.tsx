@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { useActiveKid } from "@/lib/profiles";
 import { useSettings } from "@/lib/settings";
+import { miningAvailable } from "@/lib/mining/dictionary";
+import { InteractiveSubtitle } from "./lookup/interactive-subtitle";
+import type { LookupControls } from "./lookup/use-subtitle-lookup";
 
 type Props = {
   text: string;
   startSec: number;
   scale?: number;
+  // Dictionary lookup on hover. `native`: mpv renders this subtitle (ASS), so
+  // only an invisible, hoverable copy is drawn here.
+  lookup?: { controls: LookupControls; endSec?: number; native?: boolean };
 };
 
-export function SubtitleOverlay({ text, startSec, scale = 1 }: Props) {
+export function SubtitleOverlay({ text, startSec, scale = 1, lookup }: Props) {
   const { settings } = useSettings();
   const kid = useActiveKid();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -23,6 +29,8 @@ export function SubtitleOverlay({ text, startSec, scale = 1 }: Props) {
     return () => window.removeEventListener("resize", measure);
   }, [text]);
   if (!text) return null;
+  const lookupOn = !!lookup && settings.subLookupEnabled && miningAvailable();
+  if (lookup?.native && !lookupOn) return null;
 
   const responsive = boxH > 0 ? Math.max(0.3, Math.min(2.5, boxH / 1080)) : scale;
   const baseFont = kid ? Math.max(54, clamp(settings.subFontSize, 16, 120)) : clamp(settings.subFontSize, 16, 120);
@@ -75,15 +83,27 @@ export function SubtitleOverlay({ text, startSec, scale = 1 }: Props) {
       key={startSec}
       ref={wrapRef}
       className={`pointer-events-none absolute inset-x-0 z-10 flex ${justify} px-[6%]`}
-      style={{ bottom: `${marginY}%`, opacity }}
+      style={{ bottom: `${marginY}%`, opacity: lookup?.native ? 1 : opacity }}
     >
-      <div className="max-w-[80%]" style={boxStyle}>
-        <div style={baseTextStyle}>
-          {lines.map((line, i) => (
-            <div key={i}>{line}</div>
-          ))}
+      {lookupOn && lookup ? (
+        <InteractiveSubtitle
+          lines={lines}
+          textStyle={baseTextStyle}
+          boxStyle={boxStyle}
+          controls={lookup.controls}
+          startSec={startSec}
+          endSec={lookup.endSec}
+          native={!!lookup.native}
+        />
+      ) : (
+        <div className="max-w-[80%]" style={boxStyle}>
+          <div style={baseTextStyle}>
+            {lines.map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

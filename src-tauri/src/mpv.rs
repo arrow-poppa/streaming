@@ -108,6 +108,7 @@ const OBSERVED_PROPS: &[(&str, u64, PropertyKind)] = &[
     ("dheight", 15, PropertyKind::Int64),
     ("video-params/gamma", 16, PropertyKind::String),
     ("demuxer-cache-duration", 17, PropertyKind::Double),
+    ("sub-end", 18, PropertyKind::Double),
 ];
 
 #[derive(Clone, Copy)]
@@ -1427,6 +1428,111 @@ pub async fn mpv_clip_save(
         Ok(m) if m.len() > 0 => Ok(ClipResult { path: out_path, duration: dur }),
         _ => Err("clip output missing".into()),
     }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SentenceAudio {
+    data_base64: String,
+    ext: String,
+    start: f64,
+    end: f64,
+}
+
+fn mpv_prop_f64(mpv: &Mpv, name: &str) -> Option<f64> {
+    mpv.get_property::<String>(name).ok()?.trim().parse().ok()
+}
+
+/// Encodes the audio between `start` and `end` (defaulting to the current
+/// subtitle line) to AAC for an Anki card, using the playing source and audio
+/// track. Runs a separate mpv so playback is not disturbed.
+#[tauri::command]
+pub async fn mpv_sentence_audio(
+    state: State<'_, MpvState>,
+    start: Option<f64>,
+    end: Option<f64>,
+    pad_before: Option<f64>,
+    pad_after: Option<f64>,
+) -> Result<SentenceAudio, String> {
+    use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
+    let mpv = {
+        let g = state.inner.lock().await;
+        g.as_ref().map(|s| s.mpv.clone()).ok_or_else(|| "mpv not started".to_string())?
+    };
+    let src = mpv
+        .get_property::<String>("path")
+        .map_err(|e| format!("no source path: {}", e))?;
+    let line_start = start
+        .or_else(|| mpv_prop_f64(&mpv, "sub-start"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let line_end = end
+        .or_else(|| mpv_prop_f64(&mpv, "sub-end"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
+    let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);
+    let dur = to - from;
+    if !(0.2..=60.0).contains(&dur) {
+        return Err(format!("bad sentence range {:.2}..{:.2}", from, to));
+    }
+    let aid = mpv
+        .get_property::<String>("aid")
+        .ok()
+        .filter(|a| !a.trim().is_empty() && a.trim() != "no" && a.trim() != "auto");
+    let user_agent = mpv.get_property::<String>("user-agent").ok().filter(|s| !s.is_empty());
+    let header_fields = mpv
+        .get_property::<String>("http-header-fields")
+        .ok()
+        .filter(|s| !s.is_empty());
+
+    let mpv_bin = crate::thumbs::locate_mpv().ok_or_else(|| "mpv binary not found".to_string())?;
+    let out = std::env::temp_dir().join(format!("harbor-sentence-{}.m4a", Uuid::new_v4()));
+    let mut cmd = tokio::process::Command::new(&mpv_bin);
+    cmd.arg("--no-terminal")
+        .arg("--really-quiet")
+        .arg("--no-config")
+        .arg("--load-scripts=no")
+        .arg("--cache=yes")
+        .arg("--network-timeout=30")
+        .arg("--vid=no")
+        .arg("--sid=no")
+        .arg(format!("--start={:.3}", from))
+        .arg(format!("--length={:.3}", dur))
+        .arg(format!("--o={}", out.to_string_lossy()))
+        .arg("--of=mp4")
+        .arg("--oac=aac")
+        .arg("--oacopts=b=128k");
+    if let Some(aid) = &aid {
+        cmd.arg(format!("--aid={}", aid));
+    }
+    if let Some(ua) = &user_agent {
+        cmd.arg(format!("--user-agent={}", ua));
+    }
+    if let Some(h) = &header_fields {
+        cmd.arg(format!("--http-header-fields={}", h));
+    }
+    cmd.arg(&src);
+    cmd.stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .kill_on_drop(true);
+    #[cfg(windows)]
+    cmd.creation_flags(0x0800_0000);
+
+    let status = tokio::time::timeout(Duration::from_secs(90), cmd.status())
+        .await
+        .map_err(|_| "sentence audio timed out".to_string())?
+        .map_err(|e| format!("spawn mpv encode: {}", e))?;
+    let bytes = std::fs::read(&out).unwrap_or_default();
+    let _ = std::fs::remove_file(&out);
+    if !status.success() || bytes.is_empty() {
+        return Err(format!("sentence audio encode failed (mpv exit {:?})", status.code()));
+    }
+    Ok(SentenceAudio {
+        data_base64: B64.encode(&bytes),
+        ext: "m4a".into(),
+        start: from,
+        end: to,
+    })
 }
 
 #[tauri::command]

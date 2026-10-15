@@ -199,6 +199,13 @@ export function PlayerOverlayLayers(p: PlayerOverlayLayersProps) {
         subDropToast={p.subDropToast}
         contentAdvisory={p.contentAdvisory}
         onSubDelay={(s) => { p.bridgeRef.current?.setSubDelay(s); }}
+        lookupControls={{
+          isPlaying: () => p.snapRef.current?.status === "playing",
+          togglePlay: p.playPauseToggle,
+          setNativeSubVisible: (on) => p.bridgeRef.current?.setSubVisible(on),
+          title: [p.src.title, p.src.subtitle].filter(Boolean).join(" · "),
+          mpvEngine: p.engine === "mpv",
+        }}
         onEnterSync={p.onEnterSync}
         chromeVisible={p.showChrome}
       />
