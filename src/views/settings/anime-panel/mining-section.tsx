@@ -186,7 +186,7 @@ function WordAudioSection() {
   return (
     <Section
       title={t("Word audio")}
-      subtitle={t("Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders.")}
+      subtitle={t("Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.")}
     >
       <div className="flex items-center justify-between gap-3 rounded-xl border border-edge-soft bg-canvas/40 px-4 py-3">
         <span className="truncate font-mono text-[13px] text-ink" title={settings.localAudioDbPath}>

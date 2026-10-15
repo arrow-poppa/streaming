@@ -17,41 +17,26 @@ const CLOSE_GRACE_MS = 280;
 
 // Maps a pointer position to a UTF-16 offset inside one rendered subtitle line.
 // Text spans carry data-hb-line / data-hb-off (offset of their first character).
+// Scans character boxes instead of using caretRangeFromPoint, which WebKitGTK
+// and Chromium answer differently under the app-wide `user-select: none`.
 export function hitTestSubtitle(x: number, y: number): { line: number; index: number } | null {
-  const doc = document as Document & {
-    caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null;
-    caretRangeFromPoint?: (x: number, y: number) => Range | null;
-  };
-  let node: Node | null = null;
-  let offset = 0;
-  if (doc.caretPositionFromPoint) {
-    const p = doc.caretPositionFromPoint(x, y);
-    node = p?.offsetNode ?? null;
-    offset = p?.offset ?? 0;
-  } else if (doc.caretRangeFromPoint) {
-    const r = doc.caretRangeFromPoint(x, y);
-    node = r?.startContainer ?? null;
-    offset = r?.startOffset ?? 0;
-  }
-  if (!node || node.nodeType !== Node.TEXT_NODE) return null;
-  const span = node.parentElement?.closest<HTMLElement>("[data-hb-off]");
-  if (!span) return null;
+  const span = document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-hb-off]");
+  const node = span?.firstChild;
+  if (!span || !node || node.nodeType !== Node.TEXT_NODE) return null;
   const text = node.textContent ?? "";
   const range = document.createRange();
-  // The caret lands after a character when the pointer is on its right half.
-  for (const o of [offset, offset - 1]) {
-    if (o < 0 || o >= text.length) continue;
+  for (let o = 0; o < text.length; ) {
     const c = text.charCodeAt(o);
-    if (c >= 0xdc00 && c <= 0xdfff) continue;
-    const end = c >= 0xd800 && c <= 0xdbff ? Math.min(text.length, o + 2) : o + 1;
+    const width = c >= 0xd800 && c <= 0xdbff && o + 1 < text.length ? 2 : 1;
     range.setStart(node, o);
-    range.setEnd(node, end);
+    range.setEnd(node, o + width);
     for (const rect of Array.from(range.getClientRects())) {
-      if (x >= rect.left - 1 && x <= rect.right + 1 && y >= rect.top - 1 && y <= rect.bottom + 1) {
+      if (x >= rect.left && x < rect.right && y >= rect.top && y < rect.bottom) {
         if (/\s/.test(text[o])) return null;
         return { line: Number(span.dataset.hbLine), index: Number(span.dataset.hbOff) + o };
       }
     }
+    o += width;
   }
   return null;
 }

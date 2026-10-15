@@ -20,12 +20,34 @@ pub struct LocalAudioEntry {
     pub label: String,
 }
 
+// `immutable=1`: the database never changes while Harbor runs, so SQLite skips
+// file locking. Locks can fail on Flatpak document-portal (FUSE) paths and on
+// network shares.
+fn sqlite_uri(path: &str) -> String {
+    let p = path.replace('\\', "/");
+    let mut uri = String::from(if p.starts_with('/') { "file://" } else { "file:///" });
+    for b in p.bytes() {
+        match b {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'.' | b'_' | b'~' | b'/' | b':' => uri.push(b as char),
+            _ => uri.push_str(&format!("%{:02X}", b)),
+        }
+    }
+    uri.push_str("?mode=ro&immutable=1");
+    uri
+}
+
 fn open_read_only(db_path: &str) -> Result<Connection, String> {
     if !Path::new(db_path).is_file() {
-        return Err(format!("local audio database not found: {}", db_path));
+        return Err(format!(
+            "local audio database not found or not readable: {} (choose it again in Settings → Anime)",
+            db_path
+        ));
     }
-    Connection::open_with_flags(db_path, OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX)
-        .map_err(|e| format!("open local audio database: {}", e))
+    Connection::open_with_flags(
+        sqlite_uri(db_path),
+        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_URI | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+    )
+    .map_err(|e| format!("open local audio database: {}", e))
 }
 
 fn source_rank(source: &str, order: &[String]) -> usize {
@@ -137,7 +159,12 @@ fn read_from_folder(db_path: &str, source: &str, file: &str) -> Result<Vec<u8>, 
         .join(format!("{}_files", source));
     let root = root
         .canonicalize()
-        .map_err(|_| format!("audio folder missing for source {}", source))?;
+        .map_err(|_| {
+            format!(
+                "audio folder {}_files not found next to the database (on Flatpak, pick android.db instead)",
+                source
+            )
+        })?;
     let full: PathBuf = root
         .join(file)
         .canonicalize()
@@ -201,6 +228,12 @@ mod tests {
         path.to_string_lossy().into_owned()
     }
 
+    #[test]
+    fn sqlite_uri_escapes_paths() {
+        assert_eq!(sqlite_uri("/home/a b/ä#.db"), "file:///home/a%20b/%C3%A4%23.db?mode=ro&immutable=1");
+        assert_eq!(sqlite_uri(r"C:\Audio\android.db"), "file:///C:/Audio/android.db?mode=ro&immutable=1");
+    }
+
     fn temp_dir(name: &str) -> PathBuf {
         let dir = std::env::temp_dir().join(format!("harbor-local-audio-{}-{}", name, std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
@@ -210,7 +243,7 @@ mod tests {
 
     #[tokio::test]
     async fn lookup_orders_sources_and_filters_reading() {
-        let dir = temp_dir("lookup");
+        let dir = temp_dir("lookup áudio local #1");
         let db = fixture(&dir, true);
         let found = local_audio_lookup(db, "食べる".into(), Some("たべる".into()), None).await.unwrap();
         let sources: Vec<&str> = found.iter().map(|e| e.source.as_str()).collect();

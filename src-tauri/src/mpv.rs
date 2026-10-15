@@ -1439,6 +1439,10 @@ pub struct SentenceAudio {
     end: f64,
 }
 
+// (file extension, mpv --of muxer, mpv --oac encoder), in order of preference.
+const SENTENCE_AUDIO_FORMATS: &[(&str, &str, &str)] =
+    &[("m4a", "mp4", "aac"), ("mp3", "mp3", "libmp3lame"), ("ogg", "ogg", "libopus")];
+
 fn mpv_prop_f64(mpv: &Mpv, name: &str) -> Option<f64> {
     mpv.get_property::<String>(name).ok()?.trim().parse().ok()
 }
@@ -1485,54 +1489,59 @@ pub async fn mpv_sentence_audio(
         .filter(|s| !s.is_empty());
 
     let mpv_bin = crate::thumbs::locate_mpv().ok_or_else(|| "mpv binary not found".to_string())?;
-    let out = std::env::temp_dir().join(format!("harbor-sentence-{}.m4a", Uuid::new_v4()));
-    let mut cmd = tokio::process::Command::new(&mpv_bin);
-    cmd.arg("--no-terminal")
-        .arg("--really-quiet")
-        .arg("--no-config")
-        .arg("--load-scripts=no")
-        .arg("--cache=yes")
-        .arg("--network-timeout=30")
-        .arg("--vid=no")
-        .arg("--sid=no")
-        .arg(format!("--start={:.3}", from))
-        .arg(format!("--length={:.3}", dur))
-        .arg(format!("--o={}", out.to_string_lossy()))
-        .arg("--of=mp4")
-        .arg("--oac=aac")
-        .arg("--oacopts=b=128k");
-    if let Some(aid) = &aid {
-        cmd.arg(format!("--aid={}", aid));
-    }
-    if let Some(ua) = &user_agent {
-        cmd.arg(format!("--user-agent={}", ua));
-    }
-    if let Some(h) = &header_fields {
-        cmd.arg(format!("--http-header-fields={}", h));
-    }
-    cmd.arg(&src);
-    cmd.stdin(std::process::Stdio::null())
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .kill_on_drop(true);
-    #[cfg(windows)]
-    cmd.creation_flags(0x0800_0000);
+    let mut last_exit = None;
+    for (ext, muxer, encoder) in SENTENCE_AUDIO_FORMATS {
+        let out = std::env::temp_dir().join(format!("harbor-sentence-{}.{}", Uuid::new_v4(), ext));
+        let mut cmd = tokio::process::Command::new(&mpv_bin);
+        cmd.arg("--no-terminal")
+            .arg("--really-quiet")
+            .arg("--no-config")
+            .arg("--load-scripts=no")
+            .arg("--cache=yes")
+            .arg("--network-timeout=30")
+            .arg("--vid=no")
+            .arg("--sid=no")
+            .arg(format!("--start={:.3}", from))
+            .arg(format!("--length={:.3}", dur))
+            .arg(format!("--o={}", out.to_string_lossy()))
+            .arg(format!("--of={}", muxer))
+            .arg(format!("--oac={}", encoder))
+            .arg("--oacopts=b=128k");
+        if let Some(aid) = &aid {
+            cmd.arg(format!("--aid={}", aid));
+        }
+        if let Some(ua) = &user_agent {
+            cmd.arg(format!("--user-agent={}", ua));
+        }
+        if let Some(h) = &header_fields {
+            cmd.arg(format!("--http-header-fields={}", h));
+        }
+        cmd.arg(&src);
+        cmd.stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .kill_on_drop(true);
+        #[cfg(windows)]
+        cmd.creation_flags(0x0800_0000);
 
-    let status = tokio::time::timeout(Duration::from_secs(90), cmd.status())
-        .await
-        .map_err(|_| "sentence audio timed out".to_string())?
-        .map_err(|e| format!("spawn mpv encode: {}", e))?;
-    let bytes = std::fs::read(&out).unwrap_or_default();
-    let _ = std::fs::remove_file(&out);
-    if !status.success() || bytes.is_empty() {
-        return Err(format!("sentence audio encode failed (mpv exit {:?})", status.code()));
+        let status = tokio::time::timeout(Duration::from_secs(90), cmd.status())
+            .await
+            .map_err(|_| "sentence audio timed out".to_string())?
+            .map_err(|e| format!("spawn mpv encode: {}", e))?;
+        let bytes = std::fs::read(&out).unwrap_or_default();
+        let _ = std::fs::remove_file(&out);
+        if status.success() && !bytes.is_empty() {
+            return Ok(SentenceAudio {
+                data_base64: B64.encode(&bytes),
+                ext: (*ext).into(),
+                start: from,
+                end: to,
+            });
+        }
+        // Distro mpv builds differ in encoders (Fedora's ffmpeg-free, for one); try the next.
+        last_exit = status.code();
     }
-    Ok(SentenceAudio {
-        data_base64: B64.encode(&bytes),
-        ext: "m4a".into(),
-        start: from,
-        end: to,
-    })
+    Err(format!("sentence audio encode failed (mpv exit {:?})", last_exit))
 }
 
 #[tauri::command]
