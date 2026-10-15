@@ -43,7 +43,7 @@ jobs:
           - name: Linux-x64
             runner: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
-            bundles: deb,appimage
+            bundles: deb,rpm,appimage
             ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
 
     steps:
@@ -142,6 +142,7 @@ jobs:
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/nsis/*.exe
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/msi/*.msi
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/deb/*.deb
+            src-tauri/target/${{ matrix.platform.target }}/release/bundle/rpm/*.rpm
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/appimage/*.AppImage
           if-no-files-found: error
           compression-level: 0
