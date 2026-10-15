@@ -35,13 +35,16 @@ type Props = {
 
 export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ left: number; top: number; maxH: number } | null>(null);
+  // Above the subtitle the popup is pinned by its bottom edge, below it by its
+  // top edge, so content that arrives later (the AI explanation) grows away
+  // from the subtitle and scrolls once it reaches the screen edge.
+  const [pos, setPos] = useState<{ left: number; top?: number; bottom?: number; maxH: number } | null>(null);
   const terms = result.terms.slice(0, MAX_TERMS);
   const { settings } = useSettings();
   const aiInput = useMemo<AiExplainInput | null>(() => {
     const first = terms[0];
-    return first ? { target: first.headword, sentence: mining.sentence } : null;
-  }, [terms, mining.sentence]);
+    return first ? { target: result.word || first.headword, sentence: mining.sentence } : null;
+  }, [terms, result.word, mining.sentence]);
   const aiOn = settings.subLookupAiEnabled;
   const aiProblem = aiOn ? aiExplainProblem(settings) : null;
   const ai = useAiExplanation(aiOn && !aiProblem ? aiInput : null, settings.subLookupAiAuto);
@@ -51,21 +54,24 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
   );
 
   useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const w = el.offsetWidth;
-    const gap = 10;
-    const above = anchor.top - gap;
-    const below = vh - anchor.bottom - gap;
-    const placeAbove = above >= Math.min(320, below) || above > below;
-    const maxH = Math.max(160, Math.min(vh * 0.62, (placeAbove ? above : below) - 12));
-    const h = Math.min(el.scrollHeight, maxH);
-    const left = Math.max(12, Math.min(vw - w - 12, anchor.left + anchor.width / 2 - w / 2));
-    const top = placeAbove ? Math.max(12, anchor.top - gap - h) : anchor.bottom + gap;
-    setPos({ left, top, maxH });
-  }, [anchor, result, ai.state]);
+    const place = () => {
+      const el = ref.current;
+      if (!el) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const w = el.offsetWidth;
+      const gap = 10;
+      const above = anchor.top - gap;
+      const below = vh - anchor.bottom - gap;
+      const placeAbove = above >= Math.min(320, below) || above > below;
+      const maxH = Math.max(160, Math.min(vh * 0.62, (placeAbove ? above : below) - 12));
+      const left = Math.max(12, Math.min(vw - w - 12, anchor.left + anchor.width / 2 - w / 2));
+      setPos(placeAbove ? { left, bottom: vh - anchor.top + gap, maxH } : { left, top: anchor.bottom + gap, maxH });
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [anchor, result]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -95,7 +101,8 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
       className="hb-lookup-popup pointer-events-auto fixed select-text z-[95] w-[min(460px,calc(100vw-24px))] overflow-y-auto overscroll-contain rounded-2xl border border-edge-soft bg-elevated/95 text-ink shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-md"
       style={{
         left: pos?.left ?? -9999,
-        top: pos?.top ?? -9999,
+        top: pos ? pos.top : -9999,
+        bottom: pos?.bottom,
         maxHeight: pos?.maxH ?? "60vh",
         visibility: pos ? "visible" : "hidden",
       }}

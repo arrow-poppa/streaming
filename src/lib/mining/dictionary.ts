@@ -25,7 +25,13 @@ export type DictTerm = {
   synthetic?: boolean;
 };
 
-export type DictLookupResult = { terms: DictTerm[]; kanji: unknown[] };
+export type DictLookupResult = {
+  terms: DictTerm[];
+  kanji: unknown[];
+  // Set when a hyphenated word is missing from the dictionaries and `terms`
+  // hold its parts' entries: the whole word, as written.
+  word?: string;
+};
 
 export type DictionaryInfo = { id: number; name: string; priority: number; enabled: boolean };
 

@@ -77,7 +77,7 @@ pub fn clip_clause(text: &str) -> &str {
         let stop = match c {
             ',' | ';' | ':' | '!' | '?' | '¡' | '¿' | '…' | '"' | '“' | '”' | '„' | '«' | '»' | '‹' | '›'
             | '(' | ')' | '[' | ']' | '{' | '}' | '—' | '–' | '\n' | '\r' | '\t' | '/' | '♪' => true,
-            '.' => it.peek().map_or(true, |(_, n)| n.is_whitespace()),
+            '.' => it.peek().is_none_or(|(_, n)| n.is_whitespace()),
             _ => false,
         };
         if stop {
@@ -120,7 +120,7 @@ fn rewrite(text: &str, mut f: impl FnMut(char, &mut String)) -> Variant {
                 *map.last_mut().unwrap() = i + 1;
             }
         } else {
-            map.extend(std::iter::repeat(i + 1).take(added));
+            map.extend(std::iter::repeat_n(i + 1, added));
         }
     }
     Variant { text: out, map }
@@ -191,20 +191,77 @@ pub fn variants(text: &str) -> (Vec<Variant>, Option<Variant>) {
     (list, fallback)
 }
 
+const HYPHENS: [char; 3] = ['-', '\u{2010}', '\u{2011}'];
+
+/// A letter, or a hyphen or apostrophe joining two letters: "game-winning",
+/// "I'd" and "don’t" are each one word.
+fn is_token_char(chars: &[char], i: usize) -> bool {
+    let Some(&c) = chars.get(i) else { return false };
+    if is_word_char(c) {
+        return true;
+    }
+    (HYPHENS.contains(&c) || APOSTROPHES.contains(&c))
+        && i > 0
+        && chars.get(i + 1).is_some_and(|n| is_word_char(*n))
+        && is_word_char(chars[i - 1])
+}
+
+/// Length of the word at the start of `chars`, hyphenated parts included.
+pub fn token_len(chars: &[char]) -> usize {
+    (0..chars.len()).take_while(|&i| is_token_char(chars, i)).count()
+}
+
 /// True when a match of `len` chars from the start of `chars` ends at a word
-/// boundary: not between two letters and not on whitespace.
+/// boundary: not inside a word (hyphenated words count as one) and not on
+/// whitespace.
 pub fn ends_on_boundary(chars: &[char], len: usize) -> bool {
     if len == 0 || len > chars.len() {
         return false;
     }
-    let last = chars[len - 1];
-    if last.is_whitespace() {
+    if chars[len - 1].is_whitespace() {
         return false;
     }
-    match chars.get(len) {
-        None => true,
-        Some(&next) => !(is_word_char(last) && is_word_char(next)),
+    len == chars.len() || !(is_token_char(chars, len - 1) && is_token_char(chars, len))
+}
+
+/// Splits a joined word into dictionary-sized parts: hyphens are dropped,
+/// apostrophes start a clitic ("I'd" → "I", "'d"; "John's" → "John", "'s")
+/// and "n't" stays whole ("didn't" → "did", "n't"). Apostrophes become ASCII,
+/// as dictionaries write them.
+pub fn word_parts(chars: &[char]) -> Vec<String> {
+    let mut parts: Vec<String> = vec![String::new()];
+    for (i, &c) in chars.iter().enumerate() {
+        if HYPHENS.contains(&c) {
+            parts.push(String::new());
+        } else if APOSTROPHES.contains(&c) {
+            let prev = parts.last_mut().unwrap();
+            let negation = prev.len() > 1
+                && prev.ends_with(['n', 'N'])
+                && chars.get(i + 1).is_some_and(|n| *n == 't' || *n == 'T')
+                && chars.get(i + 2).is_none_or(|n| !is_word_char(*n));
+            if negation {
+                let n = prev.pop().unwrap();
+                parts.push(format!("{}'", n));
+            } else {
+                parts.push("'".into());
+            }
+        } else {
+            parts.last_mut().unwrap().push(c);
+        }
     }
+    parts.retain(|p| !p.is_empty() && p != "'");
+    parts
+}
+
+/// Same word ignoring case and apostrophe style.
+fn same_word(a: &str, b: &str) -> bool {
+    let norm = |s: &str| -> String {
+        s.chars()
+            .map(|c| if APOSTROPHES.contains(&c) { '\'' } else { c })
+            .flat_map(char::to_lowercase)
+            .collect()
+    };
+    norm(a) == norm(b)
 }
 
 fn take_terms(res: &mut Value) -> Vec<Value> {
@@ -267,7 +324,7 @@ where
             collect(&mut res, variant, variants.len(), &mut hits, &mut partial);
         }
     }
-    if chars.first().is_some_and(|c| is_word_char(*c)) && !chars.get(1).is_some_and(|c| is_word_char(*c)) {
+    if token_len(&chars) == 1 {
         let word = chars[0].to_string();
         let lower = word.to_lowercase();
         let mut texts = vec![word.clone()];
@@ -280,6 +337,38 @@ where
                 term["matchLen"] = Value::from(1);
                 hits.push((term, 1, 0));
             }
+        }
+    }
+    // A hyphenated word or contraction the dictionaries lack ("game-winning",
+    // "I'd"): keep it whole for the highlight and the AI, and show the
+    // entries of its parts.
+    let token = token_len(&chars);
+    let mut whole_word: Option<String> = None;
+    let text: String = chars[..token].iter().collect();
+    let joined = chars[..token].iter().any(|c| HYPHENS.contains(c) || APOSTROPHES.contains(c));
+    // Also when the engine only found a deinflected form ("I'd" → "I"), as
+    // long as no longer expression ("I'd rather") matched.
+    let whole_found = hits
+        .iter()
+        .any(|(term, len, _)| *len > token || same_word(term.get("headword").and_then(Value::as_str).unwrap_or(""), &text));
+    if joined && !whole_found {
+        let parts = word_parts(&chars[..token]);
+        for (i, part) in parts.iter().enumerate() {
+            let part_len = part.chars().count();
+            let mut res = run(part.to_string(), part_len == 1).await?;
+            // Clitics ("'d", "n't") only match their own entries, not
+            // deinflected guesses.
+            let clitic = part.contains('\'');
+            for mut term in take_terms(&mut res) {
+                let exact = same_word(term.get("headword").and_then(Value::as_str).unwrap_or(""), part);
+                if term_match_len(&term) == part_len && (exact || !clitic) {
+                    term["matchLen"] = Value::from(token);
+                    hits.push((term, token, variants.len() + 1 + i));
+                }
+            }
+        }
+        if !hits.is_empty() {
+            whole_word = Some(text.clone());
         }
     }
     if hits.is_empty() && is_compounding_language(lang_id) {
@@ -299,6 +388,9 @@ where
 
     let mut out = first.unwrap_or_else(|| serde_json::json!({ "kanji": [] }));
     out["terms"] = Value::Array(terms);
+    if let Some(word) = whole_word {
+        out["word"] = Value::String(word);
+    }
     Ok(out)
 }
 
@@ -325,11 +417,45 @@ mod tests {
         assert!(ends_on_boundary(&c, 12));
         let c: Vec<char> = "don’t go".chars().collect();
         assert!(ends_on_boundary(&c, 5));
-        assert!(ends_on_boundary(&c, 4));
-        assert!(!ends_on_boundary(&c, 2));
-        let c: Vec<char> = "well-known".chars().collect();
-        assert!(ends_on_boundary(&c, 4));
+        assert!(!ends_on_boundary(&c, 4));
+        assert!(!ends_on_boundary(&c, 3));
+        let c: Vec<char> = "well-known fact".chars().collect();
+        assert!(!ends_on_boundary(&c, 4));
+        assert!(!ends_on_boundary(&c, 5));
         assert!(ends_on_boundary(&c, 10));
+        assert_eq!(token_len(&c), 10);
+        let c: Vec<char> = "game-winning shot".chars().collect();
+        assert!(!ends_on_boundary(&c, 4));
+        assert!(ends_on_boundary(&c, 12));
+        assert_eq!(token_len(&c), 12);
+        // A dash between words, or at the end, is not part of a word.
+        let c: Vec<char> = "stop - go".chars().collect();
+        assert_eq!(token_len(&c), 4);
+        let c: Vec<char> = "re- do".chars().collect();
+        assert_eq!(token_len(&c), 2);
+        // Contractions are one word.
+        let c: Vec<char> = "I'd go".chars().collect();
+        assert_eq!(token_len(&c), 3);
+        assert!(!ends_on_boundary(&c, 1));
+        let c: Vec<char> = "don’t go".chars().collect();
+        assert_eq!(token_len(&c), 5);
+        assert!(!ends_on_boundary(&c, 3));
+        // A quote is not an apostrophe.
+        let c: Vec<char> = "'hello' world".chars().collect();
+        assert_eq!(token_len(&c), 0);
+        let c: Vec<char> = "hello' world".chars().collect();
+        assert_eq!(token_len(&c), 5);
+    }
+
+    #[test]
+    fn splits_joined_words() {
+        let parts = |s: &str| word_parts(&s.chars().collect::<Vec<_>>());
+        assert_eq!(parts("I'd"), ["I", "'d"]);
+        assert_eq!(parts("I’ll"), ["I", "'ll"]);
+        assert_eq!(parts("John's"), ["John", "'s"]);
+        assert_eq!(parts("didn't"), ["did", "n't"]);
+        assert_eq!(parts("DON’T"), ["DO", "N'T"]);
+        assert_eq!(parts("game-winning"), ["game", "winning"]);
     }
 
     #[test]
