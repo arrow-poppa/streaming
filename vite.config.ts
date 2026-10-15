@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import pkg from "./package.json" with { type: "json" };
+import tauriConfig from "./src-tauri/tauri.conf.json" with { type: "json" };
 
 declare const process: { env: Record<string, string | undefined> };
 
@@ -10,6 +11,7 @@ export default defineConfig({
   clearScreen: false,
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
+    __APP_UPDATES_CONFIGURED__: JSON.stringify(tauriConfig.plugins.updater.endpoints.length > 0),
     __IS_BETA_BUILD__: JSON.stringify(process.env.HARBOR_CHANNEL !== "stable"),
   },
   server: {

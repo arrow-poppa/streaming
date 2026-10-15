@@ -5,6 +5,7 @@ import { isMobileTauri } from "@/lib/platform";
 // Updates on iOS/Android ship through the store/sideload flow, not the updater plugin.
 const IS_TAURI =
   typeof window !== "undefined" && "__TAURI_INTERNALS__" in window && !isMobileTauri();
+export const APP_UPDATES_CONFIGURED = __APP_UPDATES_CONFIGURED__;
 const DISMISS_KEY = "harbor.update.dismissed";
 const CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
 
@@ -103,7 +104,7 @@ function betaChannel(): boolean {
 }
 
 export async function checkForUpdate(manual = false): Promise<void> {
-  if (!IS_TAURI) return;
+  if (!APP_UPDATES_CONFIGURED || !IS_TAURI) return;
   if (state.status === "checking" || state.status === "downloading" || state.status === "installing") {
     return;
   }
@@ -129,7 +130,7 @@ export async function checkForUpdate(manual = false): Promise<void> {
 }
 
 export async function downloadUpdate(): Promise<void> {
-  if (!handle || state.status === "downloading" || state.status === "installing") return;
+  if (!APP_UPDATES_CONFIGURED || !handle || state.status === "downloading" || state.status === "installing") return;
   set({ status: "downloading", progress: 0, downloadedBytes: 0, totalBytes: 0, error: null });
   try {
     let total = 0;
@@ -152,7 +153,7 @@ export async function downloadUpdate(): Promise<void> {
 }
 
 export async function installUpdate(): Promise<void> {
-  if (!handle) return;
+  if (!APP_UPDATES_CONFIGURED || !handle) return;
   set({ status: "installing", error: null });
   try {
     try {
@@ -172,6 +173,7 @@ export async function installUpdate(): Promise<void> {
 }
 
 export function openUpdatePanel(): void {
+  if (!APP_UPDATES_CONFIGURED) return;
   set({ panelOpen: true });
 }
 
@@ -209,7 +211,7 @@ export function clearStagedUpdate(): void {
 
 let started = false;
 export function startUpdateWatcher(): void {
-  if (started || !IS_TAURI) return;
+  if (started || !APP_UPDATES_CONFIGURED || !IS_TAURI) return;
   started = true;
   void checkForUpdate(false);
   window.setInterval(() => void checkForUpdate(false), CHECK_INTERVAL_MS);

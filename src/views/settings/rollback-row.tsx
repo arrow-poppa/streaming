@@ -2,7 +2,7 @@ import { History, RotateCw } from "lucide-react";
 import { BetaTag } from "@/components/beta-tag";
 import { useT } from "@/lib/i18n";
 import { useSettings } from "@/lib/settings";
-import { currentVersion, type VersionEntry } from "@/lib/updater/versions";
+import { currentVersion, VERSION_HISTORY_CONFIGURED, type VersionEntry } from "@/lib/updater/versions";
 import { openUrl } from "@/lib/window";
 import { useVersionHistory } from "./rollback-row/use-version-history";
 import { VersionItem } from "./rollback-row/version-item";
@@ -12,7 +12,7 @@ const RELEASES_URL = "https://github.com/harborstremio/harbor/releases";
 export function RollbackRow() {
   const t = useT();
   const { settings } = useSettings();
-  const { state, reload } = useVersionHistory(settings.betaUpdates);
+  const { state, reload } = useVersionHistory(settings.betaUpdates && VERSION_HISTORY_CONFIGURED);
 
   if (!settings.betaUpdates) return null;
 
@@ -36,7 +36,9 @@ export function RollbackRow() {
       </div>
 
       <div className="overflow-hidden rounded-lg border border-edge-soft/70 bg-canvas/50">
-        {state.status === "loading" ? (
+        {!VERSION_HISTORY_CONFIGURED ? (
+          <p className="px-3.5 py-4 text-[12px] text-ink-subtle">{t("No version history server configured.")}</p>
+        ) : state.status === "loading" ? (
           <HistorySkeleton />
         ) : state.status === "error" ? (
           <HistoryError onRetry={reload} />
@@ -97,7 +99,7 @@ function HistoryError({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="flex flex-col items-start gap-2.5 px-3.5 py-4">
       <p className="text-[12px] leading-relaxed text-ink-subtle">
-        {t("Couldn't reach harbor.site to load earlier builds. Check your connection and try again.")}
+        {t("Couldn't reach the configured server to load earlier builds. Check your connection and try again.")}
       </p>
       <div className="flex items-center gap-3">
         <button

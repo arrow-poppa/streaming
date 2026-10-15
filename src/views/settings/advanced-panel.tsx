@@ -18,6 +18,7 @@ import { clearResurfaceCache } from "@/lib/cw-resurface";
 import type { LibraryItem } from "@/lib/stremio";
 import { openUrl } from "@/lib/window";
 import {
+  APP_UPDATES_CONFIGURED,
   checkForUpdate,
   clearStagedUpdate,
   openUpdatePanel,
@@ -54,7 +55,9 @@ export function AdvancedPanel() {
       {isDesktopShell && (
         <Section
           title={t("Updates")}
-          subtitle={t("Harbor checks harbor.site for new versions and installs them in place. Nothing installs until you choose to, and a dismissed update never nags you again.")}
+          subtitle={APP_UPDATES_CONFIGURED
+            ? t("Check for new versions from the configured update server.")
+            : t("No update server is configured. Updates will remain off until a new link is added.")}
         >
           <div className="flex flex-col gap-2.5">
             <UpdatesRow />
@@ -317,6 +320,7 @@ function BetaChannelRow() {
         type="button"
         role="switch"
         aria-checked={on}
+        disabled={!APP_UPDATES_CONFIGURED}
         onClick={() => {
           if (on) clearStagedUpdate();
           update({ betaUpdates: !on });
@@ -392,8 +396,10 @@ function UpdatesRow() {
   const ready = updateAvailable(u);
   const busy = u.status === "checking";
   const status =
-    u.status === "checking"
-      ? t("Checking harbor.site for a newer build.")
+    !APP_UPDATES_CONFIGURED
+      ? t("No update server configured.")
+      : u.status === "checking"
+      ? t("Checking the configured update server for a newer build.")
       : u.status === "downloading"
         ? t("Downloading {pct}%", { pct: Math.round(u.progress * 100) })
         : u.status === "downloaded"
@@ -433,7 +439,7 @@ function UpdatesRow() {
       ) : (
         <button
           onClick={() => void checkForUpdate(true)}
-          disabled={busy}
+          disabled={busy || !APP_UPDATES_CONFIGURED}
           className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-edge px-3.5 text-[13px] font-medium text-ink transition-colors hover:bg-raised disabled:opacity-60"
         >
           {busy ? <Loader2 size={15} className="animate-spin" /> : <RotateCw size={15} strokeWidth={2.2} />}
