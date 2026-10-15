@@ -11,6 +11,10 @@
 //! - falls back to accent-folded text, and to compound heads for languages
 //!   that glue words together (German, Dutch, Nordic, Finnish, Hungarian).
 
+use std::collections::HashSet;
+use std::future::Future;
+
+use serde_json::Value;
 use unicode_normalization::char::{decompose_canonical, is_combining_mark};
 
 /// Languages whose words are separated by spaces and whose scripts the
@@ -201,6 +205,101 @@ pub fn ends_on_boundary(chars: &[char], len: usize) -> bool {
         None => true,
         Some(&next) => !(is_word_char(last) && is_word_char(next)),
     }
+}
+
+fn take_terms(res: &mut Value) -> Vec<Value> {
+    match res.get_mut("terms").map(Value::take) {
+        Some(Value::Array(terms)) => terms,
+        _ => Vec::new(),
+    }
+}
+
+fn term_match_len(term: &Value) -> usize {
+    term.get("matchLen").and_then(Value::as_u64).unwrap_or(0) as usize
+}
+
+fn term_key(term: &Value) -> (String, String) {
+    let field = |k: &str| term.get(k).and_then(Value::as_str).unwrap_or("").to_string();
+    (field("headword"), field("reading"))
+}
+
+/// Word-aware lookup of `tail` (the text from the cursor on). `run` looks
+/// up one text with the engine and returns its `{ terms, kanji }` response;
+/// with `exact` it matches the text as is, with no deinflection and no
+/// single-letter skip (the engine ignores one-letter words such as "é", "à"
+/// or "y" in normal lookups).
+pub async fn lookup_words<F, Fut>(tail: &str, lang_id: &str, run: F) -> Result<Value, String>
+where
+    F: Fn(String, bool) -> Fut,
+    Fut: Future<Output = Result<Value, String>>,
+{
+    let tail = clip_clause(tail);
+    let chars: Vec<char> = tail.chars().collect();
+    let (variants, fallback) = variants(tail);
+
+    let mut first: Option<Value> = None;
+    // (term, match length in original chars, pass order)
+    let mut hits: Vec<(Value, usize, usize)> = Vec::new();
+    let mut partial: Vec<(Value, usize, usize)> = Vec::new();
+    let collect = |res: &mut Value, variant: &Variant, pass: usize,
+                   hits: &mut Vec<(Value, usize, usize)>, partial: &mut Vec<(Value, usize, usize)>| {
+        for mut term in take_terms(res) {
+            let len = variant.original_len(term_match_len(&term));
+            term["matchLen"] = Value::from(len);
+            if ends_on_boundary(&chars, len) {
+                hits.push((term, len, pass));
+            } else if len > 1 {
+                partial.push((term, len, pass));
+            }
+        }
+    };
+
+    for (pass, variant) in variants.iter().enumerate() {
+        let mut res = run(variant.text.clone(), false).await?;
+        collect(&mut res, variant, pass, &mut hits, &mut partial);
+        if first.is_none() {
+            first = Some(res);
+        }
+    }
+    if hits.is_empty() {
+        if let Some(variant) = &fallback {
+            let mut res = run(variant.text.clone(), false).await?;
+            collect(&mut res, variant, variants.len(), &mut hits, &mut partial);
+        }
+    }
+    if chars.first().is_some_and(|c| is_word_char(*c)) && !chars.get(1).is_some_and(|c| is_word_char(*c)) {
+        let word = chars[0].to_string();
+        let lower = word.to_lowercase();
+        let mut texts = vec![word.clone()];
+        if lower != word {
+            texts.push(lower);
+        }
+        for text in texts {
+            let mut res = run(text, true).await?;
+            for mut term in take_terms(&mut res) {
+                term["matchLen"] = Value::from(1);
+                hits.push((term, 1, 0));
+            }
+        }
+    }
+    if hits.is_empty() && is_compounding_language(lang_id) {
+        // An unknown compound: show the dictionary words it starts with.
+        hits = partial;
+    }
+
+    // Longest match first; at equal length the more faithful pass wins, and
+    // the engine's own order (priority, frequency) is kept within a pass.
+    hits.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)));
+    let mut seen = HashSet::new();
+    let terms: Vec<Value> = hits
+        .into_iter()
+        .filter(|(term, _, _)| seen.insert(term_key(term)))
+        .map(|(term, _, _)| term)
+        .collect();
+
+    let mut out = first.unwrap_or_else(|| serde_json::json!({ "kanji": [] }));
+    out["terms"] = Value::Array(terms);
+    Ok(out)
 }
 
 #[cfg(test)]

@@ -75,78 +75,6 @@ async fn run_lookup(st: &ServerState, text: String, index: usize, language: Opti
     }
 }
 
-fn take_terms(res: &mut Value) -> Vec<Value> {
-    match res.get_mut("terms").map(Value::take) {
-        Some(Value::Array(terms)) => terms,
-        _ => Vec::new(),
-    }
-}
-
-fn term_match_len(term: &Value) -> usize {
-    term.get("matchLen").and_then(Value::as_u64).unwrap_or(0) as usize
-}
-
-fn term_key(term: &Value) -> (String, String) {
-    let field = |k: &str| term.get(k).and_then(Value::as_str).unwrap_or("").to_string();
-    (field("headword"), field("reading"))
-}
-
-/// Word-aware lookup for space-delimited languages (see `dictionary_scan`).
-async fn lookup_words(st: &ServerState, text: &str, byte_index: usize, lang_id: &str, language: DictionaryLanguage) -> Result<Value, String> {
-    let tail = dictionary_scan::clip_clause(&text[byte_index..]);
-    let chars: Vec<char> = tail.chars().collect();
-    let (variants, fallback) = dictionary_scan::variants(tail);
-
-    let mut first: Option<Value> = None;
-    // (term, match length in original chars, pass order)
-    let mut hits: Vec<(Value, usize, usize)> = Vec::new();
-    let mut partial: Vec<(Value, usize, usize)> = Vec::new();
-    let collect = |res: &mut Value, variant: &dictionary_scan::Variant, pass: usize,
-                       hits: &mut Vec<(Value, usize, usize)>, partial: &mut Vec<(Value, usize, usize)>| {
-        for mut term in take_terms(res) {
-            let len = variant.original_len(term_match_len(&term));
-            term["matchLen"] = Value::from(len);
-            if dictionary_scan::ends_on_boundary(&chars, len) {
-                hits.push((term, len, pass));
-            } else if len > 1 {
-                partial.push((term, len, pass));
-            }
-        }
-    };
-
-    for (pass, variant) in variants.iter().enumerate() {
-        let mut res = run_lookup(st, variant.text.clone(), 0, Some(language)).await?;
-        collect(&mut res, variant, pass, &mut hits, &mut partial);
-        if first.is_none() {
-            first = Some(res);
-        }
-    }
-    if hits.is_empty() {
-        if let Some(variant) = &fallback {
-            let mut res = run_lookup(st, variant.text.clone(), 0, Some(language)).await?;
-            collect(&mut res, variant, variants.len(), &mut hits, &mut partial);
-        }
-    }
-    if hits.is_empty() && dictionary_scan::is_compounding_language(lang_id) {
-        // An unknown compound: show the dictionary words it starts with.
-        hits = partial;
-    }
-
-    // Longest match first; at equal length the more faithful pass wins, and
-    // the engine's own order (priority, frequency) is kept within a pass.
-    hits.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)));
-    let mut seen = std::collections::HashSet::new();
-    let terms: Vec<Value> = hits
-        .into_iter()
-        .filter(|(term, _, _)| seen.insert(term_key(term)))
-        .map(|(term, _, _)| term)
-        .collect();
-
-    let mut out = first.unwrap_or_else(|| serde_json::json!({ "kanji": [] }));
-    out["terms"] = Value::Array(terms);
-    Ok(out)
-}
-
 /// Looks up the text starting at `index` (a UTF-16 offset, as JS strings count).
 /// Returns Manatan's grouped lookup response: `{ terms: [...], kanji: [...] }`,
 /// where each term's `matchLen` is counted in Unicode scalar values.
@@ -163,7 +91,14 @@ pub async fn dict_lookup(
     let parsed = parse_language(language);
     match parsed {
         Some(lang) if dictionary_scan::is_word_language(&lang_id) => {
-            lookup_words(&st, &text, byte_index, &lang_id, lang).await
+            let tail = &text[byte_index..];
+            dictionary_scan::lookup_words(tail, &lang_id, |t, exact| {
+                // Hebrew has no deinflection rules and no single-letter skip
+                // in the engine, so it gives a plain exact match.
+                let l = if exact { DictionaryLanguage::Hebrew } else { lang };
+                run_lookup(&st, t, 0, Some(l))
+            })
+            .await
         }
         _ => run_lookup(&st, text, byte_index, parsed).await,
     }

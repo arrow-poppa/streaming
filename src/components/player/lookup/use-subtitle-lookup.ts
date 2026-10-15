@@ -17,14 +17,30 @@ const WORD_CHAR = /[\p{L}\p{M}\p{N}'’-]/u;
 
 const NO_SPACE_CHAR = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}]/u;
 
+// Elided articles and prepositions glued to the next word with an
+// apostrophe: "l’homme", "qu’il", "dell’arte". The lookup starts after them.
+const ELISIONS: Record<string, Set<string>> = {
+  french: new Set(["l", "d", "j", "m", "n", "s", "t", "c", "qu", "jusqu", "lorsqu", "puisqu", "quoiqu", "presqu"]),
+  italian: new Set(["l", "d", "un", "dell", "dall", "nell", "sull", "all", "coll", "quell", "bell", "sant", "quest", "nessun", "buon", "c", "m", "t", "s", "v", "n"]),
+};
+const APOSTROPHE = /['’‘ʼ]/;
+const LETTER = /[\p{L}\p{M}]/u;
+
 // Words in space-delimited scripts are looked up from their start, as Yomitan
 // does; otherwise hovering the "o" of "don't" finds "on". Japanese/Chinese
 // text keeps the exact hovered position. Decided per character, so it works
 // whatever the lookup language is set to.
-export function wordStartIndex(text: string, index: number): number {
+export function wordStartIndex(text: string, index: number, language = ""): number {
   if (NO_SPACE_CHAR.test(text[index] ?? "")) return index;
   let i = index;
   while (i > 0 && WORD_CHAR.test(text[i - 1]) && !NO_SPACE_CHAR.test(text[i - 1])) i--;
+  const elisions = ELISIONS[language];
+  if (!elisions) return i;
+  let j = i;
+  while (j < text.length && LETTER.test(text[j])) j++;
+  if (j > i && APOSTROPHE.test(text[j] ?? "") && LETTER.test(text[j + 1] ?? "") && elisions.has(text.slice(i, j).toLowerCase())) {
+    return j + 1;
+  }
   return i;
 }
 
@@ -122,7 +138,7 @@ export function useSubtitleLookup({
   const runLookup = useCallback(
     (line: number, rawIndex: number) => {
       const text = lines[line] ?? "";
-      const index = wordStartIndex(text, rawIndex);
+      const index = wordStartIndex(text, rawIndex, language);
       const key = `${line}:${index}:${text}`;
       if (key === lastKey.current) return;
       lastKey.current = key;
