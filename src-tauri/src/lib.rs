@@ -35,6 +35,8 @@ mod discord_rp;
 #[cfg(desktop)]
 mod dictionary;
 #[cfg(desktop)]
+mod dictionary_scan;
+#[cfg(desktop)]
 mod dvr;
 #[cfg(desktop)]
 mod fonts;

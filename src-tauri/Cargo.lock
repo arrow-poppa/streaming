@@ -2223,6 +2223,7 @@ dependencies = [
  "tauri-plugin-window-state",
  "tokio",
  "tokio-util",
+ "unicode-normalization",
  "url",
  "uuid 1.23.1",
  "walkdir",
