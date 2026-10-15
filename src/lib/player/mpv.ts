@@ -114,6 +114,8 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
   let mpvStarted = false;
   let suppressEndFileUntil = 0;
   let svpFilterFailed = false;
+  let audioStereoRetried = false;
+  let lastAudioId: string | null = null;
   const urlByExternalFilename = new Map<string, string>();
 
   const handleSvpFilterFailure = () => {
@@ -124,6 +126,20 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("harbor:svp-failed"));
     }
+  };
+
+  // Some Windows audio drivers (e.g. Realtek with broken enhancement APOs)
+  // reject a 5.1 shared-mode format outright, and mpv then drops the audio
+  // track. Retry once with a stereo downmix and reselect the same track.
+  const retryAudioInStereo = () => {
+    if (audioStereoRetried) return;
+    audioStereoRetried = true;
+    const aid = lastAudioId ?? "auto";
+    (async () => {
+      await invoke("mpv_set_property", { name: "audio-channels", value: "stereo" });
+      await invoke("mpv_set_property", { name: "aid", value: "no" });
+      await invoke("mpv_set_property", { name: "aid", value: Number(aid) || aid });
+    })().catch(() => {});
   };
 
   const emit = () => {
@@ -141,6 +157,9 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
         (prefix.includes("vapoursynth") && (level === "fatal" || level === "error"))
       ) {
         handleSvpFilterFailure();
+      }
+      if (text.includes("Could not open/initialize audio device")) {
+        retryAudioInStereo();
       }
       return;
     }
@@ -176,6 +195,7 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
           const isDefault = t.default === true;
           const hearingImpaired = t["hearing-impaired"] === true;
           const selected = t.selected === true;
+          if (type === "audio" && selected) lastAudioId = id;
           const codec = codecDesc ? codecDesc.toUpperCase() : undefined;
           const baseLabel = title || lang || `${type} ${id}`;
           const tags: string[] = [];
