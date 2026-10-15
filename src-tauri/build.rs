@@ -18,6 +18,13 @@ fn main() {
         if !libmpv.join("libmpv-2.dll").exists() {
             println!("cargo:warning=libmpv-2.dll not found in src-tauri/libmpv. Run `pnpm run setup:libmpv` to fetch it (needed to run and bundle Harbor on Windows).");
         }
+        // Threads that libmpv and FFmpeg create without a stack size get the
+        // exe's default reserve, which MSVC sets to 1 MiB. Decoding 4K HEVC
+        // with Dolby Vision overflowed it (0xc00000fd). Reserve 8 MiB like a
+        // typical Linux thread; pages are only committed when used.
+        if std::env::var("CARGO_CFG_TARGET_ENV").as_deref() == Ok("msvc") {
+            println!("cargo:rustc-link-arg-bins=/STACK:8388608");
+        }
     }
 
     if target_os == "macos" {
