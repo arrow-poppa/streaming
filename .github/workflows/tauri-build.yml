@@ -290,9 +290,23 @@ jobs:
           tauriScript: pnpm tauri
           args: --target ${{ matrix.platform.target }} ${{ steps.sign.outputs.config }} ${{ steps.macos-libraries.outputs.config }}
 
+      # deb/rpm depend on the distro's ffmpeg, yt-dlp and mpv (no bundled
+      # copies to clash with them). The AppImage must run anywhere, so it is
+      # bundled separately with its own ffmpeg, ffprobe and yt-dlp.
       - name: Build Linux system packages
         if: contains(matrix.platform.runner, 'ubuntu')
-        run: pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles ${{ inputs.linux_bundles || (startsWith(github.ref, 'refs/heads/') && 'deb,rpm,appimage') || 'deb,appimage' }}
+        shell: bash
+        env:
+          BUNDLES: ${{ inputs.linux_bundles || (startsWith(github.ref, 'refs/heads/') && 'deb,rpm,appimage') || 'deb,appimage' }}
+        run: |
+          set -euo pipefail
+          system="$(tr ',' '\n' <<<"$BUNDLES" | grep -v '^appimage$' | paste -sd, - || true)"
+          if [ -n "$system" ]; then
+            pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles "$system"
+          fi
+          if tr ',' '\n' <<<"$BUNDLES" | grep -qx appimage; then
+            pnpm tauri build --target ${{ matrix.platform.target }} --bundles appimage
+          fi
 
       - name: Build verified Windows managed installer
         if: matrix.platform.target == 'x86_64-pc-windows-msvc'

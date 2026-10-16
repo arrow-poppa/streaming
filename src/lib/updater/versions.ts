@@ -16,6 +16,8 @@ export type VersionEntry = {
 export const currentVersion = __APP_VERSION__;
 
 export async function fetchVersionHistory(): Promise<VersionEntry[]> {
+  // Rollback offers upstream builds; this fork has no update server of its own.
+  if (!__APP_UPDATES_CONFIGURED__) return [];
   const res = await safeFetch(INDEX_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`history ${res.status}`);
   const data = (await res.json()) as { versions?: VersionEntry[] };

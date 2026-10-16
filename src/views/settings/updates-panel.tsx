@@ -25,9 +25,13 @@ export function UpdatesPanel() {
       {supportsInAppUpdates && (
         <Section
           title={t("Updates")}
-          subtitle={t(
-            "Harbor checks harbor.site for new versions and installs them in place. Nothing installs until you choose to, and a dismissed update never nags you again.",
-          )}
+          subtitle={
+            __APP_UPDATES_CONFIGURED__
+              ? t(
+                  "Harbor checks harbor.site for new versions and installs them in place. Nothing installs until you choose to, and a dismissed update never nags you again.",
+                )
+              : t("No update server is configured. Updates stay off until a new link is added.")
+          }
         >
           <UpdatesRow />
           <BetaChannelRow />
