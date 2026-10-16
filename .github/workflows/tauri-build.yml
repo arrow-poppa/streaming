@@ -305,7 +305,10 @@ jobs:
             pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles "$system"
           fi
           if tr ',' '\n' <<<"$BUNDLES" | grep -qx appimage; then
-            pnpm tauri build --target ${{ matrix.platform.target }} --bundles appimage
+            pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles appimage
+            for image in src-tauri/target/${{ matrix.platform.target }}/release/bundle/appimage/*.AppImage; do
+              bash scripts/appimage-add-sidecars.sh "$image" ${{ matrix.platform.target }}
+            done
           fi
 
       - name: Build verified Windows managed installer
