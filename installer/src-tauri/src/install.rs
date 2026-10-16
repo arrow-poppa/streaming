@@ -1095,22 +1095,12 @@ p{{margin:0 0 1em}}\
     Ok(path.to_string_lossy().to_string())
 }
 
-#[cfg(feature = "payload")]
-const CHANGELOG_URL: &str = "https://harbor.site/updates/versions-beta.json";
-
+// This fork has no update server: the installer shows no upstream changelog
+// and makes no request to harbor.site.
 #[cfg(feature = "payload")]
 #[tauri::command]
 pub async fn fetch_changelog() -> Result<String, String> {
-    tauri::async_runtime::spawn_blocking(|| {
-        ureq::get(CHANGELOG_URL)
-            .timeout(std::time::Duration::from_secs(8))
-            .call()
-            .map_err(|e| e.to_string())?
-            .into_string()
-            .map_err(|e| e.to_string())
-    })
-    .await
-    .map_err(|e| e.to_string())?
+    Ok(r#"{"versions":[]}"#.to_string())
 }
 
 #[cfg(windows)]

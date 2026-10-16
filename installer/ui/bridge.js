@@ -99,15 +99,8 @@ export async function openExternal(url) {
 }
 
 export async function fetchChangelog() {
-  if (!isNative()) {
-    const res = await fetch("https://harbor.site/updates/versions-beta.json", {
-      cache: "no-store",
-    });
-    if (!res.ok) throw new Error("changelog " + res.status);
-    return await res.json();
-  }
-  const raw = await T.core.invoke("fetch_changelog");
-  return JSON.parse(raw);
+  // This fork has no update server, so there is no changelog to fetch.
+  return { versions: [] };
 }
 
 export async function pickFolder(current) {
