@@ -386,14 +386,18 @@ async function withoutSources() {
       "Put the layer in this checkout, or set HARBOR_CAPSTAN_OPTIONAL=1 to build deliberately without it.",
     );
   }
+  stageWithoutLayer("this checkout has no compat layer");
+}
+
+function stageWithoutLayer(reason) {
   // tauri.conf.json names resources/capstan/ unconditionally. The bundler skips an empty
   // directory and cannot resolve a missing one.
   rmSync(dest, { recursive: true, force: true });
   mkdirSync(dest, { recursive: true });
   keepStageMarker();
   warn(
-    "BUILDING WITHOUT EXTENSION SUPPORT. HARBOR_CAPSTAN_OPTIONAL is set and this checkout has no",
-    "compat layer, so nothing is staged and installed extensions will not run in this build.",
+    `BUILDING WITHOUT EXTENSION SUPPORT. HARBOR_CAPSTAN_OPTIONAL is set and ${reason},`,
+    "so nothing is staged and installed extensions will not run in this build.",
   );
 }
 
@@ -437,7 +441,19 @@ async function main() {
     if (mode === "check") {
       die(`missing ${gaps.map(([label]) => label).join(" and ")} at ${src}`, "Run: pnpm run setup:capstan");
     }
-    fetchLayerDeps();
+    if (optional) {
+      // The jars come from release downloads that can disappear; an optional layer must not
+      // stop the build when they do.
+      try {
+        execFileSync("sh", ["tools/deps.sh"], { cwd: src, stdio: ["ignore", "inherit", "inherit"] });
+      } catch (error) {
+        warn(`tools/deps.sh failed: ${String(error.message).split("\n")[0]}`);
+        stageWithoutLayer("the layer's jars could not be fetched");
+        return;
+      }
+    } else {
+      fetchLayerDeps();
+    }
     for (const [label, path] of gaps) {
       if (!existsSync(path)) {
         die(
