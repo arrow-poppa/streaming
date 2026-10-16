@@ -26,6 +26,10 @@ on:
     tags:
       - "v*"
       - "V*"
+    # This fork builds Windows + Linux on every push to its working branch
+    # (manual dispatch needs the workflow on the default branch).
+    branches:
+      - claude/harbor-beta-dictionary
 
 permissions:
   contents: read
@@ -48,7 +52,7 @@ jobs:
       - id: plan
         shell: bash
         env:
-          PLATFORMS: ${{ inputs.platforms || 'all' }}
+          PLATFORMS: ${{ inputs.platforms || (startsWith(github.ref, 'refs/heads/') && 'windows-linux') || 'all' }}
         run: |
           windows='{"name":"Windows","runner":"windows-latest","target":"x86_64-pc-windows-msvc","bundle":"msi"}'
           mac_arm='{"name":"macOS-AppleSilicon","runner":"macos-15","target":"aarch64-apple-darwin","bundle":"dmg"}'
@@ -288,7 +292,7 @@ jobs:
 
       - name: Build Linux system packages
         if: contains(matrix.platform.runner, 'ubuntu')
-        run: pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles ${{ inputs.linux_bundles || 'deb,appimage' }}
+        run: pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles ${{ inputs.linux_bundles || (startsWith(github.ref, 'refs/heads/') && 'deb,rpm,appimage') || 'deb,appimage' }}
 
       - name: Build verified Windows managed installer
         if: matrix.platform.target == 'x86_64-pc-windows-msvc'
