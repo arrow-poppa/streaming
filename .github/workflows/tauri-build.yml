@@ -304,11 +304,15 @@ jobs:
           if [ -n "$system" ]; then
             pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles "$system"
           fi
+          # A failed AppImage must not cost the deb/rpm upload or the build cache.
           if tr ',' '\n' <<<"$BUNDLES" | grep -qx appimage; then
-            pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles appimage
-            for image in src-tauri/target/${{ matrix.platform.target }}/release/bundle/appimage/*.AppImage; do
-              bash scripts/appimage-add-sidecars.sh "$image" ${{ matrix.platform.target }}
-            done
+            if pnpm tauri:build:linux-system --verbose --target ${{ matrix.platform.target }} --bundles appimage; then
+              for image in src-tauri/target/${{ matrix.platform.target }}/release/bundle/appimage/*.AppImage; do
+                bash scripts/appimage-add-sidecars.sh "$image" ${{ matrix.platform.target }}
+              done
+            else
+              echo "::error::AppImage bundling failed; see linuxdeploy output above"
+            fi
           fi
 
       - name: Build verified Windows managed installer
