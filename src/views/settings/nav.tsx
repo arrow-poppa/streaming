@@ -261,6 +261,15 @@ function IconShaders(p: IconProps) {
   );
 }
 
+function IconDictionary(p: IconProps) {
+  return (
+    <IconBase {...p}>
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5z" />
+      <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z" />
+    </IconBase>
+  );
+}
+
 function IconAnime(p: IconProps) {
   return (
     <IconBase {...p}>
@@ -916,6 +925,31 @@ const NAV_GROUPS: Array<{ heading: string | null; items: NavItem[] }> = [
           "subtitle size",
           "subtitle font",
           "subtitle color",
+        ],
+      },
+      {
+        id: "dictionary",
+        label: "Dictionary & Anki",
+        Icon: IconDictionary,
+        keywords: [
+          "dictionary",
+          "yomitan",
+          "lookup",
+          "look up",
+          "hover",
+          "mining",
+          "anki",
+          "ankiconnect",
+          "flashcards",
+          "jmdict",
+          "jitendex",
+          "forvo",
+          "word audio",
+          "local audio",
+          "language learning",
+          "immersion",
+          "manatan",
+          "ai explanation",
         ],
       },
     ],
@@ -6275,6 +6309,30 @@ const SETTINGS_OPTIONS: SettingsOption[] = [
     keywords: ["redownload shaders", "update anime4k", "refresh shader pack", "reinstall shaders"],
   },
   {
+    label: "Subtitle dictionary lookups",
+    section: "dictionary",
+    anchorTitle: "Subtitle dictionary",
+    keywords: ["dictionary", "yomitan", "lookup", "hover", "jmdict", "jitendex", "import dictionary", "scan key", "scan delay", "shift", "seek bar"],
+  },
+  {
+    label: "AI explanation",
+    section: "dictionary",
+    anchorTitle: "AI Explanation",
+    keywords: ["ai", "explain", "openrouter", "openai", "custom endpoint", "api key", "prompt", "unknown words"],
+  },
+  {
+    label: "Word audio (local audio)",
+    section: "dictionary",
+    anchorTitle: "Word audio",
+    keywords: ["forvo", "local audio", "android.db", "pronunciation", "nhk", "jpod"],
+  },
+  {
+    label: "Anki mining",
+    section: "dictionary",
+    anchorTitle: "Anki",
+    keywords: ["anki", "ankiconnect", "deck", "note type", "fields", "lapis", "jpmn", "kiku", "flashcards", "mining", "gif", "avif", "webp", "clip", "duplicate"],
+  },
+  {
     label: "Smooth motion",
     section: "anime",
     tab: "smooth",
@@ -11361,6 +11419,7 @@ export function SettingsNav({
           ? "lite"
           : "max",
     anime: settings.playerMotionInterp || settings.playerSvp ? "on" : null,
+    dictionary: settings.subLookupEnabled ? "on" : null,
     shaders:
       settings.playerAnime4k || Object.values(settings.playerShaders ?? {}).some((s) => s?.enabled)
         ? "on"

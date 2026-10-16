@@ -35,7 +35,7 @@ export const TOP_GROUPS: TopGroup[] = [
     section: "LANGUAGE",
     label: "Languages & subtitles",
     sub: "What language Harbor speaks, and how subtitles behave.",
-    children: ["language", "subtitles"],
+    children: ["language", "subtitles", "dictionary"],
   },
   {
     id: "content",

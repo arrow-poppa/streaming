@@ -19,6 +19,7 @@ export const SECTION_ICONS: Record<SectionId, string> = {
   player: "Play",
   mpv: "Gauge",
   anime: "Sparkles",
+  dictionary: "BookOpen",
   shaders: "Wand2",
   playerLayout: "LayoutDashboard",
   hotkeys: "Keyboard",

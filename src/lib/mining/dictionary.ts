@@ -1,9 +1,9 @@
 import { invoke } from "@tauri-apps/api/core";
-import { isMobileTauri, isWeb } from "@/lib/platform";
+import { isLinuxDesktop, isMacDesktop, isWeb, isWindowsDesktop } from "@/lib/platform";
 
 // The dictionary engine, local audio and Anki bridge exist in the desktop app only.
 export function miningAvailable(): boolean {
-  return !isWeb() && !isMobileTauri();
+  return !isWeb() && (isWindowsDesktop() || isLinuxDesktop() || isMacDesktop());
 }
 
 // Response shape of Manatan's grouped lookup (see src-tauri/src/dictionary.rs).

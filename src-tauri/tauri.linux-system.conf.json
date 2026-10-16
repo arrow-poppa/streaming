@@ -6,6 +6,7 @@
       "deb": {
         "depends": [
           "libmpv2 | libmpv1",
+          "mpv",
           "libwebkit2gtk-4.1-0",
           "libgl1",
           "libegl1",
@@ -22,6 +23,7 @@
       "rpm": {
         "depends": [
           "mpv-libs",
+          "mpv",
           "webkit2gtk4.1",
           "mesa-libGL",
           "mesa-libEGL",

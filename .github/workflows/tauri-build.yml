@@ -2,6 +2,26 @@ name: tauri-build
 
 on:
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: Platforms to build
+        type: choice
+        default: windows-linux
+        options:
+          - windows-linux
+          - windows
+          - linux
+          - all
+      linux_bundles:
+        description: Linux packages to build
+        type: choice
+        default: deb,rpm,appimage
+        options:
+          - deb,rpm,appimage
+          - rpm
+          - deb
+          - appimage
+          - deb,appimage
   push:
     tags:
       - "v*"
@@ -18,35 +38,42 @@ env:
   HARBOR_CAPSTAN_OPTIONAL: "1"
 
 jobs:
+  # Manual runs can skip platforms (macOS takes the longest); tag pushes build
+  # everything.
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - id: plan
+        shell: bash
+        env:
+          PLATFORMS: ${{ inputs.platforms || 'all' }}
+        run: |
+          windows='{"name":"Windows","runner":"windows-latest","target":"x86_64-pc-windows-msvc","bundle":"msi"}'
+          mac_arm='{"name":"macOS-AppleSilicon","runner":"macos-15","target":"aarch64-apple-darwin","bundle":"dmg"}'
+          mac_intel='{"name":"macOS-Intel","runner":"macos-15-intel","target":"x86_64-apple-darwin","bundle":"dmg"}'
+          # Ubuntu 24.04 links libmpv.so.2, which current Fedora/Arch/Ubuntu
+          # ship; 22.04's libmpv.so.1 is missing on Fedora 40+.
+          linux_x64='{"name":"Linux-x86_64","runner":"ubuntu-24.04","target":"x86_64-unknown-linux-gnu","bundle":"deb,appimage"}'
+          linux_arm='{"name":"Linux-aarch64","runner":"ubuntu-24.04-arm","target":"aarch64-unknown-linux-gnu","bundle":"deb,appimage"}'
+          case "$PLATFORMS" in
+            windows) list="$windows" ;;
+            linux) list="$linux_x64" ;;
+            windows-linux) list="$windows,$linux_x64" ;;
+            *) list="$windows,$mac_arm,$mac_intel,$linux_x64,$linux_arm" ;;
+          esac
+          echo "matrix={\"platform\":[$list]}" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: plan
     name: ${{ matrix.platform.name }} (${{ matrix.platform.target }})
     runs-on: ${{ matrix.platform.runner }}
     timeout-minutes: 120
     continue-on-error: ${{ matrix.platform.target == 'x86_64-apple-darwin' }}
     strategy:
       fail-fast: false
-      matrix:
-        platform:
-          - name: Windows
-            runner: windows-latest
-            target: x86_64-pc-windows-msvc
-            bundle: msi
-          - name: macOS-AppleSilicon
-            runner: macos-15
-            target: aarch64-apple-darwin
-            bundle: dmg
-          - name: macOS-Intel
-            runner: macos-15-intel
-            target: x86_64-apple-darwin
-            bundle: dmg
-          - name: Linux-x86_64
-            runner: ubuntu-22.04
-            target: x86_64-unknown-linux-gnu
-            bundle: deb,appimage
-          - name: Linux-aarch64
-            runner: ubuntu-24.04-arm
-            target: aarch64-unknown-linux-gnu
-            bundle: deb,appimage
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -111,9 +138,26 @@ jobs:
           CARGO_BUILD_JOBS: 2
         run: cargo test --manifest-path scripts/http-redirect-tests/Cargo.toml --locked --lib
 
+      # The pinned harborstremio "mpvdll" release no longer exists. Take
+      # libmpv-2.dll from the shinchiro dev archive of the same build as the
+      # bundled mpv.exe (scripts/fetch-mpv.mjs), checksum-verified.
       - name: Fetch libmpv (Windows)
         if: contains(matrix.platform.runner, 'windows')
-        run: pnpm run setup:libmpv
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $asset = 'mpv-dev-x86_64-20261010-git-b2c255c13e.7z'
+          $sha = '394490ed6354c2294b87c63dfa3663b23524b5551aace9cbe35c4085682b14fa'
+          $archive = Join-Path $env:RUNNER_TEMP $asset
+          curl.exe --retry 6 --retry-delay 4 --retry-all-errors -fL "https://github.com/shinchiro/mpv-winbuild-cmake/releases/download/20261010/$asset" -o $archive
+          $got = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($got -ne $sha) { throw "libmpv checksum mismatch: got $got" }
+          $out = Join-Path $env:RUNNER_TEMP 'mpv-dev'
+          7z x -y $archive "-o$out" | Out-Null
+          $dll = Get-ChildItem -LiteralPath $out -Recurse -Filter 'libmpv-2.dll' | Select-Object -First 1
+          if (-not $dll) { throw 'libmpv-2.dll missing from the dev archive' }
+          New-Item -ItemType Directory -Force -Path src-tauri/libmpv | Out-Null
+          Copy-Item -LiteralPath $dll.FullName -Destination src-tauri/libmpv/libmpv-2.dll -Force
 
       - name: Fetch mpv (Windows x64)
         if: matrix.platform.target == 'x86_64-pc-windows-msvc'
@@ -244,7 +288,7 @@ jobs:
 
       - name: Build Linux system packages
         if: contains(matrix.platform.runner, 'ubuntu')
-        run: pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles deb,appimage
+        run: pnpm tauri:build:linux-system --target ${{ matrix.platform.target }} --bundles ${{ inputs.linux_bundles || 'deb,appimage' }}
 
       - name: Build verified Windows managed installer
         if: matrix.platform.target == 'x86_64-pc-windows-msvc'
@@ -315,6 +359,7 @@ jobs:
           path: |
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.dmg
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.deb
+            src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.rpm
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.AppImage
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.msi
             src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*.exe
