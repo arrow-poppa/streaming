@@ -44,6 +44,8 @@ mod airplay;
 #[cfg(desktop)]
 mod anime4k;
 #[cfg(desktop)]
+mod anki;
+#[cfg(desktop)]
 mod app_icon;
 #[cfg(desktop)]
 mod asr_model;
@@ -64,6 +66,10 @@ mod cf_relay;
 mod cf_solver;
 #[cfg(desktop)]
 mod desktop_notify;
+#[cfg(desktop)]
+mod dictionary;
+#[cfg(desktop)]
+mod dictionary_scan;
 #[cfg(desktop)]
 mod discord_rp;
 #[cfg(desktop)]
@@ -86,6 +92,8 @@ mod harbor_lan;
 mod hdr_overlay;
 #[cfg(desktop)]
 mod installer_handoff;
+#[cfg(desktop)]
+mod local_audio;
 #[cfg(desktop)]
 mod media_controls;
 #[cfg(target_os = "windows")]
@@ -1386,6 +1394,16 @@ pub fn run() {
             webview_helpers::webview_reapply_transparency,
             mpv::mpv_on_pip_changed,
             mpv::mpv_screenshot_data_url,
+            mpv::mpv_sentence_audio,
+            mpv::mpv_sentence_clip,
+            dictionary::dict_lookup,
+            dictionary::dict_import,
+            dictionary::dict_list,
+            dictionary::dict_manage,
+            dictionary::dict_media,
+            local_audio::local_audio_lookup,
+            local_audio::local_audio_data,
+            anki::anki_connect,
             mpv::mpv_save_screenshot,
             mpv::mpv_gif_start,
             mpv::mpv_gif_stop,

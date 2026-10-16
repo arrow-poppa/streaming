@@ -7,6 +7,7 @@ import { SubStyleBar } from "@/components/player/sub-style-bar";
 import { PictureBar } from "@/components/player/picture-bar";
 import { SubSyncBar } from "@/components/player/sub-sync-bar";
 import { SubtitleOverlay } from "@/components/player/subtitle-overlay";
+import type { LookupControls } from "@/components/player/lookup/use-subtitle-lookup";
 import {
   VolumeIndicator,
   type VolumeHudPosition,
@@ -40,6 +41,7 @@ export const StageOverlays = memo(function StageOverlays({
   onSubDelay,
   onEnterSync,
   chromeVisible,
+  lookupControls,
 }: {
   snap: PlayerSnapshot;
   engine: "html5" | "mpv";
@@ -63,6 +65,7 @@ export const StageOverlays = memo(function StageOverlays({
   onSubDelay: (sec: number) => void;
   onEnterSync?: () => void;
   chromeVisible: boolean;
+  lookupControls?: LookupControls;
 }) {
   const t = useT();
   const captionsPopout = useCaptionsPopoutOpen();
@@ -80,8 +83,20 @@ export const StageOverlays = memo(function StageOverlays({
             startSec={primarySubtitleVisible ? snap.subStartSec : 0}
             scale={pipMode ? 0.45 : 1}
             secondaryText={snap.secondarySubText}
+            lookup={
+              lookupControls && !pipMode && primarySubtitleVisible
+                ? { controls: lookupControls, endSec: snap.subEndSec, chromeVisible }
+                : undefined
+            }
           />
         )}
+      {!pipMode && !captionsPopout && subAssNative && engine === "mpv" && lookupControls && snap.subText && (
+        <SubtitleOverlay
+          text={snap.subText}
+          startSec={snap.subStartSec}
+          lookup={{ controls: lookupControls, endSec: snap.subEndSec, native: true }}
+        />
+      )}
       {showStats && !pipMode && <StatsOverlay snap={snap} engine={engine} />}
       {!pipMode && <SubtitleOffsetIndicator delaySec={subtitleOffsetSec} />}
       {!pipMode && (

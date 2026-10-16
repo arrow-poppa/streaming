@@ -1,12 +1,18 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useActiveKid } from "@/lib/profiles";
 import { useSettings } from "@/lib/settings";
+import { miningAvailable } from "@/lib/mining/dictionary";
+import { InteractiveSubtitle } from "./lookup/interactive-subtitle";
+import type { LookupControls } from "./lookup/use-subtitle-lookup";
 
 type Props = {
   text: string;
   startSec: number;
   scale?: number;
   secondaryText?: string;
+  // Dictionary lookup on hover. `native`: mpv renders this subtitle (ASS), so
+  // only an invisible, hoverable copy is drawn here.
+  lookup?: { controls: LookupControls; endSec?: number; native?: boolean; chromeVisible?: boolean };
 };
 
 export const SubtitleOverlay = memo(function SubtitleOverlay({
@@ -14,6 +20,7 @@ export const SubtitleOverlay = memo(function SubtitleOverlay({
   startSec,
   scale = 1,
   secondaryText = "",
+  lookup,
 }: Props) {
   const { settings } = useSettings();
   const kid = useActiveKid();
@@ -108,6 +115,15 @@ export const SubtitleOverlay = memo(function SubtitleOverlay({
   );
 
   const opacity = useMemo(() => clamp(settings.subOpacity ?? 1, 0.1, 1), [settings.subOpacity]);
+  const lookupOn = !!lookup && settings.subLookupEnabled && miningAvailable();
+  // The seek bar overlaps the lowest subtitle line and swallows its hover.
+  // Keep hoverable subtitles above it; the lift stays put when the controls
+  // hide so the line does not jump away from the cursor.
+  const liftPx = useSeekBarLift(
+    wrapRef,
+    lookupOn && !lookup?.native && settings.subLookupLiftAboveControls !== false,
+    `${text}|${lookup?.chromeVisible ? 1 : 0}`,
+  );
 
   const secondScale = useMemo(
     () => clamp(settings.subSecondaryScale ?? 0.85, 0.4, 1.4),
@@ -129,10 +145,11 @@ export const SubtitleOverlay = memo(function SubtitleOverlay({
   ) : null;
 
   if (!text && !secondaryText) return null;
+  if (lookup?.native && (!lookupOn || !text)) return null;
 
   return (
     <>
-      {secondBlock && secondTop && (
+      {secondBlock && secondTop && !lookup?.native && (
         <div
           className={`pointer-events-none absolute inset-x-0 z-10 flex ${justify} px-[6%]`}
           style={{ top: `${marginY}%`, opacity }}
@@ -144,18 +161,33 @@ export const SubtitleOverlay = memo(function SubtitleOverlay({
         key={startSec}
         ref={wrapRef}
         className={`pointer-events-none absolute inset-x-0 z-10 flex flex-col gap-1.5 ${alignItems} px-[6%]`}
-        style={{ bottom: `${marginY}%`, opacity }}
+        style={{
+          bottom: liftPx > 0 ? `max(${marginY}%, ${liftPx}px)` : `${marginY}%`,
+          opacity: lookup?.native ? 1 : opacity,
+          transition: lookupOn ? "bottom 160ms ease-out" : undefined,
+        }}
       >
-        {secondBlock && !secondTop && secondBlock}
-        {text && (
-          <div className="max-w-[80%]" style={boxStyle}>
-            <div style={baseTextStyle}>
-              {lines.map((line, i) => (
-                <div key={i}>{line}</div>
-              ))}
+        {secondBlock && !secondTop && !lookup?.native && secondBlock}
+        {text &&
+          (lookupOn && lookup ? (
+            <InteractiveSubtitle
+              lines={lines}
+              textStyle={baseTextStyle}
+              boxStyle={boxStyle}
+              controls={lookup.controls}
+              startSec={startSec}
+              endSec={lookup.endSec}
+              native={!!lookup.native}
+            />
+          ) : (
+            <div className="max-w-[80%]" style={boxStyle}>
+              <div style={baseTextStyle}>
+                {lines.map((line, i) => (
+                  <div key={i}>{line}</div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          ))}
       </div>
     </>
   );
@@ -205,4 +237,27 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
     g: parseInt(m.slice(2, 4), 16) || 0,
     b: parseInt(m.slice(4, 6), 16) || 0,
   };
+}
+
+function useSeekBarLift(wrapRef: React.RefObject<HTMLDivElement | null>, enabled: boolean, remeasureKey: string): number {
+  const [lift, setLift] = useState(0);
+  useEffect(() => {
+    if (!enabled) {
+      setLift(0);
+      return;
+    }
+    const measure = () => {
+      const host = wrapRef.current?.offsetParent as HTMLElement | null;
+      const root = host?.closest("[data-harbor-player]") ?? document;
+      const bar = root.querySelector<HTMLElement>("[data-hb-seekbar]");
+      if (!host || !bar) return;
+      const hostRect = host.getBoundingClientRect();
+      const barRect = bar.getBoundingClientRect();
+      if (barRect.height > 0) setLift(Math.max(0, Math.round(hostRect.bottom - barRect.top + 6)));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [enabled, remeasureKey, wrapRef]);
+  return lift;
 }

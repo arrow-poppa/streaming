@@ -1,4 +1,4 @@
-import { memo, type ComponentProps, type RefObject } from "react";
+import { memo, useMemo, type ComponentProps, type RefObject } from "react";
 import { DrawCanvas, StrokesLayer, type Stroke } from "@/components/player/draw-canvas";
 import { cropTransform } from "./hooks/use-video-fill";
 import { StreamSwitcher } from "@/components/player/stream-switcher";
@@ -22,6 +22,7 @@ import { PanelsLayer } from "./panels-layer";
 import { RoomLayer } from "./room-layer";
 import { ShellLayer } from "./shell-layer";
 import { StageOverlays } from "./stage-overlays";
+import type { LookupControls } from "@/components/player/lookup/use-subtitle-lookup";
 import { ToolsLayer } from "./tools-layer";
 import { TextSyncOverlay } from "./text-sync-overlay";
 import { Toaster } from "@/views/addons/toaster";
@@ -214,6 +215,20 @@ export const PlayerOverlayLayers = memo(function PlayerOverlayLayers(p: PlayerOv
       : "top-end"
     : "top-start";
 
+  const lookupTitle = [p.src.title, p.src.subtitle].filter(Boolean).join(" · ");
+  const { snapRef, playPauseToggle, bridgeRef, engine } = p;
+  // Stable across renders so the memoized subtitle layers do not re-render.
+  const lookupControls = useMemo<LookupControls>(
+    () => ({
+      isPlaying: () => snapRef.current?.status === "playing",
+      togglePlay: playPauseToggle,
+      setNativeSubVisible: (on) => bridgeRef.current?.setSubVisible(on),
+      title: lookupTitle,
+      mpvEngine: engine === "mpv",
+    }),
+    [snapRef, playPauseToggle, bridgeRef, lookupTitle, engine],
+  );
+
   return (
     <>
       <StageOverlays
@@ -237,6 +252,7 @@ export const PlayerOverlayLayers = memo(function PlayerOverlayLayers(p: PlayerOv
         }}
         onEnterSync={p.onEnterSync}
         chromeVisible={p.showChrome}
+        lookupControls={lookupControls}
       />
       <CastLayer
         chromeVisible={p.showChrome}

@@ -1,0 +1,35 @@
+# Vendored from https://github.com/KolbyML/Manatan (crates/yomitan-server,
+# rev d854a47f8923fcf981a10a4fe9a2af97008325bd), MIT licensed (see LICENSE).
+# Changed only to build against the app's rusqlite 0.32 (one bundled SQLite).
+[package]
+name = "manatan-yomitan-server"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/KolbyML/Manatan"
+publish = false
+
+[dependencies]
+anyhow = "1.0"
+axum = { version = "0.8.7", features = ["macros", "multipart", "ws"] }
+base64 = "0.22"
+bytes = "1.11"
+futures = "0.3.23"
+mime_guess = "2"
+r2d2 = "0.8"
+r2d2_sqlite = "0.25"
+regex = "1"
+reqwest = { version = "0.12.24", default-features = false, features = ["json", "stream", "multipart", "rustls-tls"] }
+rusqlite = "0.32"
+scraper = "0.20"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+sha2 = "0.10"
+snap = "1.1"
+thiserror = "2.0"
+tokio = { version = "1.0", features = ["full"] }
+tower-http = { version = "0.5.2", features = ["cors", "fs", "limit"] }
+tracing = "0.1"
+urlencoding = "2.1"
+wordbase-api = { git = "https://github.com/kolbyml/wordbase", rev = "b3a5a825b5afa05d9cd57ce18e24d988f1ab88ca" }
+zip = "6.0"

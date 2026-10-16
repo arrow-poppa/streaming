@@ -224,6 +224,7 @@ const OBSERVED_PROPS: &[(&str, u64, PropertyKind)] = &[
     ("secondary-sub-text", 19, PropertyKind::String),
     ("path", 20, PropertyKind::String),
     ("audio-device-list", 21, PropertyKind::Node),
+    ("sub-end", 22, PropertyKind::Double),
 ];
 
 #[derive(Clone, Copy)]
@@ -2445,6 +2446,303 @@ pub async fn mpv_clip_save(
         _ => Err("clip output missing".into()),
     }
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SentenceAudio {
+    data_base64: String,
+    ext: String,
+    start: f64,
+    end: f64,
+}
+
+// (file extension, mpv --of muxer, mpv --oac encoder), in order of preference.
+const SENTENCE_AUDIO_FORMATS: &[(&str, &str, &str)] =
+    &[("m4a", "mp4", "aac"), ("mp3", "mp3", "libmp3lame"), ("ogg", "ogg", "libopus")];
+
+fn mpv_prop_f64(mpv: &Mpv, name: &str) -> Option<f64> {
+    mpv.get_property::<String>(name).ok()?.trim().parse().ok()
+}
+
+/// Encodes the audio between `start` and `end` (defaulting to the current
+/// subtitle line) to AAC for an Anki card, using the playing source and audio
+/// track. Runs a separate mpv so playback is not disturbed.
+#[tauri::command]
+pub async fn mpv_sentence_audio(
+    state: State<'_, MpvState>,
+    start: Option<f64>,
+    end: Option<f64>,
+    pad_before: Option<f64>,
+    pad_after: Option<f64>,
+) -> Result<SentenceAudio, String> {
+    use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
+    let mpv = {
+        let g = state.inner.lock().await;
+        g.as_ref().map(|s| s.mpv.clone()).ok_or_else(|| "mpv not started".to_string())?
+    };
+    let src = mpv
+        .get_property::<String>("path")
+        .map_err(|e| format!("no source path: {}", e))?;
+    let line_start = start
+        .or_else(|| mpv_prop_f64(&mpv, "sub-start"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let line_end = end
+        .or_else(|| mpv_prop_f64(&mpv, "sub-end"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
+    let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);
+    let dur = to - from;
+    if !(0.2..=60.0).contains(&dur) {
+        return Err(format!("bad sentence range {:.2}..{:.2}", from, to));
+    }
+    let aid = mpv
+        .get_property::<String>("aid")
+        .ok()
+        .filter(|a| !a.trim().is_empty() && a.trim() != "no" && a.trim() != "auto");
+    let user_agent = mpv.get_property::<String>("user-agent").ok().filter(|s| !s.is_empty());
+    let header_fields = mpv
+        .get_property::<String>("http-header-fields")
+        .ok()
+        .filter(|s| !s.is_empty());
+
+    let mpv_bin = crate::thumbs::locate_mpv().ok_or_else(|| "mpv binary not found".to_string())?;
+    let mut last_exit = None;
+    for (ext, muxer, encoder) in SENTENCE_AUDIO_FORMATS {
+        let out = std::env::temp_dir().join(format!("harbor-sentence-{}.{}", Uuid::new_v4(), ext));
+        let mut cmd = tokio::process::Command::new(&mpv_bin);
+        cmd.arg("--no-terminal")
+            .arg("--really-quiet")
+            .arg("--no-config")
+            .arg("--load-scripts=no")
+            .arg("--cache=yes")
+            .arg("--network-timeout=30")
+            .arg("--vid=no")
+            .arg("--sid=no")
+            .arg(format!("--start={:.3}", from))
+            .arg(format!("--length={:.3}", dur))
+            .arg(format!("--o={}", out.to_string_lossy()))
+            .arg(format!("--of={}", muxer))
+            .arg(format!("--oac={}", encoder))
+            .arg("--oacopts=b=128k");
+        if let Some(aid) = &aid {
+            cmd.arg(format!("--aid={}", aid));
+        }
+        if let Some(ua) = &user_agent {
+            cmd.arg(format!("--user-agent={}", ua));
+        }
+        if let Some(h) = &header_fields {
+            cmd.arg(format!("--http-header-fields={}", h));
+        }
+        cmd.arg(&src);
+        cmd.stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .kill_on_drop(true);
+        #[cfg(windows)]
+        cmd.creation_flags(0x0800_0000);
+
+        let status = tokio::time::timeout(Duration::from_secs(90), cmd.status())
+            .await
+            .map_err(|_| "sentence audio timed out".to_string())?
+            .map_err(|e| format!("spawn mpv encode: {}", e))?;
+        let bytes = std::fs::read(&out).unwrap_or_default();
+        let _ = std::fs::remove_file(&out);
+        if status.success() && !bytes.is_empty() {
+            return Ok(SentenceAudio {
+                data_base64: B64.encode(&bytes),
+                ext: (*ext).into(),
+                start: from,
+                end: to,
+            });
+        }
+        // Distro mpv builds differ in encoders (Fedora's ffmpeg-free, for one); try the next.
+        last_exit = status.code();
+    }
+    Err(format!("sentence audio encode failed (mpv exit {:?})", last_exit))
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SentenceClip {
+    data_base64: String,
+    ext: String,
+    // The format actually produced, when the requested encoder was missing.
+    format: String,
+}
+
+/// ffmpeg output options per animated format.
+fn clip_encoders(format: &str) -> Vec<(&'static str, Vec<&'static str>)> {
+    match format {
+        "avif" => vec![
+            ("avif", vec!["-c:v", "libsvtav1", "-crf", "40", "-preset", "8", "-f", "avif"]),
+            ("avif", vec!["-c:v", "libaom-av1", "-crf", "40", "-cpu-used", "8", "-row-mt", "1", "-f", "avif"]),
+        ],
+        "webp" => vec![("webp", vec!["-c:v", "libwebp_anim", "-quality", "72", "-loop", "0", "-f", "webp"])],
+        _ => vec![("gif", vec!["-loop", "0", "-f", "gif"])],
+    }
+}
+
+/// Encodes the video of the current subtitle line (or `start`..`end`) as an
+/// animated AVIF, WebP or GIF for an Anki card. A separate mpv cuts the
+/// scaled segment from the playing source (so streams, headers and EDL
+/// sources work), then ffmpeg encodes it. Missing encoders fall back to the
+/// next format: AVIF → WebP → GIF.
+#[tauri::command]
+#[allow(clippy::too_many_arguments)]
+pub async fn mpv_sentence_clip(
+    state: State<'_, MpvState>,
+    start: Option<f64>,
+    end: Option<f64>,
+    pad_before: Option<f64>,
+    pad_after: Option<f64>,
+    format: Option<String>,
+    width: Option<u32>,
+    fps: Option<u32>,
+) -> Result<SentenceClip, String> {
+    use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
+    let mpv = {
+        let g = state.inner.lock().await;
+        g.as_ref().map(|s| s.mpv.clone()).ok_or_else(|| "mpv not started".to_string())?
+    };
+    let src = mpv
+        .get_property::<String>("path")
+        .map_err(|e| format!("no source path: {}", e))?;
+    let line_start = start
+        .or_else(|| mpv_prop_f64(&mpv, "sub-start"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let line_end = end
+        .or_else(|| mpv_prop_f64(&mpv, "sub-end"))
+        .ok_or_else(|| "no subtitle line on screen".to_string())?;
+    let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
+    let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);
+    // Long lines would make huge images; keep the start of the line.
+    let dur = (to - from).min(12.0);
+    if dur < 0.2 {
+        return Err(format!("bad clip range {:.2}..{:.2}", from, to));
+    }
+    let width = width.unwrap_or(480).clamp(160, 1280);
+    let fps = fps.unwrap_or(12).clamp(4, 30);
+    let vid = mpv
+        .get_property::<String>("vid")
+        .ok()
+        .filter(|v| !v.trim().is_empty() && v.trim() != "no" && v.trim() != "auto");
+    let gamma = mpv.get_property::<String>("video-params/gamma").unwrap_or_default();
+    let user_agent = mpv.get_property::<String>("user-agent").ok().filter(|s| !s.is_empty());
+    let header_fields = mpv
+        .get_property::<String>("http-header-fields")
+        .ok()
+        .filter(|s| !s.is_empty());
+
+    let mpv_bin = crate::thumbs::locate_mpv().ok_or_else(|| "mpv binary not found".to_string())?;
+    let ffmpeg = crate::transcode::locate_ffmpeg().ok_or_else(|| "ffmpeg not found".to_string())?;
+    let dir = std::env::temp_dir().join(format!("harbor-clip-{}", Uuid::new_v4()));
+    std::fs::create_dir_all(&dir).map_err(|e| format!("temp dir: {}", e))?;
+    let cleanup = |dir: &PathBuf| {
+        let _ = std::fs::remove_dir_all(dir);
+    };
+
+    // 1. Cut the segment, already scaled and at the target frame rate, to a
+    //    lossless intermediate (FFV1 is in every ffmpeg build).
+    let cut = dir.join("cut.mkv");
+    let mut cmd = tokio::process::Command::new(&mpv_bin);
+    cmd.arg("--no-terminal")
+        .arg("--really-quiet")
+        .arg("--no-config")
+        .arg("--load-scripts=no")
+        .arg("--cache=yes")
+        .arg("--network-timeout=30")
+        .arg("--aid=no")
+        .arg("--sid=no")
+        .arg(format!("--start={:.3}", from))
+        .arg(format!("--length={:.3}", dur))
+        .arg(format!("--vf=lavfi=[fps={},scale={}:-2:flags=lanczos]", fps, width))
+        .arg(format!("--o={}", cut.to_string_lossy()))
+        .arg("--of=matroska")
+        .arg("--ovc=ffv1");
+    if let Some(vid) = &vid {
+        cmd.arg(format!("--vid={}", vid));
+    }
+    if let Some(ua) = &user_agent {
+        cmd.arg(format!("--user-agent={}", ua));
+    }
+    if let Some(h) = &header_fields {
+        cmd.arg(format!("--http-header-fields={}", h));
+    }
+    cmd.arg(&src);
+    cmd.stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .kill_on_drop(true);
+    #[cfg(windows)]
+    cmd.creation_flags(0x0800_0000);
+    let status = tokio::time::timeout(Duration::from_secs(120), cmd.status())
+        .await
+        .map_err(|_| {
+            cleanup(&dir);
+            "clip cut timed out".to_string()
+        })?
+        .map_err(|e| {
+            cleanup(&dir);
+            format!("spawn mpv encode: {}", e)
+        })?;
+    if !status.success() || std::fs::metadata(&cut).map(|m| m.len() == 0).unwrap_or(true) {
+        cleanup(&dir);
+        return Err(format!("clip cut failed (mpv exit {:?})", status.code()));
+    }
+
+    // 2. Encode. HDR sources are tone-mapped so the card is not washed out.
+    let tonemap = match gamma.trim() {
+        "pq" => Some("smpte2084"),
+        "hlg" => Some("arib-std-b67"),
+        _ => None,
+    }
+    .map(|trc| {
+        format!(
+            // The cut file loses the colour tags, so they are set again first.
+            "setparams=color_primaries=bt2020:color_trc={}:colorspace=bt2020nc:range=tv,zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,",
+            trc
+        )
+    })
+    .unwrap_or_default();
+    let requested = format.as_deref().unwrap_or("avif").to_ascii_lowercase();
+    let mut chain: Vec<&str> = vec![requested.as_str()];
+    for f in ["webp", "gif"] {
+        if !chain.contains(&f) {
+            chain.push(f);
+        }
+    }
+    let cut_str = cut.to_string_lossy().to_string();
+    for fmt in chain {
+        for (ext, opts) in clip_encoders(fmt) {
+            let out = dir.join(format!("clip.{}", ext));
+            let filter = if fmt == "gif" {
+                format!("{}split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=3", tonemap)
+            } else {
+                format!("{}format=yuv420p", tonemap)
+            };
+            let mut args: Vec<&str> = vec!["-y", "-v", "error", "-i", &cut_str, "-an", "-filter_complex", &filter];
+            args.extend(opts.iter().copied());
+            let out_str = out.to_string_lossy().to_string();
+            args.push(&out_str);
+            let ok = tokio::time::timeout(Duration::from_secs(120), run_gif_ffmpeg(&ffmpeg, &args))
+                .await
+                .map(|r| r.is_ok())
+                .unwrap_or(false);
+            let bytes = std::fs::read(&out).unwrap_or_default();
+            if ok && !bytes.is_empty() {
+                cleanup(&dir);
+                return Ok(SentenceClip {
+                    data_base64: B64.encode(&bytes),
+                    ext: ext.into(),
+                    format: fmt.into(),
+                });
+            }
+        }
+    }
+    cleanup(&dir);
+    Err("clip encode failed: ffmpeg has none of the AVIF, WebP or GIF encoders".into())
+}
+
 
 #[tauri::command]
 pub async fn mpv_screenshot_data_url(state: State<'_, MpvState>) -> Result<String, String> {

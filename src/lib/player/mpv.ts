@@ -286,6 +286,8 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
   let mediaRevision = 0;
   let suppressEndFileUntil = 0;
   let svpFilterFailed = false;
+  let audioStereoRetried = false;
+  let lastAudioId: string | null = null;
   let secondarySid: string | null = null;
   let primarySubtitleOff = false;
   const confirmPrimarySubtitleVisibility = (off: boolean) => {
@@ -553,6 +555,20 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
     }
   };
 
+  // Some Windows audio drivers (e.g. Realtek with broken enhancement APOs)
+  // reject a 5.1 shared-mode format outright, and mpv then drops the audio
+  // track. Retry once with a stereo downmix and reselect the same track.
+  const retryAudioInStereo = () => {
+    if (audioStereoRetried) return;
+    audioStereoRetried = true;
+    const aid = lastAudioId ?? "auto";
+    (async () => {
+      await invoke("mpv_set_property", { name: "audio-channels", value: "stereo" });
+      await invoke("mpv_set_property", { name: "aid", value: "no" });
+      await invoke("mpv_set_property", { name: "aid", value: Number(aid) || aid });
+    })().catch(() => {});
+  };
+
   const emit = () => {
     const next: PlayerSnapshot = { ...snap };
     listeners.forEach((l) => l(next));
@@ -635,6 +651,9 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
       ) {
         handleSvpFilterFailure();
       }
+      if (text.includes("Could not open/initialize audio device")) {
+        retryAudioInStereo();
+      }
       return;
     }
     if (raw.event === "player-failure") {
@@ -691,6 +710,7 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
             t.selected === true &&
             (mainSelection === 1 || (mainSelection == null && id === secondarySid));
           const selected = t.selected === true && !isSecondary;
+          if (type === "audio" && selected) lastAudioId = id;
           const codec = codecDesc ? codecDesc.toUpperCase() : undefined;
           const baseLabel = title || lang || `${type} ${id}`;
           const tags: string[] = [];
@@ -763,6 +783,9 @@ export function createMpvBridge(mpvOptions?: MpvOptions): PlayerBridge {
       }
       if (name === "sub-start") {
         snap.subStartSec = !primarySubtitleOff && typeof data === "number" ? data : 0;
+      }
+      if (name === "sub-end") {
+        snap.subEndSec = !primarySubtitleOff && typeof data === "number" ? data : undefined;
       }
       if (name === "secondary-sub-text") {
         snap.secondarySubText = typeof data === "string" ? data : "";

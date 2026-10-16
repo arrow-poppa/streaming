@@ -9,6 +9,9 @@ import type { Settings } from "./types";
 
 export const STORAGE_KEY = "harbor.settings";
 
+export const AI_EXPLAIN_DEFAULT_PROMPT =
+  "Explain what '{{target}}' means in this sentence: '{{sentence}}'. Keep it short and focus on how the word is used in this context.";
+
 export const DEFAULT: Settings = {
   soundTheme: "none",
   sfxVolume: 50,
@@ -622,4 +625,39 @@ export const DEFAULT: Settings = {
   xrayEnabled: false,
   xrayLiveScan: true,
   auddApiKey: "",
+  subLookupEnabled: false,
+  subLookupLanguage: "japanese",
+  subLookupPauseOnHover: true,
+  subLookupScanKey: "none",
+  subLookupScanDelayMs: 20,
+  subLookupLiftAboveControls: true,
+  subLookupAiEnabled: false,
+  aiExplainEndpoint: "",
+  aiExplainKey: "",
+  aiExplainModel: "",
+  aiExplainRoutingMode: "",
+  aiExplainRoutingSlugs: "",
+  aiExplainAllowFallbacks: true,
+  aiExplainThinkingMode: "",
+  aiExplainThinkingIntensity: "",
+  aiExplainThinkingValue: "",
+  aiExplainBodyJson: "",
+  subLookupAiAuto: true,
+  aiExplainStream: false,
+  aiExplainCancelPending: true,
+  subLookupAiUnknown: false,
+  aiExplainPrompt: AI_EXPLAIN_DEFAULT_PROMPT,
+  aiExplainSystemPrompt: "",
+  aiExplainTemperature: 0.7,
+  localAudioDbPath: "",
+  ankiUrl: "http://127.0.0.1:8765",
+  ankiDeck: "",
+  ankiModel: "",
+  ankiFieldMap: {},
+  ankiTags: "harbor",
+  ankiAudioPadSec: 0.25,
+  ankiAllowDuplicates: false,
+  ankiClipFormat: "avif",
+  ankiClipWidth: 480,
+  ankiClipFps: 12,
 };
