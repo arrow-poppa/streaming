@@ -187,10 +187,14 @@ function hint(name) {
 if (!existsSync(binDir)) mkdirSync(binDir, { recursive: true });
 
 let ok = true;
+// Linux packages install sidecars into /usr/bin, so they get a harbor- prefix
+// there to avoid clashing with the distro's ffmpeg/yt-dlp packages
+// (src-tauri/tauri.linux.conf.json declares the prefixed names).
+const PREFIX = process.platform === "linux" ? "harbor-" : "";
 for (const name of ["yt-dlp", "ffmpeg", "ffprobe"]) {
-  const dest = join(binDir, `${name}-${triple}${EXE}`);
+  const dest = join(binDir, `${PREFIX}${name}-${triple}${EXE}`);
   if (existsSync(dest) && statSync(dest).size > 0) {
-    console.log(`[binaries] ${name}-${triple}${EXE} already present (${mb(dest)} MB)`);
+    console.log(`[binaries] ${PREFIX}${name}-${triple}${EXE} already present (${mb(dest)} MB)`);
     continue;
   }
   const spec = SOURCES[name][triple];
@@ -206,7 +210,7 @@ for (const name of ["yt-dlp", "ffmpeg", "ffprobe"]) {
     if (spec.kind === "raw") writeFileSync(dest, buf);
     else extractMember(buf, spec.kind, spec.member, dest);
     if (process.platform !== "win32") chmodSync(dest, 0o755);
-    console.log(`[binaries] wrote ${name}-${triple}${EXE} (${mb(dest)} MB)`);
+    console.log(`[binaries] wrote ${PREFIX}${name}-${triple}${EXE} (${mb(dest)} MB)`);
   } catch (err) {
     console.error(`[binaries] ${name} failed: ${err.message}`);
     console.error(hint(name));

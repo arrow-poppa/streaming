@@ -80,7 +80,10 @@ async fn run_yt_dlp(
     timeout: Duration,
     label: &str,
 ) -> Result<YtDlpOutput, String> {
-    match app.shell().sidecar("yt-dlp") {
+    // Linux packages name it harbor-yt-dlp so it never clashes with the
+    // distro's /usr/bin/yt-dlp (see tauri.linux.conf.json).
+    let sidecar_name = if cfg!(target_os = "linux") { "harbor-yt-dlp" } else { "yt-dlp" };
+    match app.shell().sidecar(sidecar_name) {
         Ok(cmd) => {
             let sidecar_args = args.clone();
             let run_sidecar = async move {

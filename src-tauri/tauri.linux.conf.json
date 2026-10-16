@@ -1,0 +1,5 @@
+{
+  "bundle": {
+    "externalBin": ["binaries/harbor-yt-dlp", "binaries/harbor-ffmpeg", "binaries/harbor-ffprobe"]
+  }
+}
