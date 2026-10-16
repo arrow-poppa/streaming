@@ -139,6 +139,15 @@ function IconAnime(p: IconProps) {
   );
 }
 
+function IconDictionary(p: IconProps) {
+  return (
+    <IconBase {...p}>
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5z" />
+      <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z" />
+    </IconBase>
+  );
+}
+
 function IconPlayer(p: IconProps) {
   return (
     <IconBase {...p}>
@@ -312,6 +321,7 @@ type NavItem = {
 // the desktop player layout editor) are hidden on the phone shell.
 const MOBILE_HIDDEN_SECTIONS = new Set<SectionId>([
   "mpv",
+  "dictionary",
   "playerLayout",
   "hotkeys",
   "relay",
@@ -486,6 +496,12 @@ const NAV_GROUPS: Array<{ heading: string | null; items: NavItem[] }> = [
         keywords: ["anime", "anime4k", "anime 4k", "upscale", "upscaling", "shaders", "smooth motion", "motion smoothing", "interpolation", "svp", "smoothvideo", "frame interpolation", "60fps", "48fps", "fluid"],
       },
       {
+        id: "dictionary",
+        label: "Dictionary & Anki",
+        Icon: IconDictionary,
+        keywords: ["dictionary", "yomitan", "lookup", "look up", "hover", "mining", "anki", "ankiconnect", "flashcards", "jmdict", "jitendex", "forvo", "word audio", "local audio", "language learning", "immersion", "manatan"],
+      },
+      {
         id: "playerLayout",
         label: "Player layout",
         Icon: IconPlayerLayout,
@@ -581,6 +597,9 @@ const SETTINGS_OPTIONS: SettingsOption[] = [
   { label: "Advanced mpv options (mpv.conf)", section: "mpv", anchorTitle: "Advanced (mpv.conf)", keywords: ["advanced mpv", "mpv.conf", "mpv options", "extra options", "tone-mapping", "inverse tone mapping", "custom mpv", "key=value", "power user", "raw config"] },
 
   { label: "Anime4K upscaling", section: "anime", anchorTitle: "Anime4K upscaling", keywords: ["anime4k", "anime 4k", "upscale", "upscaling", "shaders", "sharper anime", "anime only", "anime4k indicator", "fps badge", "gpu upscale"] },
+  { label: "Subtitle dictionary lookups", section: "dictionary", anchorTitle: "Subtitle dictionary", keywords: ["dictionary", "yomitan", "lookup", "hover", "jmdict", "jitendex", "import dictionary", "scan key", "shift", "seek bar"] },
+  { label: "Word audio (local audio)", section: "dictionary", anchorTitle: "Word audio", keywords: ["forvo", "local audio", "android.db", "pronunciation", "nhk", "jpod"] },
+  { label: "Anki mining", section: "dictionary", anchorTitle: "Anki", keywords: ["anki", "ankiconnect", "deck", "note type", "fields", "lapis", "jpmn", "kiku", "flashcards", "mining"] },
   { label: "Smooth motion (interpolation) & SVP", section: "anime", anchorTitle: "Smooth motion", keywords: ["smooth motion", "motion smoothing", "interpolation", "frame interpolation", "svp", "smoothvideo", "60fps", "48fps", "fluid", "judder", "soap opera", "vapoursynth"] },
 
   { label: "Home layout", section: "library", anchorTitle: "Home layout", keywords: ["home layout", "rails", "rows", "addon rows", "duplicate rails", "watchlist saved only", "playlists tab", "m3u", "xtream", "keep anime in anime room", "continue watching advance", "advance next episode"] },
@@ -1172,6 +1191,7 @@ export function SettingsNav({
     player: settings.playerEngine === "auto" ? null : settings.playerEngine,
     mpv: (settings.mpvQuality ?? "balanced") === "balanced" ? null : settings.mpvQuality === "performance" ? "lite" : "max",
     anime: settings.playerAnime4k ? "on" : null,
+    dictionary: settings.subLookupEnabled ? "on" : null,
     playerLayout: null,
     theme: settings.theme.preset === "cool-grey" && settings.theme.fontPair === "sentient-switzer" ? null : "•",
     webhooks: webhookActive ? "live" : null,

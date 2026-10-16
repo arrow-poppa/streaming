@@ -130,7 +130,7 @@ export function SeekBar({
   };
 
   return (
-    <div dir="ltr" className="pointer-events-auto group/seek relative h-12">
+    <div dir="ltr" data-hb-seekbar="" className="pointer-events-auto group/seek relative h-12">
       <div
         ref={ref}
         onPointerMove={onMove}

@@ -18,6 +18,7 @@ import {
 import type { Settings, StreamingService } from "./settings/types";
 
 export type {
+  AnkiFieldSource,
   ContentCategory,
   ContentFilters,
   Settings,

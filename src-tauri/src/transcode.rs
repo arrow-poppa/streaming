@@ -91,15 +91,21 @@ pub fn locate_ffmpeg() -> Option<std::path::PathBuf> {
             owned.push(p.into());
         }
     } else {
+        // Linux packages ship it as harbor-ffmpeg so it never clashes with
+        // the distro's /usr/bin/ffmpeg (see tauri.linux.conf.json).
         if let Ok(exe) = std::env::current_exe() {
             if let Some(dir) = exe.parent() {
+                owned.push(dir.join("harbor-ffmpeg").to_string_lossy().to_string());
                 owned.push(dir.join("ffmpeg").to_string_lossy().to_string());
+                owned.push(
+                    dir.join("harbor-ffmpeg-x86_64-unknown-linux-gnu").to_string_lossy().to_string(),
+                );
                 owned.push(
                     dir.join("ffmpeg-x86_64-unknown-linux-gnu").to_string_lossy().to_string(),
                 );
             }
         }
-        for p in ["ffmpeg", "/usr/bin/ffmpeg", "/usr/local/bin/ffmpeg"] {
+        for p in ["harbor-ffmpeg", "ffmpeg", "/usr/bin/ffmpeg", "/usr/local/bin/ffmpeg"] {
             owned.push(p.into());
         }
     }
@@ -158,11 +164,18 @@ pub fn ffmpeg_present() -> bool {
 pub fn locate_ffprobe() -> Option<std::path::PathBuf> {
     let name = if cfg!(windows) { "ffprobe.exe" } else { "ffprobe" };
     if let Some(ffmpeg) = locate_ffmpeg() {
+        // harbor-ffmpeg sits next to harbor-ffprobe (Linux packages).
+        let file = ffmpeg.file_name().and_then(|f| f.to_str()).unwrap_or("");
+        let sibling = if file.starts_with("harbor-") { format!("harbor-{}", name) } else { name.to_string() };
         if let Some(parent) = ffmpeg.parent() {
-            let candidate = parent.join(name);
+            let candidate = parent.join(&sibling);
             if candidate.exists() {
                 return Some(candidate);
             }
+        }
+        if file.starts_with("harbor-") && ffmpeg.parent().is_none_or(|p| p.as_os_str().is_empty()) {
+            // Found on PATH by bare name.
+            return Some(std::path::PathBuf::from(sibling));
         }
     }
     let probe = std::process::Command::new(name)

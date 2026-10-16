@@ -436,4 +436,72 @@ export type Settings = {
   adSkipEnabled: boolean;
   adReportAlwaysShow: boolean;
   adReportFirstSeen: boolean;
+  subLookupEnabled: boolean;
+  subLookupLanguage: string;
+  subLookupPauseOnHover: boolean;
+  // Modifier that must be held to look up on hover ("none" = plain hover).
+  subLookupScanKey: "none" | "shift" | "ctrl" | "alt";
+  // Wait before looking up a hovered word when no key is required (Yomitan's "Scan delay").
+  subLookupScanDelayMs: number;
+  // Raise lookup subtitles above the seek bar while the player controls show.
+  subLookupLiftAboveControls: boolean;
+  // AI explanation of the looked-up word, from any OpenAI-compatible
+  // chat-completions endpoint (the "Custom" provider).
+  subLookupAiEnabled: boolean;
+  aiExplainEndpoint: string;
+  aiExplainKey: string;
+  aiExplainModel: string;
+  // OpenRouter only: how the listed provider slugs are used.
+  aiExplainRoutingMode: "" | "order" | "only" | "ignore";
+  aiExplainRoutingSlugs: string;
+  aiExplainAllowFallbacks: boolean;
+  aiExplainThinkingMode: "" | "enabled" | "disabled";
+  aiExplainThinkingIntensity: "" | "high" | "max" | "custom";
+  // With intensity "custom": a word, a token count or a JSON object.
+  aiExplainThinkingValue: string;
+  // JSON object merged over the generated request body.
+  aiExplainBodyJson: string;
+  // Generate as soon as the popup opens; otherwise on a button press.
+  subLookupAiAuto: boolean;
+  aiExplainStream: boolean;
+  // Drop an unfinished explanation when the popup closes or another word is looked up.
+  aiExplainCancelPending: boolean;
+  // Open the popup for words no dictionary knows, with only the AI explanation.
+  subLookupAiUnknown: boolean;
+  // {{target}} = the word, {{sentence}} = its subtitle.
+  aiExplainPrompt: string;
+  aiExplainSystemPrompt: string;
+  aiExplainTemperature: number;
+  localAudioDbPath: string;
+  ankiUrl: string;
+  ankiDeck: string;
+  ankiModel: string;
+  ankiFieldMap: Record<string, AnkiFieldSource>;
+  ankiTags: string;
+  ankiAudioPadSec: number;
+  ankiAllowDuplicates: boolean;
+  // Animated clip of the subtitle line for the "clip" Anki field.
+  ankiClipFormat: "avif" | "webp" | "gif";
+  ankiClipWidth: number;
+  ankiClipFps: number;
 };
+
+export type AnkiFieldSource =
+  | ""
+  | "expression"
+  | "reading"
+  | "furigana"
+  | "glossary"
+  | "glossary-first"
+  | "sentence"
+  | "sentence-plain"
+  | "sentence-cloze"
+  | "sentence-audio"
+  | "word-audio"
+  | "picture"
+  | "clip"
+  | "frequency"
+  | "pitch"
+  | "title"
+  | "ai-explanation"
+  | "popup-selection";

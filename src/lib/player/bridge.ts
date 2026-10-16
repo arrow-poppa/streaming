@@ -41,6 +41,7 @@ export type PlayerSnapshot = {
   audioDelaySec: number;
   subText: string;
   subStartSec: number;
+  subEndSec?: number;
   audioNormalize: boolean;
   videoWidth: number;
   videoHeight: number;

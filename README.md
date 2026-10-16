@@ -278,6 +278,8 @@ Send any playback across the room through a bundled Rust cast server and a web c
 
 Anime is a first class room with its own metadata stack. Metadata comes from **Kitsu** and **AniZip** for cross database ID mapping and per episode detail, with TMDB matching for logos and backdrops. Award winners from the Crunchyroll Awards, TAAF, JMAF, r/anime, and Animation Kobe are surfaced first and badged. Detail pages show MAL scores, streaming service chips (Crunchyroll, HIDIVE, Funimation and more), and an award corner. AniSkip drives skip intro/outro, and Anime4K shaders sharpen playback.
 
+For language learners, hovering a word in the subtitles opens a dictionary popup backed by your own Yomitan dictionaries, using the MIT-licensed dictionary engine from [Manatan](https://github.com/KolbyML/Manatan). It plays word audio from a local-audio-yomichan database (Forvo, NHK16 and others) and adds Anki cards through AnkiConnect with the sentence, definitions, a screenshot and the sentence audio. It also works over styled (ASS) subtitles. Turn it on under Settings → Anime.
+
 <p align="right"><a href="#readme-top">&#9650; back to top</a></p>
 
 ### Addons

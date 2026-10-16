@@ -27,9 +27,15 @@ mod web_server;
 #[cfg(desktop)]
 mod anime4k;
 #[cfg(desktop)]
+mod anki;
+#[cfg(desktop)]
 mod browser;
 #[cfg(desktop)]
 mod discord_rp;
+#[cfg(desktop)]
+mod dictionary;
+#[cfg(desktop)]
+mod dictionary_scan;
 #[cfg(desktop)]
 mod dvr;
 #[cfg(desktop)]
@@ -38,6 +44,8 @@ mod fonts;
 mod fullscreen;
 #[cfg(desktop)]
 mod hdr_overlay;
+#[cfg(desktop)]
+mod local_audio;
 #[cfg(desktop)]
 mod modal_overlay;
 #[cfg(desktop)]
@@ -667,6 +675,16 @@ fn run_desktop() {
             webview_helpers::webview_reapply_transparency,
             mpv::mpv_on_pip_changed,
             mpv::mpv_screenshot_data_url,
+            mpv::mpv_sentence_audio,
+            mpv::mpv_sentence_clip,
+            dictionary::dict_lookup,
+            dictionary::dict_import,
+            dictionary::dict_list,
+            dictionary::dict_manage,
+            dictionary::dict_media,
+            local_audio::local_audio_lookup,
+            local_audio::local_audio_data,
+            anki::anki_connect,
             mpv::mpv_save_screenshot,
             mpv::mpv_gif_start,
             mpv::mpv_gif_stop,

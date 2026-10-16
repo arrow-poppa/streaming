@@ -13,6 +13,7 @@ import { QualityPanel } from "./settings/quality-panel";
 import { MpvPanel } from "./settings/mpv-panel";
 import { P2PPanel } from "./settings/p2p-panel";
 import { AnimePanel } from "./settings/anime-panel";
+import { DictionaryPanel } from "./settings/dictionary-panel";
 import { TraktPanel } from "./settings/trakt-panel";
 import { AnilistPanel } from "./settings/anilist-panel";
 import { MalPanel } from "./settings/mal-panel";
@@ -100,6 +101,10 @@ const SECTION_META: Record<SectionId, { label: string; sub: string }> = {
   anime: {
     label: "Anime tweaks",
     sub: "Anime4K real-time upscaling, smooth motion, and where SVP fits in. All the anime-specific picture enhancements in one place.",
+  },
+  dictionary: {
+    label: "Dictionary & Anki",
+    sub: "Look up words in subtitles with your Yomitan dictionaries, hear them and turn them into Anki cards.",
   },
   playerLayout: {
     label: "Player layout",
@@ -326,6 +331,8 @@ export function Settings({ active: activeView = true }: { active?: boolean }) {
           {active === "mpv" && <MpvPanel />}
 
           {active === "anime" && <AnimePanel />}
+
+          {active === "dictionary" && <DictionaryPanel />}
 
           {active === "playerLayout" && <PlayerLayoutPanel />}
 

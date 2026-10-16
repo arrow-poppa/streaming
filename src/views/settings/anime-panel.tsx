@@ -73,6 +73,7 @@ export function AnimePanel() {
       </Section>}
 
       {!mobile && <SvpSection />}
+
     </>
   );
 }
