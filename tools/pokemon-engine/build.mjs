@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 // Build the separately licensed engine from immutable source revisions.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -32,7 +33,9 @@ await mkdir(output,{recursive:true});
 await run(sdk,["publish",resolve(here,"Harbor.PokemonEngine.csproj"),`-p:PKForgeRoot=${resolve(source)}`,"--artifacts-path",resolve(argument("--artifacts") || resolve(output,"../engine-build")),"-r",rid,"--self-contained","true","--source","https://api.nuget.org/v3/index.json","-o",resolve(output),"-v","minimal"],here);
 const sources=resolve(output,"sources");await mkdir(sources,{recursive:true});
 for(const [key,folder] of [["pkforge",""],["pkhex","external/PKHeX"],["automod","external/PKHeX-Plugins"]])await run("git",["archive","--format=zip","--output",resolve(sources,`${key}.zip`),"HEAD"],resolve(source,folder));
-for(const file of ["Program.cs","Harbor.PokemonEngine.csproj","upstream.json","LICENSE","build.mjs","README.md"])await cp(resolve(here,file),resolve(sources,file));
+// README.md is optional: the repository's .gitignore excludes *.md, so a clean
+// checkout never has it.
+for(const file of ["Program.cs","Harbor.PokemonEngine.csproj","upstream.json","LICENSE","build.mjs","README.md"]){if(file==="README.md"&&!existsSync(resolve(here,file)))continue;await cp(resolve(here,file),resolve(sources,file));}
 const exe=resolve(output,`Harbor.PokemonEngine${rid.startsWith("win-")?".exe":""}`);
 await writeFile(resolve(output,"engine.json"),JSON.stringify({protocol:1,rid,revision:lock.pkforge.commit,sha256:createHash("sha256").update(await readFile(exe)).digest("hex"),source:"sources/",license:"GPL-3.0-or-later"},null,2));
 console.log(`Engine and corresponding sources: ${resolve(output)}`);
