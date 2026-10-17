@@ -58,6 +58,7 @@ export function useImmersion(params: {
       try {
         // The word selected when the key is pressed (or the recording stops).
         const selection = getWordSelection();
+        const startedAt = performance.now();
         const res = await exportImmersionCard(
           settingsRef.current,
           target,
@@ -76,7 +77,8 @@ export function useImmersion(params: {
           ? ` · ${t("{n}s recorded", { n: (clip.end - clip.start).toFixed(1) })}`
           : "";
         const warn = res.warnings.length ? ` · ${res.warnings[0]}` : "";
-        notify(res.warnings.length ? "error" : "ok", `✓ ${what}${extra}${warn}`);
+        const took = ` · ${Math.round(performance.now() - startedAt)} ms`;
+        notify(res.warnings.length ? "error" : "ok", `✓ ${what}${extra}${took}${warn}`);
       } catch (e) {
         notify("error", `Anki: ${e instanceof Error ? e.message : String(e)}`);
       } finally {

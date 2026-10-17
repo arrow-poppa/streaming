@@ -494,11 +494,13 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
     }
     setState("busy");
     setMsg("Adding…");
+    const startedAt = performance.now();
     try {
       const res = await addNoteFromLookup(settings, { ...mining, term, popupSelection: selectionInPopup() });
+      const took = `${Math.round(performance.now() - startedAt)} ms`;
       setState("done");
       setNotes((n) => [...n, res.noteId]);
-      setMsg(res.warnings.length ? `Added, with issues: ${res.warnings.join("; ")}` : "Added to Anki");
+      setMsg(res.warnings.length ? `Added, with issues: ${res.warnings.join("; ")} · ${took}` : `Added to Anki · ${took}`);
     } catch (e) {
       setState("error");
       setMsg(String(e).replace(/^Error:\s*/, ""));
