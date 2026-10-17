@@ -1,6 +1,6 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { Loader2, Plus, RefreshCw, Trash2, Wand2 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSettings, type AnkiFieldSource, type Settings } from "@/lib/settings";
 import { useT } from "@/lib/i18n";
 import {
@@ -449,6 +449,15 @@ function TextAreaRow({
   const t = useT();
   const [draft, setDraft] = useState(value);
   useEffect(() => setDraft(value), [value]);
+  // Grow with the text so long prompts are readable without scrolling a
+  // three-line box; past the cap the box scrolls instead.
+  const ref = useRef<HTMLTextAreaElement>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight + 2}px`;
+  }, [draft]);
   return (
     <div className="flex flex-col gap-2 rounded-xl border border-edge-soft bg-canvas/40 px-4 py-3">
       <div className="flex items-start justify-between gap-3">
@@ -463,13 +472,14 @@ function TextAreaRow({
         )}
       </div>
       <textarea
+        ref={ref}
         value={draft}
         rows={3}
         placeholder={placeholder}
         spellCheck={false}
         onChange={(e) => setDraft(e.target.value)}
         onBlur={() => draft !== value && onCommit(draft)}
-        className={`w-full resize-y rounded-lg border bg-raised px-3 py-2 text-[12.5px] text-ink outline-none focus:border-ink ${
+        className={`max-h-[60vh] w-full resize-y overflow-y-auto rounded-lg border bg-raised px-3 py-2 text-[12.5px] text-ink outline-none focus:border-ink ${
           error ? "border-danger" : "border-edge"
         } ${mono ? "font-mono" : ""}`}
       />
