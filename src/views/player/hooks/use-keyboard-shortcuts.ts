@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import type { PlayerBridge, PlayerSnapshot } from "@/lib/player/bridge";
 import { writePlayerPrefs } from "@/lib/player-prefs";
 import { writePlayerVolume } from "@/lib/player-volume";
@@ -13,6 +14,9 @@ import { isBigPictureActive } from "@/lib/big-picture";
 import { getLeaveConfirm, openLeaveConfirm } from "@/lib/player/leave-confirm";
 import { isPlayerInteractionLocked } from "@/lib/player/interaction-lock";
 import { round2 } from "../player-utils";
+import type { ImmersionAction } from "./use-immersion";
+import { subCueSeekTarget } from "@/lib/player/sub-seek";
+import { getPlaybackPosition } from "@/lib/player/playback-clock";
 import { SFX } from "@/lib/sfx";
 
 export function useKeyboardShortcuts(params: {
@@ -55,6 +59,8 @@ export function useKeyboardShortcuts(params: {
   onReloadSource?: () => void;
   onRestartServer?: () => void;
   onVolumeFeedback?: (volume: number, muted: boolean) => void;
+  onToggleSubtitles?: () => void;
+  onImmersion?: (action: ImmersionAction) => void;
 }) {
   const {
     bridgeRef,
@@ -95,6 +101,8 @@ export function useKeyboardShortcuts(params: {
     onReloadSource,
     onRestartServer,
     onVolumeFeedback,
+    onToggleSubtitles,
+    onImmersion,
   } = params;
   const { settings, update } = useSettings();
   const overrides = settings.hotkeys ?? {};
@@ -102,6 +110,11 @@ export function useKeyboardShortcuts(params: {
   const seekForwardStepSec = settings.seekForwardStepSec;
   const seekBackStepShortSec = settings.seekBackStepShortSec;
   const seekForwardStepShortSec = settings.seekForwardStepShortSec;
+  const seekBackStepLongSec = settings.seekBackStepLongSec;
+  const seekForwardStepLongSec = settings.seekForwardStepLongSec;
+  // Rapid presses step line by line from where the last jump was headed, not
+  // from a position the player has not reported yet.
+  const subSeekRef = useRef<{ target: number; at: number } | null>(null);
   const [subtitleOffsetSec, setSubtitleOffsetSec] = useState<number | null>(null);
   const subtitleOffsetTimerRef = useRef<number | null>(null);
   const showSubtitleOffset = (delaySec: number) => {
@@ -263,12 +276,35 @@ export function useKeyboardShortcuts(params: {
       }
       if (match("playerSeekBack30")) {
         e.preventDefault();
-        seekStep(-30);
+        seekStep(-seekBackStepLongSec);
         return;
       }
       if (match("playerSeekForward30")) {
         e.preventDefault();
-        seekStep(30);
+        seekStep(seekForwardStepLongSec);
+        return;
+      }
+      if (match("playerSubNext") || match("playerSubPrev")) {
+        e.preventDefault();
+        const dir = match("playerSubNext") ? 1 : -1;
+        const bridge = bridgeRef.current;
+        if (!bridge) return;
+        const cues = bridge.getSelectedTrackCues();
+        if (cues?.length) {
+          const last = subSeekRef.current;
+          const now = getPlaybackPosition();
+          const from = last && performance.now() - last.at < 1500 ? last.target : now;
+          const target = subCueSeekTarget(cues, from - snap.subDelaySec, dir);
+          if (target == null) return;
+          const at = target + snap.subDelaySec;
+          subSeekRef.current = { target: at, at: performance.now() };
+          seekStep(at - now);
+          return;
+        }
+        // Embedded tracks have no cue list here; mpv steps through them itself.
+        if (bridge.capabilities().engine === "mpv") {
+          invoke("mpv_command", { cmd: ["sub-seek", dir] }).catch(() => {});
+        }
         return;
       }
       if (match("playerFrameForward") && onFrameStep) {
@@ -376,6 +412,28 @@ export function useKeyboardShortcuts(params: {
         onPrevChannel();
         return;
       }
+      if (match("playerSubtitleToggle") && onToggleSubtitles) {
+        e.preventDefault();
+        if (e.repeat) return;
+        onToggleSubtitles();
+        return;
+      }
+      if (onImmersion) {
+        const immersion: [HotkeyId, ImmersionAction][] = [
+          ["playerAnkiNewCard", "new"],
+          ["playerAnkiUpdateLast", "update"],
+          ["playerAnkiAudioCard", "audio"],
+          ["playerRecordNew", "record-new"],
+          ["playerRecordUpdate", "record-update"],
+          ["playerRecordAudio", "record-audio"],
+        ];
+        const hit = immersion.find(([id]) => match(id));
+        if (hit) {
+          e.preventDefault();
+          if (!e.repeat) onImmersion(hit[1]);
+          return;
+        }
+      }
       if (match("playerSubtitleCycle") || match("playerSubtitleCycleAlt")) {
         e.preventDefault();
         cycleSubtitles();
@@ -416,6 +474,15 @@ export function useKeyboardShortcuts(params: {
       if (match("playerSpeedUp")) {
         e.preventDefault();
         const r = Math.min(3, +(snap.rate + 0.25).toFixed(2));
+        bridgeRef.current?.setRate(r);
+        writePlayerPrefs(metaId, { rate: r });
+        return;
+      }
+      if (match("playerHalfSpeed")) {
+        e.preventDefault();
+        if (e.repeat) return;
+        const slow = settings.halfSpeedRate || 0.5;
+        const r = Math.abs(snap.rate - slow) < 0.001 ? 1 : slow;
         bridgeRef.current?.setRate(r);
         writePlayerPrefs(metaId, { rate: r });
         return;
@@ -561,6 +628,8 @@ export function useKeyboardShortcuts(params: {
     seekForwardStepSec,
     seekBackStepShortSec,
     seekForwardStepShortSec,
+    seekBackStepLongSec,
+    seekForwardStepLongSec,
     seekTo,
     toggleSwitcher,
     toggleEpisodePanel,
@@ -581,6 +650,9 @@ export function useKeyboardShortcuts(params: {
     onRestartServer,
     onFrameStep,
     onVolumeFeedback,
+    onToggleSubtitles,
+    onImmersion,
+    settings.halfSpeedRate,
     settings.playerEscExitsFullscreen,
     settings.playerConfirmLeave,
     settings.playerVolumeSfx,

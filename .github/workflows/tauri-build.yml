@@ -30,6 +30,7 @@ on:
     # (manual dispatch needs the workflow on the default branch).
     branches:
       - claude/harbor-beta-dictionary
+      - claude/harbor-immersion
 
 permissions:
   contents: read

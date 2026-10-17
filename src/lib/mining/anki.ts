@@ -97,15 +97,15 @@ function markedSentence(ctx: MiningContext, cloze: boolean): string {
   return escapeHtml(s.slice(0, a)) + mid + escapeHtml(s.slice(b));
 }
 
-function stamp(): string {
+export function stamp(): string {
   return `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
-async function storeMedia(settings: Settings, filename: string, base64: string): Promise<string> {
+export async function storeMedia(settings: Settings, filename: string, base64: string): Promise<string> {
   return ankiInvoke<string>(settings, "storeMediaFile", { filename, data: base64 });
 }
 
-function dataUrlBase64(url: string): string {
+export function dataUrlBase64(url: string): string {
   const i = url.indexOf(",");
   return i >= 0 ? url.slice(i + 1) : url;
 }

@@ -1577,6 +1577,7 @@ const MPV_ALLOWED_COMMANDS: &[&str] = &[
     "af",
     "vf",
     "seek",
+    "sub-seek",
     "stop",
     "frame-step",
     "frame-back-step",
@@ -2492,7 +2493,9 @@ pub async fn mpv_sentence_audio(
     let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
     let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);
     let dur = to - from;
-    if !(0.2..=60.0).contains(&dur) {
+    // Up to five minutes: a recorded stretch (start/stop hotkeys) can be far
+    // longer than one subtitle line.
+    if !(0.2..=300.0).contains(&dur) {
         return Err(format!("bad sentence range {:.2}..{:.2}", from, to));
     }
     let aid = mpv

@@ -81,6 +81,7 @@ import { usePlaybackPresence } from "./player/hooks/use-playback-presence";
 import { usePlayerExit } from "./player/hooks/use-player-exit";
 import { usePendingSeekApply } from "./player/hooks/use-pending-seek-apply";
 import { usePlayerHotkeys } from "./player/hooks/use-player-hotkeys";
+import { useImmersion } from "./player/hooks/use-immersion";
 import { clearMediaControls, updateMediaControls } from "@/lib/media-session";
 import { usePlayerMedia } from "./player/hooks/use-player-media";
 import { useTrickplay } from "./player/hooks/use-trickplay";
@@ -747,7 +748,7 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
     mediaKey: `${src.meta.id}|${src.episode?.season ?? ""}|${src.episode?.episode ?? ""}`,
   });
 
-  const { rememberSubChoice, cycleSubtitles, playPauseToggle, seekStep, seekTo } =
+  const { rememberSubChoice, cycleSubtitles, toggleSubtitles, playPauseToggle, seekStep, seekTo } =
     usePlaybackControls({
       bridgeRef,
       snapRef,
@@ -981,6 +982,14 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
     })();
   }, [liveUrl, reloadSource, showSyncToast, src.url, t, transcodedUrl]);
 
+  const immersion = useImmersion({
+    bridgeRef,
+    snapRef,
+    title: [src.title, src.subtitle].filter(Boolean).join(" · "),
+    sourceKey: src.url,
+    notify: showSyncToast,
+  });
+
   const { holdSpeedActive, showStats, subtitleOffsetSec } = usePlayerHotkeys({
     bridgeRef,
     snap,
@@ -1031,6 +1040,11 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
     clip,
     videoFill,
     onVolumeFeedback: showVolumeFeedback,
+    onToggleSubtitles: () => {
+      const on = toggleSubtitles();
+      if (on != null) showSyncToast("ok", on ? t("Subtitles on") : t("Subtitles off"));
+    },
+    onImmersion: immersion.trigger,
   });
 
   useEffect(() => {

@@ -70,6 +70,7 @@ export function MiningSection() {
       <AiExplanationSection />
       <WordAudioSection />
       <AnkiSection />
+      <ImmersionSection />
     </>
   );
 }
@@ -700,6 +701,154 @@ function AnkiSection() {
         value={settings.ankiAllowDuplicates}
         onChange={(v) => update({ ankiAllowDuplicates: v })}
       />
+    </Section>
+  );
+}
+
+// Cards made from the player by hotkey, without looking a word up.
+function ImmersionSection() {
+  const { settings, update } = useSettings();
+  const t = useT();
+  const [decks, setDecks] = useState<string[]>([]);
+  const [models, setModels] = useState<string[]>([]);
+  const [fields, setFields] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [d, m] = await Promise.all([ankiDeckNames(settings), ankiModelNames(settings)]);
+      setDecks(d);
+      setModels(m);
+      setError(null);
+    } catch (e) {
+      setError(String(e));
+    } finally {
+      setLoading(false);
+    }
+  }, [settings.ankiUrl]);
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  useEffect(() => {
+    if (!settings.immersionAudioModel) {
+      setFields([]);
+      return;
+    }
+    ankiModelFields(settings, settings.immersionAudioModel)
+      .then(setFields)
+      .catch(() => setFields([]));
+  }, [settings.immersionAudioModel, settings.ankiUrl, models.length]);
+
+  const withCurrent = (list: string[], current: string) =>
+    !current || list.includes(current) ? list : [current, ...list];
+  const sentenceAudioMapped = Object.values(settings.ankiFieldMap || {}).includes("sentence-audio");
+
+  return (
+    <Section
+      title={t("Immersion")}
+      subtitle={t("Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.")}
+    >
+      <Row
+        label={t("Sentence cards")}
+        sub={t("Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.")}
+      >
+        <span className={`text-[12.5px] ${sentenceAudioMapped && settings.ankiDeck ? "text-success" : "text-danger"}`}>
+          {!settings.ankiDeck || !settings.ankiModel
+            ? t("Pick a deck and note type above")
+            : sentenceAudioMapped
+              ? settings.ankiDeck
+              : t("Map a field to Sentence audio above")}
+        </span>
+      </Row>
+
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[13px] font-semibold text-ink">{t("Audio cards")}</span>
+        <button type="button" onClick={load} disabled={loading} className={ghostBtn}>
+          {loading ? <Loader2 size={13} className="animate-spin" /> : <RefreshCw size={13} strokeWidth={2.2} />}
+          {t("Refresh")}
+        </button>
+      </div>
+      {error && <p className="text-[12.5px] text-danger">{error}</p>}
+      <Row label={t("Audio card deck")}>
+        <select
+          value={settings.immersionAudioDeck}
+          onChange={(e) => update({ immersionAudioDeck: e.target.value })}
+          className={selectCls}
+        >
+          <option value="">{decks.length ? t("Choose…") : t("Connect first")}</option>
+          {withCurrent(decks, settings.immersionAudioDeck).map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+      </Row>
+      <Row label={t("Audio card note type")}>
+        <select
+          value={settings.immersionAudioModel}
+          onChange={(e) =>
+            update({ immersionAudioModel: e.target.value, immersionAudioField: "", immersionAudioSentenceField: "" })
+          }
+          className={selectCls}
+        >
+          <option value="">{models.length ? t("Choose…") : t("Connect first")}</option>
+          {withCurrent(models, settings.immersionAudioModel).map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+      </Row>
+      <Row label={t("Audio field")} sub={t("Gets the audio of the line or of the recording.")}>
+        <select
+          value={settings.immersionAudioField}
+          onChange={(e) => update({ immersionAudioField: e.target.value })}
+          className={selectCls}
+        >
+          <option value="">{fields.length ? t("Choose…") : t("Pick a note type first")}</option>
+          {withCurrent(fields, settings.immersionAudioField).map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
+      </Row>
+      <Row label={t("Sentence field (optional)")} sub={t("Gets the subtitle text, when there is one.")}>
+        <select
+          value={settings.immersionAudioSentenceField}
+          onChange={(e) => update({ immersionAudioSentenceField: e.target.value })}
+          className={selectCls}
+        >
+          <option value="">{t("(empty)")}</option>
+          {withCurrent(fields, settings.immersionAudioSentenceField).map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
+      </Row>
+
+      <Row label={t("Update last card window")} sub={t("Update last card only touches a card added this many minutes ago or less.")}>
+        <RangeInput
+          value={settings.immersionUpdateWindowMin}
+          min={1}
+          max={120}
+          suffix=" min"
+          onChange={(immersionUpdateWindowMin) => update({ immersionUpdateWindowMin })}
+        />
+      </Row>
+      <Row label={t("Longest recording")} sub={t("A recording longer than this is discarded. Animated clips still stop after 12 seconds.")}>
+        <RangeInput
+          value={settings.immersionRecordMaxSec}
+          min={10}
+          max={300}
+          suffix="s"
+          onChange={(immersionRecordMaxSec) => update({ immersionRecordMaxSec })}
+        />
+      </Row>
     </Section>
   );
 }

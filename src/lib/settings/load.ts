@@ -6,7 +6,7 @@ import {
   type ThemeSettings,
 } from "@/lib/theme";
 import { languageName } from "@/lib/subtitles/language";
-import { sanitizeSeekStep } from "@/lib/seek-step";
+import { sanitizeHalfSpeedRate, sanitizeSeekStep } from "@/lib/seek-step";
 import { migrateModelId, providerTabFor } from "@/lib/ai-models";
 import {
   sanitizeFullscreenClockFormat,
@@ -474,6 +474,12 @@ function parseStoredSettings(raw: string | null): Settings {
         parsed.seekForwardStepShortSec,
         DEFAULT.seekForwardStepShortSec,
       ),
+      seekBackStepLongSec: sanitizeSeekStep(parsed.seekBackStepLongSec, DEFAULT.seekBackStepLongSec),
+      seekForwardStepLongSec: sanitizeSeekStep(
+        parsed.seekForwardStepLongSec,
+        DEFAULT.seekForwardStepLongSec,
+      ),
+      halfSpeedRate: sanitizeHalfSpeedRate(parsed.halfSpeedRate, DEFAULT.halfSpeedRate),
       theme: sanitizeTheme(parsed.theme),
       webhooks: {
         ...DEFAULT.webhooks,

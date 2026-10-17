@@ -11,6 +11,7 @@ import {
   type SubChoiceInput,
 } from "@/lib/subtitles/subtitle-memory";
 import { hasImportedSubTitle } from "@/lib/player/imported-subs";
+import { setSecondarySub } from "@/lib/player/secondary-sub";
 import type { RoomCommand } from "@/lib/together/protocol";
 import { cacheSelectedSubtitle } from "@/lib/subtitles/selected-subtitle-cache";
 import { notifyMediaSeeked } from "@/lib/media-session";
@@ -175,6 +176,27 @@ export function usePlaybackControls(params: {
     }
   };
 
+  // Off hides everything, primary and secondary, so nothing is left on screen.
+  // On brings back only the primary track: a secondary that comes back with it
+  // is what doubles the subtitles. Returns the new state, null without tracks.
+  const lastSubIdRef = useRef<string | null>(null);
+  const toggleSubtitles = (): boolean | null => {
+    const subs = snapRef.current.subtitleTracks;
+    if (subs.length === 0) return null;
+    const selected = subs.find((t) => t.selected);
+    if (selected) {
+      lastSubIdRef.current = selected.id;
+      setSecondarySub(null);
+      bridgeRef.current?.setSubtitleTrack(null);
+      rememberSubChoice(null);
+      return false;
+    }
+    const back = subs.find((t) => t.id === lastSubIdRef.current) ?? subs[0];
+    bridgeRef.current?.setSubtitleTrack(back.id);
+    rememberSubChoice(back);
+    return true;
+  };
+
   const playPauseToggle = () => {
     if (inRoom && isHost && !hasStarted) {
       startHost();
@@ -251,5 +273,5 @@ export function usePlaybackControls(params: {
     [castDevice, canControl, inRoom, isHost, sendCommand, seekCast, bridgeRef],
   );
 
-  return { rememberSubChoice, cycleSubtitles, playPauseToggle, seekStep, seekTo };
+  return { rememberSubChoice, cycleSubtitles, toggleSubtitles, playPauseToggle, seekStep, seekTo };
 }

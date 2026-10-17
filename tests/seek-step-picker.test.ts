@@ -4,7 +4,12 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 // @ts-expect-error Node test types are intentionally outside the browser-only tsconfig.
 import test from "node:test";
-import { SEEK_STEP_OPTIONS, sanitizeSeekStep } from "../src/lib/seek-step.ts";
+import {
+  SEEK_STEP_OPTIONS,
+  sanitizeHalfSpeedRate,
+  sanitizeSeekStep,
+  seekStepChoices,
+} from "../src/lib/seek-step.ts";
 
 const at = (p: string) => new URL(`../${p}`, import.meta.url);
 const btn = readFileSync(at("src/components/player/transport/seek-step-btn.tsx"), "utf8");
@@ -38,11 +43,32 @@ test("each column writes the setting its own shortcut reads", () => {
   assert.match(keys, /seekStep\(seekForwardStepShortSec\)/);
 });
 
-test("both columns offer the same sanitized option set", () => {
+test("both columns offer the same presets and accept any step in range", () => {
   assert.deepEqual([...SEEK_STEP_OPTIONS], [1, 3, 5, 10, 15, 30, 60, 90]);
   for (const s of SEEK_STEP_OPTIONS) assert.equal(sanitizeSeekStep(s, 10), s);
-  assert.equal(sanitizeSeekStep(7, 10), 10, "an off-scale value falls back");
+  assert.equal(sanitizeSeekStep(7, 10), 7, "a value between presets is kept");
+  assert.equal(sanitizeSeekStep(2.5, 10), 2.5);
+  assert.equal(sanitizeSeekStep(0.04, 10), 10, "below the minimum falls back");
+  assert.equal(sanitizeSeekStep(601, 10), 10, "above the maximum falls back");
+  assert.equal(sanitizeSeekStep(Number.NaN, 10), 10);
   assert.equal(sanitizeSeekStep(undefined, 3), 3);
+});
+
+test("a custom step stays visible among the presets", () => {
+  assert.deepEqual(seekStepChoices(7, [5, 10, 30]), [5, 7, 10, 30]);
+  assert.deepEqual(seekStepChoices(10, [5, 10, 30]), [5, 10, 30]);
+});
+
+test("the slow speed accepts any rate in range", () => {
+  assert.equal(sanitizeHalfSpeedRate(0.4, 0.5), 0.4);
+  assert.equal(sanitizeHalfSpeedRate(0.755, 0.5), 0.76);
+  assert.equal(sanitizeHalfSpeedRate(0, 0.5), 0.5);
+  assert.equal(sanitizeHalfSpeedRate("0.4", 0.5), 0.5);
+});
+
+test("the long seek hotkeys read their own settings", () => {
+  assert.match(keys, /seekStep\(-seekBackStepLongSec\)/);
+  assert.match(keys, /seekStep\(seekForwardStepLongSec\)/);
 });
 
 test("the short column falls back to the shipped default", () => {

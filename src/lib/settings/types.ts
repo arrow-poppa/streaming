@@ -466,6 +466,11 @@ export type Settings = {
   seekForwardStepSec: number;
   seekBackStepShortSec: number;
   seekForwardStepShortSec: number;
+  // The "long seek" hotkeys (30s by default).
+  seekBackStepLongSec: number;
+  seekForwardStepLongSec: number;
+  // Slow rate the half-speed hotkey toggles to from normal speed.
+  halfSpeedRate: number;
   shareWatchPresence: boolean;
   playerHdrOpaqueWindow: boolean;
   playerEscExitsFullscreen: boolean;
@@ -799,6 +804,16 @@ export type Settings = {
   ankiClipFormat: "avif" | "webp" | "gif";
   ankiClipWidth: number;
   ankiClipFps: number;
+  // Immersion hotkeys (cards straight from the subtitle line or a recording).
+  // Sentence cards reuse the deck, note type and field map above; audio-only
+  // cards have their own deck, note type and fields.
+  immersionAudioDeck: string;
+  immersionAudioModel: string;
+  immersionAudioField: string;
+  immersionAudioSentenceField: string;
+  // How recent a note must be for "update last card" to touch it.
+  immersionUpdateWindowMin: number;
+  immersionRecordMaxSec: number;
 };
 
 export type AnkiFieldSource =

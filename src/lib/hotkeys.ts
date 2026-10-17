@@ -18,6 +18,16 @@ export type HotkeyId =
   | "playerPip"
   | "playerSubtitleCycle"
   | "playerSubtitleCycleAlt"
+  | "playerSubtitleToggle"
+  | "playerSubNext"
+  | "playerSubPrev"
+  | "playerHalfSpeed"
+  | "playerAnkiNewCard"
+  | "playerAnkiUpdateLast"
+  | "playerAnkiAudioCard"
+  | "playerRecordNew"
+  | "playerRecordUpdate"
+  | "playerRecordAudio"
   | "playerNextEpisode"
   | "playerPrevEpisode"
   | "playerPrevChannel"
@@ -282,16 +292,16 @@ export const HOTKEYS: HotkeyDef[] = [
     id: "playerSeekBack30",
     scope: "Player",
     group: "Seeking",
-    label: "Seek back 30s",
-    description: "Jump back thirty seconds.",
+    label: "Long seek back",
+    description: "Jump back by the Long seek step set under Behavior (30 seconds by default).",
     defaultBinding: ",",
   },
   {
     id: "playerSeekForward30",
     scope: "Player",
     group: "Seeking",
-    label: "Seek forward 30s",
-    description: "Jump forward thirty seconds.",
+    label: "Long seek forward",
+    description: "Jump forward by the Long seek step set under Behavior (30 seconds by default).",
     defaultBinding: ".",
   },
   {
@@ -369,6 +379,31 @@ export const HOTKEYS: HotkeyDef[] = [
     defaultBinding: "c",
   },
   {
+    id: "playerSubtitleToggle",
+    scope: "Player",
+    group: "Tracks",
+    label: "Toggle subtitles on/off",
+    description:
+      "Hide every subtitle (primary and secondary), or bring the last primary track back.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerSubNext",
+    scope: "Player",
+    group: "Tracks",
+    label: "Next subtitle line",
+    description: "Jump to the start of the next subtitle line.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerSubPrev",
+    scope: "Player",
+    group: "Tracks",
+    label: "Previous subtitle line",
+    description: "Jump to the start of the previous subtitle line (the current one if it just started).",
+    defaultBinding: "",
+  },
+  {
     id: "playerSubDelayDown",
     scope: "Player",
     group: "Tracks",
@@ -425,6 +460,68 @@ export const HOTKEYS: HotkeyDef[] = [
     label: "Speed up",
     description: "Speed playback up by 0.25x.",
     defaultBinding: "]",
+  },
+  {
+    id: "playerHalfSpeed",
+    scope: "Player",
+    group: "Speed",
+    label: "Toggle slow speed",
+    description: "Switch between normal speed and the slow speed set under Behavior (0.5x by default).",
+    defaultBinding: "",
+  },
+
+  {
+    id: "playerAnkiNewCard",
+    scope: "Player",
+    group: "Immersion",
+    label: "Anki: card from the subtitle",
+    description:
+      "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerAnkiUpdateLast",
+    scope: "Player",
+    group: "Immersion",
+    label: "Anki: update last card",
+    description:
+      "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerAnkiAudioCard",
+    scope: "Player",
+    group: "Immersion",
+    label: "Anki: audio card",
+    description: "Add an audio-only card from the line on screen, using the audio card deck. mpv only.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerRecordNew",
+    scope: "Player",
+    group: "Immersion",
+    label: "Record → new card",
+    description:
+      "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerRecordUpdate",
+    scope: "Player",
+    group: "Immersion",
+    label: "Record → update last card",
+    description:
+      "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerRecordAudio",
+    scope: "Player",
+    group: "Immersion",
+    label: "Record → audio card",
+    description:
+      "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.",
+    defaultBinding: "",
   },
 
   {
