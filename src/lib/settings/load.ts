@@ -6,7 +6,7 @@ import {
   type ThemeSettings,
 } from "@/lib/theme";
 import { languageName } from "@/lib/subtitles/language";
-import { sanitizeHalfSpeedRate, sanitizeSeekStep } from "@/lib/seek-step";
+import { sanitizeHalfSpeedRate, sanitizeSeekStep, sanitizeSpeedStep } from "@/lib/seek-step";
 import { sanitizePopupSize } from "@/lib/player/lookup-popup-size";
 import { migrateModelId, providerTabFor } from "@/lib/ai-models";
 import {
@@ -481,6 +481,8 @@ function parseStoredSettings(raw: string | null): Settings {
         DEFAULT.seekForwardStepLongSec,
       ),
       halfSpeedRate: sanitizeHalfSpeedRate(parsed.halfSpeedRate, DEFAULT.halfSpeedRate),
+      speedDownStep: sanitizeSpeedStep(parsed.speedDownStep, DEFAULT.speedDownStep),
+      speedUpStep: sanitizeSpeedStep(parsed.speedUpStep, DEFAULT.speedUpStep),
       subLookupPopupSize: sanitizePopupSize(parsed.subLookupPopupSize, DEFAULT.subLookupPopupSize),
       theme: sanitizeTheme(parsed.theme),
       webhooks: {

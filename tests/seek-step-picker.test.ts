@@ -77,3 +77,12 @@ test("the short column falls back to the shipped default", () => {
   assert.match(defaults, /seekForwardStepShortSec: 3/);
   assert.match(btn, /const DEFAULT_SHORT_SEC = 3;/);
 });
+
+test("speed steps accept any value from 0.01x to 1x", async () => {
+  const { sanitizeSpeedStep } = await import("../src/lib/seek-step.ts");
+  assert.equal(sanitizeSpeedStep(0.1, 0.25), 0.1);
+  assert.equal(sanitizeSpeedStep(0.333, 0.25), 0.33);
+  assert.equal(sanitizeSpeedStep(0, 0.25), 0.25);
+  assert.equal(sanitizeSpeedStep(5, 0.25), 0.25);
+  assert.equal(sanitizeSpeedStep("x", 0.25), 0.25);
+});

@@ -471,6 +471,9 @@ export type Settings = {
   seekForwardStepLongSec: number;
   // Slow rate the half-speed hotkey toggles to from normal speed.
   halfSpeedRate: number;
+  // How much the Speed down / Speed up hotkeys change the rate per press.
+  speedDownStep: number;
+  speedUpStep: number;
   shareWatchPresence: boolean;
   playerHdrOpaqueWindow: boolean;
   playerEscExitsFullscreen: boolean;

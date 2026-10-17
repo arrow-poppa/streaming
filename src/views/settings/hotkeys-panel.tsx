@@ -19,9 +19,12 @@ import {
   HALF_SPEED_MIN,
   SEEK_STEP_MAX_SEC,
   SEEK_STEP_MIN_SEC,
+  SPEED_STEP_MAX,
+  SPEED_STEP_MIN,
   formatSeekStep,
   sanitizeHalfSpeedRate,
   sanitizeSeekStep,
+  sanitizeSpeedStep,
 } from "@/lib/seek-step";
 import { useSettings } from "@/lib/settings";
 import { useT } from "@/lib/i18n";
@@ -412,6 +415,24 @@ export function HotkeysPanel() {
                 onChange={(halfSpeedRate) => update({ halfSpeedRate })}
               />
             </SettingRow>
+            <SettingRow
+              label={t("Speed step")}
+              desc={t("How much the Speed down and Speed up shortcuts change the speed per press.")}
+              wide
+            >
+              <div className="flex flex-wrap items-end gap-x-10 gap-y-4">
+                <SpeedStepPicker
+                  label={t("Speed down")}
+                  value={settings.speedDownStep}
+                  onChange={(speedDownStep) => update({ speedDownStep })}
+                />
+                <SpeedStepPicker
+                  label={t("Speed up")}
+                  value={settings.speedUpStep}
+                  onChange={(speedUpStep) => update({ speedUpStep })}
+                />
+              </div>
+            </SettingRow>
           </Section>
         </>
       )}
@@ -466,6 +487,34 @@ function SeekStepPicker({
         presets={[1, 2, 3, 5, 10, 30]}
         format={formatSeekStep}
         sanitize={(n) => sanitizeSeekStep(n, value)}
+        ariaLabel={label}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+function SpeedStepPicker({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (step: number) => void;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col gap-2">
+      <span className={GROUP_LABEL}>{label}</span>
+      <NumberField
+        value={value}
+        min={SPEED_STEP_MIN}
+        max={SPEED_STEP_MAX}
+        step={0.05}
+        suffix="x"
+        presets={[0.05, 0.1, 0.25, 0.5]}
+        format={(n) => `${n}x`}
+        sanitize={(n) => sanitizeSpeedStep(n, value)}
         ariaLabel={label}
         onChange={onChange}
       />

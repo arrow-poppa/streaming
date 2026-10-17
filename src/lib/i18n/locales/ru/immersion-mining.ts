@@ -229,4 +229,11 @@ export default {
   "Popup size": "Размер окна",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "Масштабирует всё окно: текст, кнопки и ширину. Крупный размер удобен на телевизоре. Горячие клавиши «Увеличить/Уменьшить окно словаря» тоже его меняют.",
+  "Speed step": "Шаг скорости",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "Насколько горячие клавиши «Медленнее» и «Быстрее» меняют скорость за одно нажатие.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "Замедляет воспроизведение на шаг скорости из раздела «Поведение» (по умолчанию 0,25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "Ускоряет воспроизведение на шаг скорости из раздела «Поведение» (по умолчанию 0,25x).",
 };

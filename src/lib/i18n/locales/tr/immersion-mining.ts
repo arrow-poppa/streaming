@@ -227,4 +227,11 @@ export default {
   "Popup size": "Pencere boyutu",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "Tüm pencereyi ölçekler: metin, düğmeler ve genişlik. Büyük boyutlar TV'de işe yarar. Sözlük penceresini büyüt/küçült kısayolları da bunu değiştirir.",
+  "Speed step": "Hız adımı",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "Hızı azalt ve hızı artır kısayollarının her basışta hızı ne kadar değiştireceği.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "Oynatmayı Davranış altında ayarlanan hız adımı kadar yavaşlatır (varsayılan 0,25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "Oynatmayı Davranış altında ayarlanan hız adımı kadar hızlandırır (varsayılan 0,25x).",
 };

@@ -223,4 +223,11 @@ export default {
   "Popup size": "حجم النافذة",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "يغيّر حجم النافذة كلها: النص والأزرار والعرض. الأحجام الكبيرة تفيد على التلفاز. اختصارا تكبير/تصغير نافذة القاموس يغيّرانه أيضًا.",
+  "Speed step": "خطوة السرعة",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "مقدار تغيير السرعة عند كل ضغطة على اختصارَي إبطاء وتسريع السرعة.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "يبطئ التشغيل بمقدار خطوة السرعة المحددة في السلوك (0.25x افتراضيًا).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "يسرّع التشغيل بمقدار خطوة السرعة المحددة في السلوك (0.25x افتراضيًا).",
 };

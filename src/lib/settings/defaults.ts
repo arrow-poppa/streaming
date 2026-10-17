@@ -390,6 +390,8 @@ export const DEFAULT: Settings = {
   seekBackStepLongSec: 30,
   seekForwardStepLongSec: 30,
   halfSpeedRate: 0.5,
+  speedDownStep: 0.25,
+  speedUpStep: 0.25,
   shareWatchPresence: false,
   playerHdrOpaqueWindow: false,
   playerEscExitsFullscreen: true,

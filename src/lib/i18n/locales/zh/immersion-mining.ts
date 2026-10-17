@@ -219,4 +219,11 @@ export default {
   "Popup size": "弹窗大小",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "缩放整个弹窗：文字、按钮和宽度。在电视上用较大的尺寸更清楚。“放大/缩小词典弹窗”快捷键也会改变它。",
+  "Speed step": "速度步长",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "每按一次“减速”和“加速”快捷键时速度变化的幅度。",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "按“行为”中设置的速度步长减慢播放（默认 0.25x）。",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "按“行为”中设置的速度步长加快播放（默认 0.25x）。",
 };

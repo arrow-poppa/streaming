@@ -231,4 +231,11 @@ export default {
   "Popup size": "Rozmiar okienka",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "Skaluje całe okienko: tekst, przyciski i szerokość. Większe rozmiary pomagają na telewizorze. Skróty Większe/Mniejsze okienko słownika też go zmieniają.",
+  "Speed step": "Krok prędkości",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "O ile skróty Zwolnij i Przyspiesz zmieniają prędkość przy każdym naciśnięciu.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "Zwalnia odtwarzanie o Krok prędkości ustawiony w sekcji Zachowanie (domyślnie 0,25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "Przyspiesza odtwarzanie o Krok prędkości ustawiony w sekcji Zachowanie (domyślnie 0,25x).",
 };

@@ -518,14 +518,14 @@ export function useKeyboardShortcuts(params: {
       }
       if (match("playerSpeedDown")) {
         e.preventDefault();
-        const r = Math.max(0.25, +(snap.rate - 0.25).toFixed(2));
+        const r = Math.max(0.25, +(snap.rate - settings.speedDownStep).toFixed(2));
         bridgeRef.current?.setRate(r);
         writePlayerPrefs(metaId, { rate: r });
         return;
       }
       if (match("playerSpeedUp")) {
         e.preventDefault();
-        const r = Math.min(3, +(snap.rate + 0.25).toFixed(2));
+        const r = Math.min(3, +(snap.rate + settings.speedUpStep).toFixed(2));
         bridgeRef.current?.setRate(r);
         writePlayerPrefs(metaId, { rate: r });
         return;
@@ -714,6 +714,8 @@ export function useKeyboardShortcuts(params: {
     onLookupMode,
     onPopupSize,
     settings.halfSpeedRate,
+    settings.speedDownStep,
+    settings.speedUpStep,
     settings.playerEscExitsFullscreen,
     settings.playerConfirmLeave,
     settings.playerVolumeSfx,

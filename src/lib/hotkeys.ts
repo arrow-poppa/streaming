@@ -476,7 +476,7 @@ export const HOTKEYS: HotkeyDef[] = [
     scope: "Player",
     group: "Speed",
     label: "Speed down",
-    description: "Slow playback by 0.25x.",
+    description: "Slow playback by the Speed step set under Behavior (0.25x by default).",
     defaultBinding: "[",
   },
   {
@@ -484,7 +484,7 @@ export const HOTKEYS: HotkeyDef[] = [
     scope: "Player",
     group: "Speed",
     label: "Speed up",
-    description: "Speed playback up by 0.25x.",
+    description: "Speed playback up by the Speed step set under Behavior (0.25x by default).",
     defaultBinding: "]",
   },
   {

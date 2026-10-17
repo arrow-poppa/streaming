@@ -19,7 +19,10 @@ export function sanitizeSeekStep(value: unknown, fallback: number): number {
 }
 
 /** The presets plus the current value, sorted, so a custom step stays visible. */
-export function seekStepChoices(current: number, presets: readonly number[] = SEEK_STEP_OPTIONS): number[] {
+export function seekStepChoices(
+  current: number,
+  presets: readonly number[] = SEEK_STEP_OPTIONS,
+): number[] {
   return [...new Set([...presets, current])].sort((a, b) => a - b);
 }
 
@@ -34,5 +37,14 @@ export const HALF_SPEED_MAX = 4;
 export function sanitizeHalfSpeedRate(value: unknown, fallback: number): number {
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
   if (value < HALF_SPEED_MIN || value > HALF_SPEED_MAX) return fallback;
+  return Math.round(value * 100) / 100;
+}
+
+export const SPEED_STEP_MIN = 0.01;
+export const SPEED_STEP_MAX = 1;
+
+export function sanitizeSpeedStep(value: unknown, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  if (value < SPEED_STEP_MIN || value > SPEED_STEP_MAX) return fallback;
   return Math.round(value * 100) / 100;
 }

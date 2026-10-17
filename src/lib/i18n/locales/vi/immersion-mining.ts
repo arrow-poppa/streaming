@@ -225,4 +225,11 @@ export default {
   "Popup size": "Kích thước cửa sổ",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "Thay đổi tỉ lệ toàn bộ cửa sổ: chữ, nút và chiều rộng. Kích thước lớn hữu ích trên TV. Phím tắt Phóng to/Thu nhỏ cửa sổ từ điển cũng thay đổi nó.",
+  "Speed step": "Bước tốc độ",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "Mức thay đổi tốc độ mỗi lần nhấn phím tắt Giảm và Tăng tốc độ.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "Giảm tốc độ phát theo Bước tốc độ trong phần Hành vi (mặc định 0,25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "Tăng tốc độ phát theo Bước tốc độ trong phần Hành vi (mặc định 0,25x).",
 };

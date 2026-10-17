@@ -226,4 +226,11 @@ export default {
   "Popup size": "पॉपअप साइज़",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "पूरे पॉपअप का स्केल बदलता है: टेक्स्ट, बटन और चौड़ाई. बड़े साइज़ TV पर मदद करते हैं. बड़ा/छोटा डिक्शनरी पॉपअप हॉटकी भी इसे बदलते हैं.",
+  "Speed step": "स्पीड स्टेप",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "स्पीड घटाएँ और बढ़ाएँ शॉर्टकट हर बार दबाने पर स्पीड कितनी बदलते हैं.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "व्यवहार में तय स्पीड स्टेप जितना प्लेबैक धीमा करता है (डिफ़ॉल्ट 0.25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "व्यवहार में तय स्पीड स्टेप जितना प्लेबैक तेज़ करता है (डिफ़ॉल्ट 0.25x).",
 };

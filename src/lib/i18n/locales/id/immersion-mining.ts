@@ -227,4 +227,11 @@ export default {
   "Popup size": "Ukuran popup",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "Menskalakan seluruh popup: teks, tombol, dan lebar. Ukuran besar membantu di TV. Pintasan Popup kamus lebih besar/lebih kecil juga mengubahnya.",
+  "Speed step": "Langkah kecepatan",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "Seberapa besar pintasan Perlambat dan Percepat mengubah kecepatan setiap ditekan.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "Memperlambat pemutaran sebesar Langkah kecepatan di Perilaku (bawaan 0,25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "Mempercepat pemutaran sebesar Langkah kecepatan di Perilaku (bawaan 0,25x).",
 };

@@ -224,4 +224,11 @@ export default {
   "Popup size": "ポップアップのサイズ",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "ポップアップ全体（文字・ボタン・幅）を拡大縮小します。テレビでは大きめが見やすくなります。「辞書ポップアップを大きく／小さく」のショートカットでも変更できます。",
+  "Speed step": "速度の刻み",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "「再生速度を下げる」「再生速度を上げる」ショートカットを 1 回押すごとに変わる速度の量です。",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "「動作」で設定した速度の刻みだけ再生を遅くします（既定は 0.25x）。",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "「動作」で設定した速度の刻みだけ再生を速くします（既定は 0.25x）。",
 };

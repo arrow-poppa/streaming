@@ -221,4 +221,11 @@ export default {
   "Popup size": "팝업 크기",
   "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
     "팝업 전체(글자, 버튼, 너비)의 크기를 조절합니다. TV에서는 크게 하면 보기 좋습니다. 사전 팝업 크게/작게 단축키로도 바꿀 수 있습니다.",
+  "Speed step": "속도 단계",
+  "How much the Speed down and Speed up shortcuts change the speed per press.":
+    "속도 낮추기/높이기 단축키를 한 번 누를 때 바뀌는 속도입니다.",
+  "Slow playback by the Speed step set under Behavior (0.25x by default).":
+    "동작에서 정한 속도 단계만큼 재생을 느리게 합니다(기본 0.25x).",
+  "Speed playback up by the Speed step set under Behavior (0.25x by default).":
+    "동작에서 정한 속도 단계만큼 재생을 빠르게 합니다(기본 0.25x).",
 };
