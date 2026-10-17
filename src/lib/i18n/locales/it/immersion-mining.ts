@@ -222,7 +222,4 @@ export default {
     "Premi una volta per iniziare a registrare e di nuovo per fermare e inserire quel tratto nella scheda più recente. Funziona senza sottotitoli. Con una parola selezionata quando fermi, anche la parola e le definizioni. Solo mpv.",
   "Added {word} to {deck}": "{word} aggiunta a {deck}",
   "Updated card in {deck} with {word}": "Scheda in {deck} aggiornata con {word}",
-  "Sending the card to Anki…": "Invio della carta ad Anki…",
-  "Updating the last card in Anki…": "Aggiornamento dell’ultima carta in Anki…",
-  "Sending the audio card to Anki…": "Invio della carta audio ad Anki…",
 };

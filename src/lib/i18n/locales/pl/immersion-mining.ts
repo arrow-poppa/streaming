@@ -221,7 +221,4 @@ export default {
     "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i wstawić ten fragment do najnowszej karty. Działa bez napisów. Gdy przy zatrzymaniu słowo jest zaznaczone, także słowo i definicje. Tylko mpv.",
   "Added {word} to {deck}": "Dodano {word} do {deck}",
   "Updated card in {deck} with {word}": "Zaktualizowano kartę w {deck} o {word}",
-  "Sending the card to Anki…": "Wysyłanie karty do Anki…",
-  "Updating the last card in Anki…": "Aktualizowanie ostatniej karty w Anki…",
-  "Sending the audio card to Anki…": "Wysyłanie karty audio do Anki…",
 };

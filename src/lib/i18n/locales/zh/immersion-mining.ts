@@ -209,7 +209,4 @@ export default {
     "按一次开始录制，再按一次停止并把该片段放入最新的卡片。没有字幕也可以。停止时若选中了单词，也会加入单词及其释义。仅限 mpv。",
   "Added {word} to {deck}": "已将 {word} 添加到 {deck}",
   "Updated card in {deck} with {word}": "已用 {word} 更新 {deck} 中的卡片",
-  "Sending the card to Anki…": "正在把卡片发送到 Anki…",
-  "Updating the last card in Anki…": "正在更新 Anki 中的最新卡片…",
-  "Sending the audio card to Anki…": "正在把音频卡发送到 Anki…",
 };

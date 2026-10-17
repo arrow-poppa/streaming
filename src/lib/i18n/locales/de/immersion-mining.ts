@@ -222,7 +222,4 @@ export default {
     "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und legt den Abschnitt in die neueste Karte. Geht ohne Untertitel. Ist beim Beenden ein Wort gewählt, auch Wort und Definitionen. Nur mpv.",
   "Added {word} to {deck}": "{word} zu {deck} hinzugefügt",
   "Updated card in {deck} with {word}": "Karte in {deck} mit {word} aktualisiert",
-  "Sending the card to Anki…": "Karte wird an Anki gesendet…",
-  "Updating the last card in Anki…": "Letzte Karte in Anki wird aktualisiert…",
-  "Sending the audio card to Anki…": "Audiokarte wird an Anki gesendet…",
 };

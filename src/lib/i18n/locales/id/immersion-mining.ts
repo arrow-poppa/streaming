@@ -217,7 +217,4 @@ export default {
     "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan memasukkan potongan itu ke kartu terbaru. Berfungsi tanpa subtitel. Jika ada kata yang dipilih saat berhenti, kata dan definisinya juga. Hanya mpv.",
   "Added {word} to {deck}": "{word} ditambahkan ke {deck}",
   "Updated card in {deck} with {word}": "Kartu di {deck} diperbarui dengan {word}",
-  "Sending the card to Anki…": "Mengirim kartu ke Anki…",
-  "Updating the last card in Anki…": "Memperbarui kartu terakhir di Anki…",
-  "Sending the audio card to Anki…": "Mengirim kartu audio ke Anki…",
 };

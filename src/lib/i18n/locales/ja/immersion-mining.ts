@@ -214,7 +214,4 @@ export default {
     "1 回押すと録音を開始し、もう一度押すと停止してその区間を最新のカードに入れます。字幕なしでも使えます。停止時に単語を選んでいる場合は、単語と定義も入れます。mpv のみ。",
   "Added {word} to {deck}": "{word} を {deck} に追加しました",
   "Updated card in {deck} with {word}": "{deck} のカードを {word} で更新しました",
-  "Sending the card to Anki…": "カードを Anki に送信中…",
-  "Updating the last card in Anki…": "Anki の最新カードを更新中…",
-  "Sending the audio card to Anki…": "音声カードを Anki に送信中…",
 };

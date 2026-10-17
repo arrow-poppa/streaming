@@ -222,7 +222,4 @@ export default {
     "Pulsa una vez para empezar a grabar y otra para detener y poner ese fragmento en la tarjeta más reciente. Funciona sin subtítulos. Con una palabra seleccionada al detener, también la palabra y sus definiciones. Solo mpv.",
   "Added {word} to {deck}": "{word} añadida a {deck}",
   "Updated card in {deck} with {word}": "Tarjeta de {deck} actualizada con {word}",
-  "Sending the card to Anki…": "Enviando la tarjeta a Anki…",
-  "Updating the last card in Anki…": "Actualizando la última tarjeta en Anki…",
-  "Sending the audio card to Anki…": "Enviando la tarjeta de audio a Anki…",
 };

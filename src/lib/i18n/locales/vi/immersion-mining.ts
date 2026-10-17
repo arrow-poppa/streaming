@@ -215,7 +215,4 @@ export default {
     "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và đưa đoạn đó vào thẻ mới nhất. Dùng được khi không có phụ đề. Nếu đang chọn một từ lúc dừng, cả từ và định nghĩa. Chỉ mpv.",
   "Added {word} to {deck}": "Đã thêm {word} vào {deck}",
   "Updated card in {deck} with {word}": "Đã cập nhật thẻ trong {deck} với {word}",
-  "Sending the card to Anki…": "Đang gửi thẻ sang Anki…",
-  "Updating the last card in Anki…": "Đang cập nhật thẻ cuối cùng trong Anki…",
-  "Sending the audio card to Anki…": "Đang gửi thẻ âm thanh sang Anki…",
 };

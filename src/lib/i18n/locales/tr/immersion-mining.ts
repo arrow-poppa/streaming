@@ -217,7 +217,4 @@ export default {
     "Kaydı başlatmak için bir kez, durdurup o bölümü en yeni karta koymak için tekrar basın. Altyazısız çalışır. Durdururken bir kelime seçiliyse kelime ve tanımları da. Yalnızca mpv.",
   "Added {word} to {deck}": "{word}, {deck} destesine eklendi",
   "Updated card in {deck} with {word}": "{deck} içindeki kart {word} ile güncellendi",
-  "Sending the card to Anki…": "Kart Anki'ye gönderiliyor…",
-  "Updating the last card in Anki…": "Anki'deki son kart güncelleniyor…",
-  "Sending the audio card to Anki…": "Ses kartı Anki'ye gönderiliyor…",
 };

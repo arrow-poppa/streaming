@@ -216,7 +216,4 @@ export default {
     "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. रोकते समय कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी. केवल mpv.",
   "Added {word} to {deck}": "{word} को {deck} में जोड़ा गया",
   "Updated card in {deck} with {word}": "{deck} का कार्ड {word} के साथ अपडेट किया गया",
-  "Sending the card to Anki…": "कार्ड Anki को भेजा जा रहा है…",
-  "Updating the last card in Anki…": "Anki में आख़िरी कार्ड अपडेट हो रहा है…",
-  "Sending the audio card to Anki…": "ऑडियो कार्ड Anki को भेजा जा रहा है…",
 };

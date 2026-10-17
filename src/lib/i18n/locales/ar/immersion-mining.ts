@@ -213,7 +213,4 @@ export default {
     "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه ووضع المقطع في أحدث بطاقة. يعمل دون ترجمة. إن كانت هناك كلمة محددة عند الإيقاف، الكلمة وتعريفاتها أيضًا. mpv فقط.",
   "Added {word} to {deck}": "تمت إضافة {word} إلى {deck}",
   "Updated card in {deck} with {word}": "تم تحديث البطاقة في {deck} بـ {word}",
-  "Sending the card to Anki…": "جارٍ إرسال البطاقة إلى Anki…",
-  "Updating the last card in Anki…": "جارٍ تحديث آخر بطاقة في Anki…",
-  "Sending the audio card to Anki…": "جارٍ إرسال بطاقة الصوت إلى Anki…",
 };

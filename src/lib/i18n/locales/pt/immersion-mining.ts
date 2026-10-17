@@ -219,7 +219,4 @@ export default {
     "Aperte uma vez para começar a gravar e de novo para parar e colocar esse trecho no cartão mais novo. Funciona sem legendas. Com uma palavra selecionada ao parar, também a palavra e as definições. Só no mpv.",
   "Added {word} to {deck}": "{word} adicionada a {deck}",
   "Updated card in {deck} with {word}": "Cartão em {deck} atualizado com {word}",
-  "Sending the card to Anki…": "Enviando o cartão para o Anki…",
-  "Updating the last card in Anki…": "Atualizando o último cartão no Anki…",
-  "Sending the audio card to Anki…": "Enviando o cartão de áudio para o Anki…",
 };

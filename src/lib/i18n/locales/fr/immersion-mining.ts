@@ -222,7 +222,4 @@ export default {
     "Appuyez une fois pour commencer l’enregistrement, puis à nouveau pour l’arrêter et placer ce passage dans la carte la plus récente. Fonctionne sans sous-titres. Avec un mot sélectionné à l’arrêt, le mot et ses définitions aussi. mpv uniquement.",
   "Added {word} to {deck}": "{word} ajouté à {deck}",
   "Updated card in {deck} with {word}": "Carte de {deck} mise à jour avec {word}",
-  "Sending the card to Anki…": "Envoi de la carte à Anki…",
-  "Updating the last card in Anki…": "Mise à jour de la dernière carte dans Anki…",
-  "Sending the audio card to Anki…": "Envoi de la carte audio à Anki…",
 };
