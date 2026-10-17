@@ -222,4 +222,14 @@ export default {
     "Appuyez une fois pour commencer l’enregistrement, puis à nouveau pour l’arrêter et placer ce passage dans la carte la plus récente. Fonctionne sans sous-titres. Avec un mot sélectionné à l’arrêt, le mot et ses définitions aussi. mpv uniquement.",
   "Added {word} to {deck}": "{word} ajouté à {deck}",
   "Updated card in {deck} with {word}": "Carte de {deck} mise à jour avec {word}",
+  "Bigger dictionary popup": "Agrandir la fenêtre du dictionnaire",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Agrandit de 10 % la fenêtre du dictionnaire des sous-titres. Enregistré dans le réglage Taille de la fenêtre.",
+  "Smaller dictionary popup": "Réduire la fenêtre du dictionnaire",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Réduit de 10 % la fenêtre du dictionnaire des sous-titres. Enregistré dans le réglage Taille de la fenêtre.",
+  "Dictionary popup size: {n}%": "Taille de la fenêtre du dictionnaire : {n} %",
+  "Popup size": "Taille de la fenêtre",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Met à l’échelle toute la fenêtre : texte, boutons et largeur. Les grandes tailles aident sur une TV. Les raccourcis Agrandir/Réduire la fenêtre du dictionnaire la changent aussi.",
 };

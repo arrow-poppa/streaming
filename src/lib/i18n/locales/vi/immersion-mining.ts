@@ -215,4 +215,14 @@ export default {
     "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và đưa đoạn đó vào thẻ mới nhất. Dùng được khi không có phụ đề. Nếu đang chọn một từ lúc dừng, cả từ và định nghĩa. Chỉ mpv.",
   "Added {word} to {deck}": "Đã thêm {word} vào {deck}",
   "Updated card in {deck} with {word}": "Đã cập nhật thẻ trong {deck} với {word}",
+  "Bigger dictionary popup": "Phóng to cửa sổ từ điển",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Phóng to cửa sổ từ điển phụ đề thêm 10%. Lưu vào cài đặt Kích thước cửa sổ.",
+  "Smaller dictionary popup": "Thu nhỏ cửa sổ từ điển",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Thu nhỏ cửa sổ từ điển phụ đề 10%. Lưu vào cài đặt Kích thước cửa sổ.",
+  "Dictionary popup size: {n}%": "Kích thước cửa sổ từ điển: {n}%",
+  "Popup size": "Kích thước cửa sổ",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Thay đổi tỉ lệ toàn bộ cửa sổ: chữ, nút và chiều rộng. Kích thước lớn hữu ích trên TV. Phím tắt Phóng to/Thu nhỏ cửa sổ từ điển cũng thay đổi nó.",
 };

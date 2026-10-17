@@ -66,6 +66,7 @@ export function useKeyboardShortcuts(params: {
   onToggleSubtitles?: () => void;
   onImmersion?: (action: ImmersionAction) => void;
   onLookupMode?: () => void;
+  onPopupSize?: (dir: 1 | -1) => void;
 }) {
   const {
     bridgeRef,
@@ -109,6 +110,7 @@ export function useKeyboardShortcuts(params: {
     onToggleSubtitles,
     onImmersion,
     onLookupMode,
+    onPopupSize,
   } = params;
   const { settings, update } = useSettings();
   const overrides = settings.hotkeys ?? {};
@@ -205,6 +207,11 @@ export function useKeyboardShortcuts(params: {
       if (match("playerLookupMode") && onLookupMode) {
         e.preventDefault();
         if (!e.repeat) onLookupMode();
+        return;
+      }
+      if (onPopupSize && (match("playerPopupBigger") || match("playerPopupSmaller"))) {
+        e.preventDefault();
+        onPopupSize(match("playerPopupBigger") ? 1 : -1);
         return;
       }
       // Hold-to-speed-up needs the key's release, which a controller event
@@ -705,6 +712,7 @@ export function useKeyboardShortcuts(params: {
     onToggleSubtitles,
     onImmersion,
     onLookupMode,
+    onPopupSize,
     settings.halfSpeedRate,
     settings.playerEscExitsFullscreen,
     settings.playerConfirmLeave,

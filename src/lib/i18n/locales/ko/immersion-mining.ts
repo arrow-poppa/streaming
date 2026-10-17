@@ -211,4 +211,14 @@ export default {
     "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. 멈출 때 단어를 선택했다면 단어와 정의도 넣습니다. mpv 전용.",
   "Added {word} to {deck}": "{word}을(를) {deck}에 추가했습니다",
   "Updated card in {deck} with {word}": "{deck}의 카드를 {word}(으)로 업데이트했습니다",
+  "Bigger dictionary popup": "사전 팝업 크게",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "자막 사전 팝업을 10% 크게 합니다. 팝업 크기 설정에 저장됩니다.",
+  "Smaller dictionary popup": "사전 팝업 작게",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "자막 사전 팝업을 10% 작게 합니다. 팝업 크기 설정에 저장됩니다.",
+  "Dictionary popup size: {n}%": "사전 팝업 크기: {n}%",
+  "Popup size": "팝업 크기",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "팝업 전체(글자, 버튼, 너비)의 크기를 조절합니다. TV에서는 크게 하면 보기 좋습니다. 사전 팝업 크게/작게 단축키로도 바꿀 수 있습니다.",
 };

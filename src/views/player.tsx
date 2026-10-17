@@ -83,6 +83,7 @@ import { usePendingSeekApply } from "./player/hooks/use-pending-seek-apply";
 import { usePlayerHotkeys } from "./player/hooks/use-player-hotkeys";
 import { useImmersion } from "./player/hooks/use-immersion";
 import { sendLookupCommand } from "@/lib/player/lookup-nav";
+import { stepPopupSize } from "@/lib/player/lookup-popup-size";
 import { clearMediaControls, updateMediaControls } from "@/lib/media-session";
 import { usePlayerMedia } from "./player/hooks/use-player-media";
 import { useTrickplay } from "./player/hooks/use-trickplay";
@@ -1054,6 +1055,11 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
           ? t("No subtitle on screen to pick a word from.")
           : t("Turn on Look up words in subtitles under Dictionary & Anki to pick words."),
       );
+    },
+    onPopupSize: (dir) => {
+      const size = stepPopupSize(settings.subLookupPopupSize, dir);
+      update({ subLookupPopupSize: size });
+      showSyncToast("ok", t("Dictionary popup size: {n}%", { n: size }));
     },
   });
 

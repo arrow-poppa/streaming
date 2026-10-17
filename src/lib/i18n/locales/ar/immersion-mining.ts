@@ -213,4 +213,14 @@ export default {
     "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه ووضع المقطع في أحدث بطاقة. يعمل دون ترجمة. إن كانت هناك كلمة محددة عند الإيقاف، الكلمة وتعريفاتها أيضًا. mpv فقط.",
   "Added {word} to {deck}": "تمت إضافة {word} إلى {deck}",
   "Updated card in {deck} with {word}": "تم تحديث البطاقة في {deck} بـ {word}",
+  "Bigger dictionary popup": "تكبير نافذة القاموس",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "يكبّر نافذة قاموس الترجمة بنسبة 10%. يُحفظ في إعداد حجم النافذة.",
+  "Smaller dictionary popup": "تصغير نافذة القاموس",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "يصغّر نافذة قاموس الترجمة بنسبة 10%. يُحفظ في إعداد حجم النافذة.",
+  "Dictionary popup size: {n}%": "حجم نافذة القاموس: {n}%",
+  "Popup size": "حجم النافذة",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "يغيّر حجم النافذة كلها: النص والأزرار والعرض. الأحجام الكبيرة تفيد على التلفاز. اختصارا تكبير/تصغير نافذة القاموس يغيّرانه أيضًا.",
 };

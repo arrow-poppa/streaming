@@ -222,4 +222,14 @@ export default {
     "Pulsa una vez para empezar a grabar y otra para detener y poner ese fragmento en la tarjeta más reciente. Funciona sin subtítulos. Con una palabra seleccionada al detener, también la palabra y sus definiciones. Solo mpv.",
   "Added {word} to {deck}": "{word} añadida a {deck}",
   "Updated card in {deck} with {word}": "Tarjeta de {deck} actualizada con {word}",
+  "Bigger dictionary popup": "Ventana del diccionario más grande",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Hace la ventana del diccionario de los subtítulos un 10% más grande. Se guarda en la opción Tamaño de la ventana.",
+  "Smaller dictionary popup": "Ventana del diccionario más pequeña",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Hace la ventana del diccionario de los subtítulos un 10% más pequeña. Se guarda en la opción Tamaño de la ventana.",
+  "Dictionary popup size: {n}%": "Tamaño de la ventana del diccionario: {n}%",
+  "Popup size": "Tamaño de la ventana",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Escala toda la ventana: texto, botones y ancho. Los tamaños grandes ayudan en una TV. Los atajos Ventana del diccionario más grande/más pequeña también lo cambian.",
 };

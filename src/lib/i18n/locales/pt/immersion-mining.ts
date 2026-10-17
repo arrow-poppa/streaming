@@ -219,4 +219,14 @@ export default {
     "Aperte uma vez para começar a gravar e de novo para parar e colocar esse trecho no cartão mais novo. Funciona sem legendas. Com uma palavra selecionada ao parar, também a palavra e as definições. Só no mpv.",
   "Added {word} to {deck}": "{word} adicionada a {deck}",
   "Updated card in {deck} with {word}": "Cartão em {deck} atualizado com {word}",
+  "Bigger dictionary popup": "Popup do dicionário maior",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Deixa o popup do dicionário das legendas 10% maior. Fica salvo na opção Tamanho do popup.",
+  "Smaller dictionary popup": "Popup do dicionário menor",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Deixa o popup do dicionário das legendas 10% menor. Fica salvo na opção Tamanho do popup.",
+  "Dictionary popup size: {n}%": "Tamanho do popup do dicionário: {n}%",
+  "Popup size": "Tamanho do popup",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Aumenta ou diminui o popup inteiro: texto, botões e largura. Tamanhos maiores ajudam numa TV. Os atalhos Popup do dicionário maior/menor também mudam isso.",
 };

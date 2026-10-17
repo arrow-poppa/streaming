@@ -217,4 +217,14 @@ export default {
     "Kaydı başlatmak için bir kez, durdurup o bölümü en yeni karta koymak için tekrar basın. Altyazısız çalışır. Durdururken bir kelime seçiliyse kelime ve tanımları da. Yalnızca mpv.",
   "Added {word} to {deck}": "{word}, {deck} destesine eklendi",
   "Updated card in {deck} with {word}": "{deck} içindeki kart {word} ile güncellendi",
+  "Bigger dictionary popup": "Sözlük penceresini büyüt",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Altyazı sözlük penceresini %10 büyütür. Pencere boyutu ayarına kaydedilir.",
+  "Smaller dictionary popup": "Sözlük penceresini küçült",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Altyazı sözlük penceresini %10 küçültür. Pencere boyutu ayarına kaydedilir.",
+  "Dictionary popup size: {n}%": "Sözlük penceresi boyutu: %{n}",
+  "Popup size": "Pencere boyutu",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Tüm pencereyi ölçekler: metin, düğmeler ve genişlik. Büyük boyutlar TV'de işe yarar. Sözlük penceresini büyüt/küçült kısayolları da bunu değiştirir.",
 };

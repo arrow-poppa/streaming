@@ -222,4 +222,14 @@ export default {
     "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und legt den Abschnitt in die neueste Karte. Geht ohne Untertitel. Ist beim Beenden ein Wort gewählt, auch Wort und Definitionen. Nur mpv.",
   "Added {word} to {deck}": "{word} zu {deck} hinzugefügt",
   "Updated card in {deck} with {word}": "Karte in {deck} mit {word} aktualisiert",
+  "Bigger dictionary popup": "Wörterbuch-Popup größer",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Macht das Wörterbuch-Popup der Untertitel 10 % größer. Wird als Einstellung Popup-Größe gespeichert.",
+  "Smaller dictionary popup": "Wörterbuch-Popup kleiner",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Macht das Wörterbuch-Popup der Untertitel 10 % kleiner. Wird als Einstellung Popup-Größe gespeichert.",
+  "Dictionary popup size: {n}%": "Größe des Wörterbuch-Popups: {n} %",
+  "Popup size": "Popup-Größe",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Skaliert das ganze Popup: Text, Schaltflächen und Breite. Größere Werte helfen auf einem Fernseher. Die Tastenkürzel Wörterbuch-Popup größer/kleiner ändern sie ebenfalls.",
 };

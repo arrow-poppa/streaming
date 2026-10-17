@@ -216,4 +216,14 @@ export default {
     "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. रोकते समय कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी. केवल mpv.",
   "Added {word} to {deck}": "{word} को {deck} में जोड़ा गया",
   "Updated card in {deck} with {word}": "{deck} का कार्ड {word} के साथ अपडेट किया गया",
+  "Bigger dictionary popup": "बड़ा डिक्शनरी पॉपअप",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "सबटाइटल डिक्शनरी पॉपअप को 10% बड़ा करता है. पॉपअप साइज़ सेटिंग में सेव होता है.",
+  "Smaller dictionary popup": "छोटा डिक्शनरी पॉपअप",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "सबटाइटल डिक्शनरी पॉपअप को 10% छोटा करता है. पॉपअप साइज़ सेटिंग में सेव होता है.",
+  "Dictionary popup size: {n}%": "डिक्शनरी पॉपअप साइज़: {n}%",
+  "Popup size": "पॉपअप साइज़",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "पूरे पॉपअप का स्केल बदलता है: टेक्स्ट, बटन और चौड़ाई. बड़े साइज़ TV पर मदद करते हैं. बड़ा/छोटा डिक्शनरी पॉपअप हॉटकी भी इसे बदलते हैं.",
 };

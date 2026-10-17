@@ -84,3 +84,14 @@ test("a selected word is found again inside a recording's text", async () => {
   assert.deepEqual(locateWord(sel, "Hola.\nNo quiero ir"), { matchStart: 9, matchLength: 6 });
   assert.deepEqual(locateWord(sel, "Otra cosa"), { matchStart: 0, matchLength: 0 });
 });
+
+test("popup size stays between 75% and 250% and steps by 10", async () => {
+  const { sanitizePopupSize, stepPopupSize } =
+    await import("../src/lib/player/lookup-popup-size.ts");
+  assert.equal(sanitizePopupSize(undefined, 100), 100);
+  assert.equal(sanitizePopupSize(400, 100), 250);
+  assert.equal(sanitizePopupSize(50, 100), 75);
+  assert.equal(stepPopupSize(100, 1), 110);
+  assert.equal(stepPopupSize(80, -1), 75);
+  assert.equal(stepPopupSize(245, 1), 250);
+});

@@ -222,4 +222,14 @@ export default {
     "Premi una volta per iniziare a registrare e di nuovo per fermare e inserire quel tratto nella scheda più recente. Funziona senza sottotitoli. Con una parola selezionata quando fermi, anche la parola e le definizioni. Solo mpv.",
   "Added {word} to {deck}": "{word} aggiunta a {deck}",
   "Updated card in {deck} with {word}": "Scheda in {deck} aggiornata con {word}",
+  "Bigger dictionary popup": "Popup del dizionario più grande",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Rende il popup del dizionario dei sottotitoli più grande del 10%. Salvato nell’opzione Dimensione del popup.",
+  "Smaller dictionary popup": "Popup del dizionario più piccolo",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Rende il popup del dizionario dei sottotitoli più piccolo del 10%. Salvato nell’opzione Dimensione del popup.",
+  "Dictionary popup size: {n}%": "Dimensione del popup del dizionario: {n}%",
+  "Popup size": "Dimensione del popup",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Ridimensiona tutto il popup: testo, pulsanti e larghezza. Le dimensioni grandi aiutano su una TV. Anche le scorciatoie Popup del dizionario più grande/più piccolo la cambiano.",
 };

@@ -219,4 +219,14 @@ export default {
     "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и поместить фрагмент в самую новую карточку. Работает без субтитров. Если при остановке выбрано слово — также слово и определения. Только mpv.",
   "Added {word} to {deck}": "{word} добавлено в {deck}",
   "Updated card in {deck} with {word}": "Карточка в {deck} обновлена словом {word}",
+  "Bigger dictionary popup": "Увеличить окно словаря",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Увеличивает окно словаря субтитров на 10%. Сохраняется в настройке «Размер окна».",
+  "Smaller dictionary popup": "Уменьшить окно словаря",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Уменьшает окно словаря субтитров на 10%. Сохраняется в настройке «Размер окна».",
+  "Dictionary popup size: {n}%": "Размер окна словаря: {n}%",
+  "Popup size": "Размер окна",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Масштабирует всё окно: текст, кнопки и ширину. Крупный размер удобен на телевизоре. Горячие клавиши «Увеличить/Уменьшить окно словаря» тоже его меняют.",
 };

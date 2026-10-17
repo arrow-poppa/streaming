@@ -209,4 +209,14 @@ export default {
     "按一次开始录制，再按一次停止并把该片段放入最新的卡片。没有字幕也可以。停止时若选中了单词，也会加入单词及其释义。仅限 mpv。",
   "Added {word} to {deck}": "已将 {word} 添加到 {deck}",
   "Updated card in {deck} with {word}": "已用 {word} 更新 {deck} 中的卡片",
+  "Bigger dictionary popup": "放大词典弹窗",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "将字幕词典弹窗放大 10%。保存为“弹窗大小”设置。",
+  "Smaller dictionary popup": "缩小词典弹窗",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "将字幕词典弹窗缩小 10%。保存为“弹窗大小”设置。",
+  "Dictionary popup size: {n}%": "词典弹窗大小：{n}%",
+  "Popup size": "弹窗大小",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "缩放整个弹窗：文字、按钮和宽度。在电视上用较大的尺寸更清楚。“放大/缩小词典弹窗”快捷键也会改变它。",
 };

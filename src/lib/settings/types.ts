@@ -768,6 +768,8 @@ export type Settings = {
   subLookupScanDelayMs: number;
   // Raise lookup subtitles above the seek bar while the player controls show.
   subLookupLiftAboveControls: boolean;
+  // Dictionary popup size in percent (75–250); the popup hotkeys step it.
+  subLookupPopupSize: number;
   // AI explanation of the looked-up word, from any OpenAI-compatible
   // chat-completions endpoint (the "Custom" provider).
   subLookupAiEnabled: boolean;

@@ -13,6 +13,7 @@ import {
 import { ANKI_FIELD_SOURCES, ankiDeckNames, ankiModelFields, ankiModelNames, guessFieldMap } from "@/lib/mining/anki";
 import { isOpenRouterEndpoint, validateBodyJson } from "@/lib/mining/ai-explain";
 import { AI_EXPLAIN_DEFAULT_PROMPT } from "@/lib/settings/defaults";
+import { POPUP_SIZE_MAX, POPUP_SIZE_MIN } from "@/lib/player/lookup-popup-size";
 import { Section, ToggleRow } from "../shared";
 
 const LANGUAGES = [
@@ -131,6 +132,18 @@ function DictionarySection() {
         value={settings.subLookupStayOpen}
         onChange={(v) => update({ subLookupStayOpen: v })}
       />
+      <Row
+        label={t("Popup size")}
+        sub={t("Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.")}
+      >
+        <RangeInput
+          value={settings.subLookupPopupSize}
+          min={POPUP_SIZE_MIN}
+          max={POPUP_SIZE_MAX}
+          suffix="%"
+          onChange={(subLookupPopupSize) => update({ subLookupPopupSize })}
+        />
+      </Row>
       <Row
         label={t("Look up with")}
         sub={t("Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.")}

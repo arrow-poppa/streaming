@@ -221,4 +221,14 @@ export default {
     "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i wstawić ten fragment do najnowszej karty. Działa bez napisów. Gdy przy zatrzymaniu słowo jest zaznaczone, także słowo i definicje. Tylko mpv.",
   "Added {word} to {deck}": "Dodano {word} do {deck}",
   "Updated card in {deck} with {word}": "Zaktualizowano kartę w {deck} o {word}",
+  "Bigger dictionary popup": "Większe okienko słownika",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Powiększa okienko słownika napisów o 10%. Zapisywane w ustawieniu Rozmiar okienka.",
+  "Smaller dictionary popup": "Mniejsze okienko słownika",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Pomniejsza okienko słownika napisów o 10%. Zapisywane w ustawieniu Rozmiar okienka.",
+  "Dictionary popup size: {n}%": "Rozmiar okienka słownika: {n}%",
+  "Popup size": "Rozmiar okienka",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Skaluje całe okienko: tekst, przyciski i szerokość. Większe rozmiary pomagają na telewizorze. Skróty Większe/Mniejsze okienko słownika też go zmieniają.",
 };

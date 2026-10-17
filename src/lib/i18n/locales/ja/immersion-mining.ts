@@ -214,4 +214,14 @@ export default {
     "1 回押すと録音を開始し、もう一度押すと停止してその区間を最新のカードに入れます。字幕なしでも使えます。停止時に単語を選んでいる場合は、単語と定義も入れます。mpv のみ。",
   "Added {word} to {deck}": "{word} を {deck} に追加しました",
   "Updated card in {deck} with {word}": "{deck} のカードを {word} で更新しました",
+  "Bigger dictionary popup": "辞書ポップアップを大きく",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "字幕の辞書ポップアップを 10% 大きくします。「ポップアップのサイズ」設定に保存されます。",
+  "Smaller dictionary popup": "辞書ポップアップを小さく",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "字幕の辞書ポップアップを 10% 小さくします。「ポップアップのサイズ」設定に保存されます。",
+  "Dictionary popup size: {n}%": "辞書ポップアップのサイズ: {n}%",
+  "Popup size": "ポップアップのサイズ",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "ポップアップ全体（文字・ボタン・幅）を拡大縮小します。テレビでは大きめが見やすくなります。「辞書ポップアップを大きく／小さく」のショートカットでも変更できます。",
 };

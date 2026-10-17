@@ -32,6 +32,8 @@ export type HotkeyId =
   | "playerRecordUpdate"
   | "playerRecordAudio"
   | "playerLookupMode"
+  | "playerPopupBigger"
+  | "playerPopupSmaller"
   | "lookupNextWord"
   | "lookupPrevWord"
   | "lookupPrevLine"
@@ -554,6 +556,22 @@ export const HOTKEYS: HotkeyDef[] = [
     label: "Pick a word in the subtitles",
     description:
       "Pause and select the first word of the subtitle to look it up without the mouse. Move between words with the Word lookup keys; press again to leave.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerPopupBigger",
+    scope: "Player",
+    group: "Immersion",
+    label: "Bigger dictionary popup",
+    description: "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.",
+    defaultBinding: "",
+  },
+  {
+    id: "playerPopupSmaller",
+    scope: "Player",
+    group: "Immersion",
+    label: "Smaller dictionary popup",
+    description: "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.",
     defaultBinding: "",
   },
 

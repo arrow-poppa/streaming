@@ -217,4 +217,14 @@ export default {
     "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan memasukkan potongan itu ke kartu terbaru. Berfungsi tanpa subtitel. Jika ada kata yang dipilih saat berhenti, kata dan definisinya juga. Hanya mpv.",
   "Added {word} to {deck}": "{word} ditambahkan ke {deck}",
   "Updated card in {deck} with {word}": "Kartu di {deck} diperbarui dengan {word}",
+  "Bigger dictionary popup": "Popup kamus lebih besar",
+  "Make the subtitle dictionary popup 10% bigger. Saved as the Popup size setting.":
+    "Membuat popup kamus subtitel 10% lebih besar. Disimpan sebagai setelan Ukuran popup.",
+  "Smaller dictionary popup": "Popup kamus lebih kecil",
+  "Make the subtitle dictionary popup 10% smaller. Saved as the Popup size setting.":
+    "Membuat popup kamus subtitel 10% lebih kecil. Disimpan sebagai setelan Ukuran popup.",
+  "Dictionary popup size: {n}%": "Ukuran popup kamus: {n}%",
+  "Popup size": "Ukuran popup",
+  "Scales the whole popup: text, buttons and width. Bigger sizes help on a TV. The Bigger/Smaller dictionary popup hotkeys change it too.":
+    "Menskalakan seluruh popup: teks, tombol, dan lebar. Ukuran besar membantu di TV. Pintasan Popup kamus lebih besar/lebih kecil juga mengubahnya.",
 };
