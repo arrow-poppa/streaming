@@ -298,7 +298,8 @@ jobs:
         if: contains(matrix.platform.runner, 'ubuntu')
         shell: bash
         env:
-          BUNDLES: ${{ inputs.linux_bundles || (startsWith(github.ref, 'refs/heads/') && 'deb,rpm,appimage') || 'deb,appimage' }}
+          # Pushes to the working branches only need the rpm for testing.
+          BUNDLES: ${{ inputs.linux_bundles || (startsWith(github.ref, 'refs/heads/') && 'rpm') || 'deb,appimage' }}
         run: |
           set -euo pipefail
           system="$(tr ',' '\n' <<<"$BUNDLES" | grep -v '^appimage$' | paste -sd, - || true)"
