@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSettings } from "@/lib/settings";
-import { aiExplainReady } from "@/lib/mining/ai-explain";
+import { aiExplainReady, explainWord } from "@/lib/mining/ai-explain";
+import { setWordSelection } from "@/lib/player/word-selection";
 import {
   firstWord,
   nextWord,
@@ -234,6 +235,31 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       mpvEngine: controls.mpvEngine,
     };
   }, [lines, lookup.hit, controls.title, controls.mpvEngine, controls.subDelaySec, startSec, endSec]);
+
+  // A word highlighted in the pick-a-word mode, or shown in the popup, is the
+  // selected word the immersion card hotkeys add to the card.
+  const owner = useRef({}).current;
+  const aiOn = settings.subLookupAiEnabled && aiExplainReady(settings);
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
+  const selectedTerm = (navPos || popupShown) && lookup.hit ? lookup.result?.terms[0] : undefined;
+  const selectedTarget = selectedTerm ? lookup.result?.word || selectedTerm.headword : "";
+  useEffect(() => {
+    if (!selectedTerm) {
+      setWordSelection(owner, null);
+      return;
+    }
+    const input = { target: selectedTarget, sentence: mining.sentence };
+    setWordSelection(owner, {
+      term: selectedTerm,
+      sentence: mining.sentence,
+      matchStart: mining.matchStart,
+      matchLength: mining.matchLength,
+      // Joins the popup's request or its cached answer when there is one.
+      aiExplanation: aiOn ? () => explainWord(settingsRef.current, input).catch(() => "") : undefined,
+    });
+  }, [owner, selectedTerm, selectedTarget, mining, aiOn]);
+  useEffect(() => () => setWordSelection(owner, null), [owner]);
 
   const hiddenText: React.CSSProperties = { color: "transparent", textShadow: "none" };
   return (

@@ -131,8 +131,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Карточки прямо из плеера, без поиска слова: из субтитров на экране или из фрагмента, записанного двумя нажатиями одной клавиши (работает без субтитров). Назначьте клавиши в Настройки → Горячие клавиши → Погружение. Только mpv.",
   "Sentence cards": "Карточки с предложением",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Сочетания «Карточка из субтитров», «Обновить последнюю карточку» и «Запись → карточка» используют колоду, тип записи и поля из раздела Anki выше. Заполняются только поля предложения, аудио предложения, снимка или клипа и названия; поля слова остаются пустыми.",
   "Pick a deck and note type above": "Выберите колоду и тип записи выше",
   "Map a field to Sentence audio above": "Назначьте выше поле для аудио предложения",
   "Audio cards": "Аудиокарточки",
@@ -189,20 +187,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Переключает между обычной скоростью и медленной, заданной в разделе «Поведение» (по умолчанию 0,5x).",
   "Anki: card from the subtitle": "Anki: карточка из субтитров",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Добавляет карточку из строки на экране с предложением, аудио и изображением, используя колоду и поля из раздела «Словарь и Anki». Только mpv.",
   "Anki: update last card": "Anki: обновить последнюю карточку",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Помещает строку с экрана (предложение, аудио, изображение) в самую новую карточку колоды, если она добавлена в последние минуты. Только mpv.",
   "Anki: audio card": "Anki: аудиокарточка",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Добавляет карточку только с аудио из строки на экране, используя колоду аудиокарточек. Только mpv.",
   "Record → new card": "Запись → новая карточка",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и добавить карточку с этим фрагментом. Работает без субтитров. Только mpv.",
   "Record → update last card": "Запись → обновить последнюю карточку",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и поместить фрагмент в самую новую карточку. Работает без субтитров. Только mpv.",
   "Record → audio card": "Запись → аудиокарточка",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и добавить аудиокарточку с этим фрагментом. Работает без субтитров. Только mpv.",
@@ -217,4 +207,16 @@ export default {
   "Replay current subtitle": "Повторить текущие субтитры",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Возвращается к началу строки на экране и проигрывает её снова, а если её нет — последней показанной.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Сочетания «Карточка из субтитров», «Обновить последнюю карточку» и «Запись → карточка» используют колоду, тип записи и поля из раздела Anki выше. Если в субтитрах выбрано слово (выделено при выборе слова или показано в открытом окне), заполняются все назначенные поля, включая слово и определения; без него — только предложение, аудио предложения, снимок или клип и название.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Добавляет карточку из строки на экране с предложением, аудио и изображением, используя колоду и поля из раздела «Словарь и Anki». Если в субтитрах выбрано слово, в карточку попадают и слово с определениями. Только mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Помещает строку с экрана (предложение, аудио, изображение) в самую новую карточку колоды, если она добавлена в последние минуты. Если выбрано слово — также слово и определения. Только mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и добавить карточку с этим фрагментом. Работает без субтитров. Если при остановке выбрано слово, в карточку попадают и слово с определениями. Только mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и поместить фрагмент в самую новую карточку. Работает без субтитров. Если при остановке выбрано слово — также слово и определения. Только mpv.",
+  "Added {word} to {deck}": "{word} добавлено в {deck}",
+  "Updated card in {deck} with {word}": "Карточка в {deck} обновлена словом {word}",
 };

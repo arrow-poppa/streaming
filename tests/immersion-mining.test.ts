@@ -75,3 +75,10 @@ test("replay targets the line's start in playback time", () => {
   });
   assert.equal(line?.start, 11.5);
 });
+
+test("a selected word is found again inside a recording's text", async () => {
+  const { locateWord } = await import("../src/lib/player/word-selection.ts");
+  const sel = { sentence: "No quiero ir", matchStart: 3, matchLength: 6 };
+  assert.deepEqual(locateWord(sel, "Hola.\nNo quiero ir"), { matchStart: 9, matchLength: 6 });
+  assert.deepEqual(locateWord(sel, "Otra cosa"), { matchStart: 0, matchLength: 0 });
+});

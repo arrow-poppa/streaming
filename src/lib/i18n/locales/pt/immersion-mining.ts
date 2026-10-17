@@ -131,8 +131,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Cartões direto do player, sem consultar uma palavra: da legenda na tela, ou de um trecho que você grava com dois toques na mesma tecla (funciona sem legendas). Defina as teclas em Configurações → Atalhos → Imersão. Só no mpv.",
   "Sentence cards": "Cartões de frase",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Os atalhos Cartão da legenda, Atualizar último cartão e Gravar → cartão usam o baralho, o tipo de nota e os campos da seção Anki acima. Só os campos de frase, áudio da frase, captura de tela ou clipe e título são preenchidos; os campos de palavra ficam vazios.",
   "Pick a deck and note type above": "Escolha um baralho e um tipo de nota acima",
   "Map a field to Sentence audio above": "Mapeie um campo para Áudio da frase acima",
   "Audio cards": "Cartões de áudio",
@@ -189,20 +187,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Alterna entre a velocidade normal e a velocidade lenta definida em Comportamento (0,5x por padrão).",
   "Anki: card from the subtitle": "Anki: cartão da legenda",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Adiciona um cartão da linha na tela com a frase, o áudio e a imagem, usando o baralho e os campos de Dicionário & Anki. Só no mpv.",
   "Anki: update last card": "Anki: atualizar último cartão",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Coloca a linha na tela (frase, áudio, imagem) no cartão mais novo do baralho, se ele foi adicionado nos últimos minutos. Só no mpv.",
   "Anki: audio card": "Anki: cartão de áudio",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Adiciona um cartão só de áudio da linha na tela, usando o baralho do cartão de áudio. Só no mpv.",
   "Record → new card": "Gravar → cartão novo",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Aperte uma vez para começar a gravar e de novo para parar e adicionar um cartão com esse trecho. Funciona sem legendas. Só no mpv.",
   "Record → update last card": "Gravar → atualizar último cartão",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Aperte uma vez para começar a gravar e de novo para parar e colocar esse trecho no cartão mais novo. Funciona sem legendas. Só no mpv.",
   "Record → audio card": "Gravar → cartão de áudio",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Aperte uma vez para começar a gravar e de novo para parar e adicionar um cartão de áudio com esse trecho. Funciona sem legendas. Só no mpv.",
@@ -217,4 +207,16 @@ export default {
   "Replay current subtitle": "Repetir a legenda atual",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Volta ao início da fala na tela e toca de novo, ou da última fala mostrada quando não há nenhuma.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Os atalhos Cartão da legenda, Atualizar último cartão e Gravar → cartão usam o baralho, o tipo de nota e os campos da seção Anki acima. Com uma palavra selecionada na legenda (destacada ao escolher palavra, ou num popup aberto) todos os campos mapeados são preenchidos, inclusive palavra e definições; sem ela, só os campos de frase, áudio da frase, captura de tela ou clipe e título.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Adiciona um cartão da linha na tela com a frase, o áudio e a imagem, usando o baralho e os campos de Dicionário & Anki. Com uma palavra selecionada na legenda, a palavra e as definições também vão para o cartão. Só no mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Coloca a linha na tela (frase, áudio, imagem) no cartão mais novo do baralho, se ele foi adicionado nos últimos minutos. Com uma palavra selecionada, também a palavra e as definições. Só no mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Aperte uma vez para começar a gravar e de novo para parar e adicionar um cartão com esse trecho. Funciona sem legendas. Com uma palavra selecionada ao parar, a palavra e as definições também vão para o cartão. Só no mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Aperte uma vez para começar a gravar e de novo para parar e colocar esse trecho no cartão mais novo. Funciona sem legendas. Com uma palavra selecionada ao parar, também a palavra e as definições. Só no mpv.",
+  "Added {word} to {deck}": "{word} adicionada a {deck}",
+  "Updated card in {deck} with {word}": "Cartão em {deck} atualizado com {word}",
 };

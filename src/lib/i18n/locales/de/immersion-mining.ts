@@ -132,8 +132,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Karten direkt aus dem Player, ohne ein Wort nachzuschlagen: aus dem Untertitel auf dem Bildschirm oder aus einem Abschnitt, den du mit zwei Drücken derselben Taste aufnimmst (geht ohne Untertitel). Lege die Tasten unter Einstellungen → Tastenkürzel → Immersion fest. Nur mpv.",
   "Sentence cards": "Satzkarten",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Die Kürzel Karte aus dem Untertitel, Letzte Karte aktualisieren und Aufnahme → Karte nutzen Stapel, Notiztyp und Felder des Anki-Abschnitts oben. Nur die Felder für Satz, Satz-Audio, Screenshot oder Clip und Titel werden gefüllt; Wortfelder bleiben leer.",
   "Pick a deck and note type above": "Wähle oben einen Stapel und einen Notiztyp",
   "Map a field to Sentence audio above": "Ordne oben ein Feld dem Satz-Audio zu",
   "Audio cards": "Audiokarten",
@@ -192,20 +190,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Wechselt zwischen normalem Tempo und dem unter Verhalten festgelegten langsamen Tempo (standardmäßig 0,5x).",
   "Anki: card from the subtitle": "Anki: Karte aus dem Untertitel",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Fügt eine Karte aus der Zeile auf dem Bildschirm mit Satz, Audio und Bild hinzu, mit Stapel und Feldern aus Wörterbuch & Anki. Nur mpv.",
   "Anki: update last card": "Anki: letzte Karte aktualisieren",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Legt die Zeile auf dem Bildschirm (Satz, Audio, Bild) in die neueste Karte des Stapels, wenn sie in den letzten Minuten hinzugefügt wurde. Nur mpv.",
   "Anki: audio card": "Anki: Audiokarte",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Fügt eine reine Audiokarte aus der Zeile auf dem Bildschirm hinzu, mit dem Stapel für Audiokarten. Nur mpv.",
   "Record → new card": "Aufnahme → neue Karte",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und fügt eine Karte mit diesem Abschnitt hinzu. Geht ohne Untertitel. Nur mpv.",
   "Record → update last card": "Aufnahme → letzte Karte aktualisieren",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und legt den Abschnitt in die neueste Karte. Geht ohne Untertitel. Nur mpv.",
   "Record → audio card": "Aufnahme → Audiokarte",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und fügt eine Audiokarte mit diesem Abschnitt hinzu. Geht ohne Untertitel. Nur mpv.",
@@ -220,4 +210,16 @@ export default {
   "Replay current subtitle": "Aktuellen Untertitel wiederholen",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Springt zum Anfang der Zeile auf dem Bildschirm und spielt sie erneut ab, oder der zuletzt gezeigten, wenn keine da ist.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Die Kürzel Karte aus dem Untertitel, Letzte Karte aktualisieren und Aufnahme → Karte nutzen Stapel, Notiztyp und Felder des Anki-Abschnitts oben. Mit einem gewählten Wort im Untertitel (beim Wortwählen hervorgehoben oder in einem offenen Popup) werden alle zugeordneten Felder gefüllt, Wort und Definitionen eingeschlossen; ohne Wort nur Satz, Satz-Audio, Screenshot oder Clip und Titel.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Fügt eine Karte aus der Zeile auf dem Bildschirm mit Satz, Audio und Bild hinzu, mit Stapel und Feldern aus Wörterbuch & Anki. Mit einem gewählten Wort im Untertitel kommen Wort und Definitionen ebenfalls auf die Karte. Nur mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Legt die Zeile auf dem Bildschirm (Satz, Audio, Bild) in die neueste Karte des Stapels, wenn sie in den letzten Minuten hinzugefügt wurde. Mit einem gewählten Wort auch Wort und Definitionen. Nur mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und fügt eine Karte mit diesem Abschnitt hinzu. Geht ohne Untertitel. Ist beim Beenden ein Wort gewählt, kommen Wort und Definitionen ebenfalls auf die Karte. Nur mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Einmal drücken startet die Aufnahme, erneutes Drücken beendet sie und legt den Abschnitt in die neueste Karte. Geht ohne Untertitel. Ist beim Beenden ein Wort gewählt, auch Wort und Definitionen. Nur mpv.",
+  "Added {word} to {deck}": "{word} zu {deck} hinzugefügt",
+  "Updated card in {deck} with {word}": "Karte in {deck} mit {word} aktualisiert",
 };

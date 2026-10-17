@@ -128,8 +128,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Tạo thẻ ngay từ trình phát mà không cần tra từ: từ phụ đề trên màn hình, hoặc từ một đoạn bạn ghi bằng hai lần nhấn cùng một phím (dùng được khi không có phụ đề). Đặt phím trong Cài đặt → Phím tắt → Đắm chìm. Chỉ mpv.",
   "Sentence cards": "Thẻ câu",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Các phím Thẻ từ phụ đề, Cập nhật thẻ gần nhất và Ghi → thẻ dùng bộ thẻ, loại ghi chú và trường của mục Anki ở trên. Chỉ điền các trường câu, âm thanh câu, ảnh chụp hoặc đoạn hoạt ảnh và tiêu đề; các trường từ để trống.",
   "Pick a deck and note type above": "Chọn bộ thẻ và loại ghi chú ở trên",
   "Map a field to Sentence audio above": "Gán một trường cho Âm thanh câu ở trên",
   "Audio cards": "Thẻ âm thanh",
@@ -186,20 +184,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Chuyển giữa tốc độ bình thường và tốc độ chậm đặt trong Hành vi (mặc định 0,5x).",
   "Anki: card from the subtitle": "Anki: thẻ từ phụ đề",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Thêm thẻ từ dòng trên màn hình với câu, âm thanh và hình ảnh, dùng bộ thẻ và trường trong Từ điển & Anki. Chỉ mpv.",
   "Anki: update last card": "Anki: cập nhật thẻ gần nhất",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Đưa dòng trên màn hình (câu, âm thanh, hình ảnh) vào thẻ mới nhất của bộ thẻ, nếu nó được thêm trong vài phút gần đây. Chỉ mpv.",
   "Anki: audio card": "Anki: thẻ âm thanh",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Thêm thẻ chỉ có âm thanh từ dòng trên màn hình, dùng bộ thẻ cho thẻ âm thanh. Chỉ mpv.",
   "Record → new card": "Ghi → thẻ mới",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và thêm thẻ với đoạn đó. Dùng được khi không có phụ đề. Chỉ mpv.",
   "Record → update last card": "Ghi → cập nhật thẻ gần nhất",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và đưa đoạn đó vào thẻ mới nhất. Dùng được khi không có phụ đề. Chỉ mpv.",
   "Record → audio card": "Ghi → thẻ âm thanh",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và thêm thẻ âm thanh với đoạn đó. Dùng được khi không có phụ đề. Chỉ mpv.",
@@ -214,4 +204,16 @@ export default {
   "Replay current subtitle": "Phát lại phụ đề hiện tại",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Quay về đầu dòng trên màn hình và phát lại, hoặc dòng hiện gần nhất khi không có dòng nào.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Các phím Thẻ từ phụ đề, Cập nhật thẻ gần nhất và Ghi → thẻ dùng bộ thẻ, loại ghi chú và trường của mục Anki ở trên. Khi đang chọn một từ trong phụ đề (được tô sáng lúc chọn từ, hoặc trong cửa sổ bật lên đang mở), mọi trường đã gán đều được điền, gồm cả từ và định nghĩa; khi không chọn, chỉ điền câu, âm thanh câu, ảnh chụp hoặc đoạn hoạt ảnh và tiêu đề.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Thêm thẻ từ dòng trên màn hình với câu, âm thanh và hình ảnh, dùng bộ thẻ và trường trong Từ điển & Anki. Khi đang chọn một từ trong phụ đề, từ và định nghĩa cũng được đưa vào thẻ. Chỉ mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Đưa dòng trên màn hình (câu, âm thanh, hình ảnh) vào thẻ mới nhất của bộ thẻ, nếu nó được thêm trong vài phút gần đây. Khi đang chọn một từ, cả từ và định nghĩa. Chỉ mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và thêm thẻ với đoạn đó. Dùng được khi không có phụ đề. Nếu đang chọn một từ lúc dừng, từ và định nghĩa cũng được đưa vào thẻ. Chỉ mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và đưa đoạn đó vào thẻ mới nhất. Dùng được khi không có phụ đề. Nếu đang chọn một từ lúc dừng, cả từ và định nghĩa. Chỉ mpv.",
+  "Added {word} to {deck}": "Đã thêm {word} vào {deck}",
+  "Updated card in {deck} with {word}": "Đã cập nhật thẻ trong {deck} với {word}",
 };

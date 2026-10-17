@@ -127,8 +127,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "単語を調べずにプレーヤーから直接カードを作ります。画面の字幕から、または同じキーを 2 回押して録音した区間から作れます（字幕なしでも可）。キーは 設定 → ショートカット → イマージョン で設定します。mpv のみ。",
   "Sentence cards": "例文カード",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "「字幕からカード」「最後のカードを更新」「録音 → カード」のキーは、上の Anki セクションのデッキ、ノートタイプ、フィールドを使います。例文、例文の音声、スクリーンショットまたはクリップ、タイトルのフィールドだけが入力され、単語のフィールドは空のままです。",
   "Pick a deck and note type above": "上でデッキとノートタイプを選んでください",
   "Map a field to Sentence audio above": "上でフィールドを「例文の音声」に割り当ててください",
   "Audio cards": "音声カード",
@@ -185,20 +183,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "通常速度と、動作で設定した低速（既定は 0.5x）を切り替えます。",
   "Anki: card from the subtitle": "Anki: 字幕からカード",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "画面の行から、例文・音声・画像付きのカードを、辞書と Anki のデッキとフィールドで追加します。mpv のみ。",
   "Anki: update last card": "Anki: 最後のカードを更新",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "画面の行（例文、音声、画像）を、数分以内に追加されたデッキの最新カードに入れます。mpv のみ。",
   "Anki: audio card": "Anki: 音声カード",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "画面の行から音声だけのカードを、音声カードのデッキに追加します。mpv のみ。",
   "Record → new card": "録音 → 新しいカード",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "1 回押すと録音を開始し、もう一度押すと停止してその区間でカードを追加します。字幕なしでも使えます。mpv のみ。",
   "Record → update last card": "録音 → 最後のカードを更新",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "1 回押すと録音を開始し、もう一度押すと停止してその区間を最新のカードに入れます。字幕なしでも使えます。mpv のみ。",
   "Record → audio card": "録音 → 音声カード",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "1 回押すと録音を開始し、もう一度押すと停止してその区間で音声カードを追加します。字幕なしでも使えます。mpv のみ。",
@@ -213,4 +203,16 @@ export default {
   "Replay current subtitle": "現在の字幕をもう一度再生",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "画面の行の先頭に戻ってもう一度再生します。行がない場合は最後に表示された行の先頭に戻ります。",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "「字幕からカード」「最後のカードを更新」「録音 → カード」のキーは、上の Anki セクションのデッキ、ノートタイプ、フィールドを使います。字幕で単語を選んでいる場合（単語を選ぶモードで強調表示中、または開いているポップアップ）は、単語と定義を含むすべての割り当て済みフィールドが入力されます。選んでいない場合は、例文、例文の音声、スクリーンショットまたはクリップ、タイトルだけです。",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "画面の行から、例文・音声・画像付きのカードを、辞書と Anki のデッキとフィールドで追加します。字幕で単語を選んでいる場合は、単語と定義もカードに入ります。mpv のみ。",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "画面の行（例文、音声、画像）を、数分以内に追加されたデッキの最新カードに入れます。単語を選んでいる場合は、単語と定義も入れます。mpv のみ。",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "1 回押すと録音を開始し、もう一度押すと停止してその区間でカードを追加します。字幕なしでも使えます。停止時に単語を選んでいる場合は、単語と定義もカードに入ります。mpv のみ。",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "1 回押すと録音を開始し、もう一度押すと停止してその区間を最新のカードに入れます。字幕なしでも使えます。停止時に単語を選んでいる場合は、単語と定義も入れます。mpv のみ。",
+  "Added {word} to {deck}": "{word} を {deck} に追加しました",
+  "Updated card in {deck} with {word}": "{deck} のカードを {word} で更新しました",
 };

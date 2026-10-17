@@ -11,6 +11,7 @@ import {
   type ImmersionTarget,
 } from "@/lib/mining/immersion";
 import { useSettings } from "@/lib/settings";
+import { getWordSelection } from "@/lib/player/word-selection";
 
 export type ImmersionAction = ImmersionTarget | `record-${ImmersionTarget}`;
 
@@ -55,9 +56,20 @@ export function useImmersion(params: {
       }
       busyRef.current = true;
       try {
-        const res = await exportImmersionCard(settingsRef.current, target, clip, title);
-        const what =
-          target === "update"
+        // The word selected when the key is pressed (or the recording stops).
+        const selection = getWordSelection();
+        const res = await exportImmersionCard(
+          settingsRef.current,
+          target,
+          { ...clip, recorded },
+          title,
+          selection,
+        );
+        const what = res.word
+          ? target === "update"
+            ? t("Updated card in {deck} with {word}", { deck: res.deck, word: res.word })
+            : t("Added {word} to {deck}", { deck: res.deck, word: res.word })
+          : target === "update"
             ? t("Updated card in {deck}", { deck: res.deck })
             : t("Added to {deck}", { deck: res.deck });
         const extra = recorded

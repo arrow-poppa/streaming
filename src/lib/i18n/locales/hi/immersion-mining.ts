@@ -129,8 +129,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "शब्द देखे बिना सीधे प्लेयर से कार्ड: स्क्रीन के सबटाइटल से, या उस हिस्से से जिसे आप एक ही कुंजी दो बार दबाकर रिकॉर्ड करते हैं (बिना सबटाइटल के भी चलता है). कुंजियाँ सेटिंग → शॉर्टकट → इमर्शन में तय करें. केवल mpv.",
   "Sentence cards": "वाक्य कार्ड",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "सबटाइटल से कार्ड, पिछला कार्ड अपडेट करें और रिकॉर्ड → कार्ड कुंजियाँ ऊपर के Anki हिस्से का डेक, नोट प्रकार और फ़ील्ड इस्तेमाल करती हैं. केवल वाक्य, वाक्य ऑडियो, स्क्रीनशॉट या क्लिप और शीर्षक वाले फ़ील्ड भरे जाते हैं; शब्द वाले फ़ील्ड खाली रहते हैं.",
   "Pick a deck and note type above": "ऊपर डेक और नोट प्रकार चुनें",
   "Map a field to Sentence audio above": "ऊपर किसी फ़ील्ड को वाक्य ऑडियो से जोड़ें",
   "Audio cards": "ऑडियो कार्ड",
@@ -187,20 +185,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "सामान्य गति और व्यवहार में तय धीमी गति (डिफ़ॉल्ट 0.5x) के बीच बदलता है.",
   "Anki: card from the subtitle": "Anki: सबटाइटल से कार्ड",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "स्क्रीन की पंक्ति से वाक्य, ऑडियो और तस्वीर वाला कार्ड, शब्दकोश और Anki के डेक और फ़ील्ड से जोड़ता है. केवल mpv.",
   "Anki: update last card": "Anki: पिछला कार्ड अपडेट करें",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "स्क्रीन की पंक्ति (वाक्य, ऑडियो, तस्वीर) डेक के सबसे नए कार्ड में डालता है, अगर वह पिछले कुछ मिनटों में जोड़ा गया हो. केवल mpv.",
   "Anki: audio card": "Anki: ऑडियो कार्ड",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "स्क्रीन की पंक्ति से केवल ऑडियो वाला कार्ड, ऑडियो कार्ड के डेक में जोड़ता है. केवल mpv.",
   "Record → new card": "रिकॉर्ड → नया कार्ड",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
   "Record → update last card": "रिकॉर्ड → पिछला कार्ड अपडेट करें",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
   "Record → audio card": "रिकॉर्ड → ऑडियो कार्ड",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से ऑडियो कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
@@ -215,4 +205,16 @@ export default {
   "Replay current subtitle": "मौजूदा सबटाइटल दोबारा चलाएँ",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "स्क्रीन की पंक्ति की शुरुआत पर लौटकर उसे फिर चलाता है, या कोई पंक्ति न हो तो आख़िरी दिखी पंक्ति की.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "सबटाइटल से कार्ड, पिछला कार्ड अपडेट करें और रिकॉर्ड → कार्ड कुंजियाँ ऊपर के Anki हिस्से का डेक, नोट प्रकार और फ़ील्ड इस्तेमाल करती हैं. सबटाइटल में कोई शब्द चुना हो (शब्द चुनते समय हाइलाइट हुआ, या खुले पॉपअप में दिखा) तो शब्द और परिभाषाओं समेत सभी जुड़े फ़ील्ड भरे जाते हैं; न चुना हो तो केवल वाक्य, वाक्य ऑडियो, स्क्रीनशॉट या क्लिप और शीर्षक.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "स्क्रीन की पंक्ति से वाक्य, ऑडियो और तस्वीर वाला कार्ड, शब्दकोश और Anki के डेक और फ़ील्ड से जोड़ता है. सबटाइटल में कोई शब्द चुना हो तो शब्द और उसकी परिभाषाएँ भी कार्ड में जाती हैं. केवल mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "स्क्रीन की पंक्ति (वाक्य, ऑडियो, तस्वीर) डेक के सबसे नए कार्ड में डालता है, अगर वह पिछले कुछ मिनटों में जोड़ा गया हो. कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी. केवल mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. रोकते समय कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी कार्ड में जाती हैं. केवल mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. रोकते समय कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी. केवल mpv.",
+  "Added {word} to {deck}": "{word} को {deck} में जोड़ा गया",
+  "Updated card in {deck} with {word}": "{deck} का कार्ड {word} के साथ अपडेट किया गया",
 };

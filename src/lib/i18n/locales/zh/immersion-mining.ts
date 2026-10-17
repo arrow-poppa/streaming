@@ -124,8 +124,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "无需查词，直接从播放器制作卡片：来自屏幕上的字幕，或来自你按两次同一按键录制的片段（没有字幕也可以）。在 设置 → 快捷键 → 沉浸 中设置按键。仅限 mpv。",
   "Sentence cards": "句子卡片",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "“从字幕制卡”“更新上一张卡片”和“录制 → 卡片”按键使用上方 Anki 部分的牌组、笔记类型和字段。只填写句子、句子音频、截图或片段以及标题字段；单词字段保持为空。",
   "Pick a deck and note type above": "请在上方选择牌组和笔记类型",
   "Map a field to Sentence audio above": "请在上方把一个字段映射到句子音频",
   "Audio cards": "音频卡片",
@@ -180,20 +178,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "在正常速度和“行为”中设置的慢速（默认 0.5x）之间切换。",
   "Anki: card from the subtitle": "Anki：从字幕制卡",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "用屏幕上的这一行添加带句子、音频和图片的卡片，使用“词典与 Anki”中的牌组和字段。仅限 mpv。",
   "Anki: update last card": "Anki：更新上一张卡片",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "把屏幕上的这一行（句子、音频、图片）放入牌组中最新的卡片（需在最近几分钟内添加）。仅限 mpv。",
   "Anki: audio card": "Anki：音频卡片",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "用屏幕上的这一行添加只有音频的卡片，使用音频卡片牌组。仅限 mpv。",
   "Record → new card": "录制 → 新卡片",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "按一次开始录制，再按一次停止并用该片段添加卡片。没有字幕也可以。仅限 mpv。",
   "Record → update last card": "录制 → 更新上一张卡片",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "按一次开始录制，再按一次停止并把该片段放入最新的卡片。没有字幕也可以。仅限 mpv。",
   "Record → audio card": "录制 → 音频卡片",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "按一次开始录制，再按一次停止并用该片段添加音频卡片。没有字幕也可以。仅限 mpv。",
@@ -208,4 +198,16 @@ export default {
   "Replay current subtitle": "重播当前字幕",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "回到屏幕上这一行的开头并再次播放；若没有字幕，则回到最后显示的一行。",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "“从字幕制卡”“更新上一张卡片”和“录制 → 卡片”按键使用上方 Anki 部分的牌组、笔记类型和字段。在字幕中选中单词时（选词时高亮，或显示在已打开的弹窗中），会填写所有已映射的字段，包括单词和释义；未选中时只填写句子、句子音频、截图或片段以及标题。",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "用屏幕上的这一行添加带句子、音频和图片的卡片，使用“词典与 Anki”中的牌组和字段。在字幕中选中单词时，单词及其释义也会加入卡片。仅限 mpv。",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "把屏幕上的这一行（句子、音频、图片）放入牌组中最新的卡片（需在最近几分钟内添加）。选中单词时，也会加入单词及其释义。仅限 mpv。",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "按一次开始录制，再按一次停止并用该片段添加卡片。没有字幕也可以。停止时若选中了单词，单词及其释义也会加入卡片。仅限 mpv。",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "按一次开始录制，再按一次停止并把该片段放入最新的卡片。没有字幕也可以。停止时若选中了单词，也会加入单词及其释义。仅限 mpv。",
+  "Added {word} to {deck}": "已将 {word} 添加到 {deck}",
+  "Updated card in {deck} with {word}": "已用 {word} 更新 {deck} 中的卡片",
 };

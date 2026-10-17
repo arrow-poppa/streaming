@@ -75,6 +75,9 @@ export type MiningContext = {
   subStartSec?: number;
   subEndSec?: number;
   subDelaySec?: () => number;
+  // Exact stretch to cut, in playback time, instead of the subtitle line
+  // (a recording made with the immersion hotkeys).
+  audioRange?: { start: number; end: number; pad: number };
   mpvEngine: boolean;
   // Final AI explanation text ("" when unavailable); may generate it first.
   aiExplanation?: () => Promise<string>;
@@ -114,11 +117,16 @@ export function dataUrlBase64(url: string): string {
 
 // mpv leaves sub-delay out of sub-start/sub-end, so a cut from them is off by
 // exactly the timing correction. null lets the native side read the line itself.
-function linePlaybackTime(ctx: MiningContext): { start: number | null; end: number | null } {
+function linePlaybackTime(
+  settings: Settings,
+  ctx: MiningContext,
+): { start: number | null; end: number | null; pad: number } {
+  if (ctx.audioRange) return ctx.audioRange;
   const delay = ctx.subDelaySec?.() ?? 0;
   return {
     start: ctx.subStartSec != null ? ctx.subStartSec + delay : null,
     end: ctx.subEndSec != null ? ctx.subEndSec + delay : null,
+    pad: settings.ankiAudioPadSec,
   };
 }
 
@@ -173,7 +181,7 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       return `<img src="${escapeHtml(name)}">`;
     }
     case "clip": {
-      const line = linePlaybackTime(ctx);
+      const line = linePlaybackTime(settings, ctx);
       if (!ctx.mpvEngine) {
         warn("Animated clips need the mpv player");
         return "";
@@ -181,8 +189,8 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       const clip = await invoke<{ dataBase64: string; ext: string; format: string }>("mpv_sentence_clip", {
         start: line.start,
         end: line.end,
-        padBefore: settings.ankiAudioPadSec,
-        padAfter: settings.ankiAudioPadSec,
+        padBefore: line.pad,
+        padAfter: line.pad,
         format: settings.ankiClipFormat || "avif",
         width: settings.ankiClipWidth || 480,
         fps: settings.ankiClipFps || 12,
@@ -192,7 +200,7 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       return `<img src="${escapeHtml(name)}">`;
     }
     case "sentence-audio": {
-      const line = linePlaybackTime(ctx);
+      const line = linePlaybackTime(settings, ctx);
       if (!ctx.mpvEngine) {
         warn("Sentence audio needs the mpv player");
         return "";
@@ -200,8 +208,8 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       const clip = await invoke<{ dataBase64: string; ext: string }>("mpv_sentence_audio", {
         start: line.start,
         end: line.end,
-        padBefore: settings.ankiAudioPadSec,
-        padAfter: settings.ankiAudioPadSec,
+        padBefore: line.pad,
+        padAfter: line.pad,
       });
       const name = await storeMedia(settings, `harbor_${stamp()}.${clip.ext}`, clip.dataBase64);
       return `[sound:${name}]`;
@@ -274,6 +282,27 @@ export async function findDuplicateNotes(settings: Settings, ctx: MiningContext)
 /** Opens Anki's card browser on the given notes. */
 export function openNotesInAnki(settings: Settings, noteIds: number[]): Promise<unknown> {
   return ankiInvoke(settings, "guiBrowse", { query: `nid:${noteIds.join(",")}` });
+}
+
+/** Every mapped field for this lookup, media included, without adding a
+ *  note. Used to fill an existing card. */
+export async function noteFieldsFromLookup(
+  settings: Settings,
+  ctx: MiningContext,
+): Promise<{ fields: Record<string, string>; warnings: string[] }> {
+  const warnings: string[] = [];
+  const entries = Object.entries(settings.ankiFieldMap || {}).filter(([, src]) => !!src);
+  const resolved = await Promise.all(
+    entries.map(async ([field, src]) => {
+      try {
+        return [field, await fieldValue(settings, src, ctx, (m) => warnings.push(m))] as const;
+      } catch (e) {
+        warnings.push(`${field}: ${String(e)}`);
+        return [field, ""] as const;
+      }
+    }),
+  );
+  return { fields: Object.fromEntries(resolved), warnings };
 }
 
 export async function addNoteFromLookup(settings: Settings, ctx: MiningContext): Promise<AddNoteResult> {

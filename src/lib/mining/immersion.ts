@@ -1,16 +1,27 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { AnkiFieldSource, Settings } from "@/lib/settings";
-import { ankiInvoke, ankiModelFields, dataUrlBase64, stamp, storeMedia } from "./anki";
+import {
+  addNoteFromLookup,
+  ankiInvoke,
+  ankiModelFields,
+  dataUrlBase64,
+  noteFieldsFromLookup,
+  stamp,
+  storeMedia,
+  type MiningContext,
+} from "./anki";
+import { locateWord, type WordSelection } from "@/lib/player/word-selection";
 import { escapeHtml } from "./glossary-html";
 import { invisibleMarker, newestRecentNote } from "./immersion-core";
 
 export { lineFromSnapshot, pushLine } from "./immersion-core";
 
-// Cards made straight from the player, without looking a word up: from the
-// subtitle line on screen, or from a stretch recorded between two presses.
-// Sentence cards use the deck, note type and field map of the dictionary
-// cards, filling only what exists without a word (sentence, its audio, the
-// picture or clip, the title). Audio cards have their own deck and fields.
+// Cards made straight from the player: from the subtitle line on screen, or
+// from a stretch recorded between two presses. Sentence cards use the deck,
+// note type and field map of the dictionary cards. With a word selected in
+// the subtitles every mapped field is filled, as the popup's Anki button
+// does; without one only what exists without a word (sentence, its audio,
+// the picture or clip, the title). Audio cards have their own deck and fields.
 
 export type ImmersionTarget = "new" | "update" | "audio";
 
@@ -21,9 +32,62 @@ export type ImmersionClip = {
   end: number;
   /** Padding around a subtitle line; a recording is cut exactly. */
   pad: number;
+  recorded?: boolean;
 };
 
-export type ImmersionResult = { noteId: number; deck: string; warnings: string[] };
+export type ImmersionResult = { noteId: number; deck: string; warnings: string[]; word?: string };
+
+async function recentNote(settings: Settings, deck: string): Promise<number> {
+  // Deck first: a bare `added:1` would pick a card mined into another deck today.
+  const ids = await ankiInvoke<number[]>(settings, "findNotes", {
+    query: `"deck:${deck.replace(/[\\"*_]/g, (c) => `\\${c}`)}" added:1`,
+  });
+  const windowMin = settings.immersionUpdateWindowMin || 10;
+  const noteId = newestRecentNote(ids ?? [], Date.now(), windowMin);
+  if (noteId == null) throw new Error(`No card added to ${deck} in the last ${windowMin} minutes`);
+  return noteId;
+}
+
+/** Only filled fields: sending "" would wipe what the card already has,
+ *  such as a translation typed by hand. */
+async function fillNote(settings: Settings, noteId: number, fields: Record<string, string>): Promise<void> {
+  const filled = Object.fromEntries(Object.entries(fields).filter(([, v]) => v));
+  await ankiInvoke(settings, "updateNoteFields", { note: { id: noteId, fields: filled } });
+}
+
+async function exportWithWord(
+  settings: Settings,
+  target: "new" | "update",
+  clip: ImmersionClip,
+  title: string,
+  selection: WordSelection,
+): Promise<ImmersionResult> {
+  if (!settings.ankiDeck || !settings.ankiModel) {
+    throw new Error("Pick an Anki deck and note type in Settings → Dictionary & Anki");
+  }
+  // A recording's text joins every line it crossed; the word is looked for in it.
+  const sentence = clip.recorded ? clip.sentence : selection.sentence;
+  const place = clip.recorded ? locateWord(selection, sentence) : selection;
+  const ctx: MiningContext = {
+    term: selection.term,
+    sentence,
+    matchStart: place.matchStart,
+    matchLength: place.matchLength,
+    title,
+    mpvEngine: true,
+    aiExplanation: selection.aiExplanation,
+    audioRange: { start: clip.start, end: clip.end, pad: clip.pad },
+  };
+  const word = selection.term.headword;
+  if (target === "new") {
+    const res = await addNoteFromLookup(settings, ctx);
+    return { noteId: res.noteId, deck: settings.ankiDeck, warnings: res.warnings, word };
+  }
+  const noteId = await recentNote(settings, settings.ankiDeck);
+  const { fields, warnings } = await noteFieldsFromLookup(settings, ctx);
+  await fillNote(settings, noteId, fields);
+  return { noteId, deck: settings.ankiDeck, warnings, word };
+}
 
 const SENTENCE_SOURCES = new Set<AnkiFieldSource>(["sentence", "sentence-plain", "sentence-cloze"]);
 
@@ -138,7 +202,9 @@ export async function exportImmersionCard(
   target: ImmersionTarget,
   clip: ImmersionClip,
   title: string,
+  selection?: WordSelection | null,
 ): Promise<ImmersionResult> {
+  if (selection && target !== "audio") return exportWithWord(settings, target, clip, title, selection);
   const warnings: string[] = [];
   const warn = (m: string) => warnings.push(m);
   const profile =
@@ -146,29 +212,14 @@ export async function exportImmersionCard(
       ? audioProfile(settings, clip)
       : sentenceProfile(settings, clip, title, warn);
 
-  let noteId: number | null = null;
-  if (target === "update") {
-    // Deck first: a bare `added:1` would pick a card mined into another deck today.
-    const ids = await ankiInvoke<number[]>(settings, "findNotes", {
-      query: `"deck:${profile.deck.replace(/[\\"*_]/g, (c) => `\\${c}`)}" added:1`,
-    });
-    noteId = newestRecentNote(ids ?? [], Date.now(), settings.immersionUpdateWindowMin || 10);
-    if (noteId == null) {
-      throw new Error(
-        `No card added to ${profile.deck} in the last ${settings.immersionUpdateWindowMin || 10} minutes`,
-      );
-    }
-  }
+  const noteId = target === "update" ? await recentNote(settings, profile.deck) : null;
 
   const fields = await resolveFields(profile, warnings);
   const audioOk = Object.values(fields).some((v) => v.startsWith("[sound:"));
   if (!audioOk) throw new Error(warnings[0] ?? "Couldn't capture the audio");
 
-  if (target === "update" && noteId != null) {
-    // Only filled fields: sending "" would wipe what the card already has,
-    // such as a translation typed by hand.
-    const filled = Object.fromEntries(Object.entries(fields).filter(([, v]) => v));
-    await ankiInvoke(settings, "updateNoteFields", { note: { id: noteId, fields: filled } });
+  if (noteId != null) {
+    await fillNote(settings, noteId, fields);
     return { noteId, deck: profile.deck, warnings };
   }
 

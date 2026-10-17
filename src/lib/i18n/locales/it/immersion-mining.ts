@@ -132,8 +132,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Schede direttamente dal player, senza cercare una parola: dal sottotitolo sullo schermo, o da un tratto che registri con due pressioni dello stesso tasto (funziona senza sottotitoli). Imposta i tasti in Impostazioni → Scorciatoie → Immersione. Solo mpv.",
   "Sentence cards": "Schede di frase",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Le scorciatoie Scheda dal sottotitolo, Aggiorna l’ultima scheda e Registra → scheda usano il mazzo, il tipo di nota e i campi della sezione Anki sopra. Vengono compilati solo i campi di frase, audio della frase, screenshot o clip e titolo; i campi della parola restano vuoti.",
   "Pick a deck and note type above": "Scegli sopra un mazzo e un tipo di nota",
   "Map a field to Sentence audio above": "Associa sopra un campo all’Audio della frase",
   "Audio cards": "Schede audio",
@@ -192,20 +190,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Alterna tra la velocità normale e la velocità lenta impostata in Comportamento (0,5x per impostazione predefinita).",
   "Anki: card from the subtitle": "Anki: scheda dal sottotitolo",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Aggiunge una scheda dalla riga sullo schermo con frase, audio e immagine, usando il mazzo e i campi di Dizionario e Anki. Solo mpv.",
   "Anki: update last card": "Anki: aggiorna l’ultima scheda",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Inserisce la riga sullo schermo (frase, audio, immagine) nella scheda più recente del mazzo, se è stata aggiunta negli ultimi minuti. Solo mpv.",
   "Anki: audio card": "Anki: scheda audio",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Aggiunge una scheda solo audio dalla riga sullo schermo, usando il mazzo delle schede audio. Solo mpv.",
   "Record → new card": "Registra → nuova scheda",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Premi una volta per iniziare a registrare e di nuovo per fermare e aggiungere una scheda con quel tratto. Funziona senza sottotitoli. Solo mpv.",
   "Record → update last card": "Registra → aggiorna l’ultima scheda",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Premi una volta per iniziare a registrare e di nuovo per fermare e inserire quel tratto nella scheda più recente. Funziona senza sottotitoli. Solo mpv.",
   "Record → audio card": "Registra → scheda audio",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Premi una volta per iniziare a registrare e di nuovo per fermare e aggiungere una scheda audio con quel tratto. Funziona senza sottotitoli. Solo mpv.",
@@ -220,4 +210,16 @@ export default {
   "Replay current subtitle": "Ripeti il sottotitolo attuale",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Torna all’inizio della riga sullo schermo e la riproduce di nuovo, o dell’ultima mostrata se non ce n’è nessuna.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Le scorciatoie Scheda dal sottotitolo, Aggiorna l’ultima scheda e Registra → scheda usano il mazzo, il tipo di nota e i campi della sezione Anki sopra. Con una parola selezionata nel sottotitolo (evidenziata scegliendo una parola, o in un popup aperto) vengono compilati tutti i campi associati, parola e definizioni comprese; senza, solo frase, audio della frase, screenshot o clip e titolo.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Aggiunge una scheda dalla riga sullo schermo con frase, audio e immagine, usando il mazzo e i campi di Dizionario e Anki. Con una parola selezionata nel sottotitolo, anche la parola e le sue definizioni vanno nella scheda. Solo mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Inserisce la riga sullo schermo (frase, audio, immagine) nella scheda più recente del mazzo, se è stata aggiunta negli ultimi minuti. Con una parola selezionata, anche la parola e le definizioni. Solo mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Premi una volta per iniziare a registrare e di nuovo per fermare e aggiungere una scheda con quel tratto. Funziona senza sottotitoli. Con una parola selezionata quando fermi, anche la parola e le definizioni vanno nella scheda. Solo mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Premi una volta per iniziare a registrare e di nuovo per fermare e inserire quel tratto nella scheda più recente. Funziona senza sottotitoli. Con una parola selezionata quando fermi, anche la parola e le definizioni. Solo mpv.",
+  "Added {word} to {deck}": "{word} aggiunta a {deck}",
+  "Updated card in {deck} with {word}": "Scheda in {deck} aggiornata con {word}",
 };

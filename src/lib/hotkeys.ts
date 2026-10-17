@@ -500,7 +500,7 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Immersion",
     label: "Anki: card from the subtitle",
     description:
-      "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.",
+      "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.",
     defaultBinding: "",
   },
   {
@@ -509,7 +509,7 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Immersion",
     label: "Anki: update last card",
     description:
-      "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.",
+      "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.",
     defaultBinding: "",
   },
   {
@@ -526,7 +526,7 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Immersion",
     label: "Record → new card",
     description:
-      "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.",
+      "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.",
     defaultBinding: "",
   },
   {
@@ -535,7 +535,7 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Immersion",
     label: "Record → update last card",
     description:
-      "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.",
+      "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.",
     defaultBinding: "",
   },
   {

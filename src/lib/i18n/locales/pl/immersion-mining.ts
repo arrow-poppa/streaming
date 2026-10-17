@@ -132,8 +132,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Karty prosto z odtwarzacza, bez sprawdzania słowa: z napisów na ekranie albo z fragmentu nagranego dwoma naciśnięciami tego samego klawisza (działa bez napisów). Ustaw klawisze w Ustawienia → Skróty → Immersja. Tylko mpv.",
   "Sentence cards": "Karty ze zdaniem",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Skróty Karta z napisów, Zaktualizuj ostatnią kartę i Nagraj → karta korzystają z talii, typu notatki i pól z sekcji Anki powyżej. Wypełniane są tylko pola zdania, audio zdania, zrzutu ekranu lub klipu i tytułu; pola słowa zostają puste.",
   "Pick a deck and note type above": "Wybierz powyżej talię i typ notatki",
   "Map a field to Sentence audio above": "Przypisz powyżej pole do Audio zdania",
   "Audio cards": "Karty audio",
@@ -191,20 +189,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Przełącza między normalnym tempem a wolnym tempem ustawionym w Zachowaniu (domyślnie 0,5x).",
   "Anki: card from the subtitle": "Anki: karta z napisów",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Dodaje kartę z wiersza na ekranie ze zdaniem, audio i obrazem, korzystając z talii i pól z Słownik i Anki. Tylko mpv.",
   "Anki: update last card": "Anki: zaktualizuj ostatnią kartę",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Wstawia wiersz z ekranu (zdanie, audio, obraz) do najnowszej karty w talii, jeśli dodano ją w ciągu ostatnich minut. Tylko mpv.",
   "Anki: audio card": "Anki: karta audio",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Dodaje kartę tylko z audio z wiersza na ekranie, korzystając z talii kart audio. Tylko mpv.",
   "Record → new card": "Nagraj → nowa karta",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i dodać kartę z tym fragmentem. Działa bez napisów. Tylko mpv.",
   "Record → update last card": "Nagraj → zaktualizuj ostatnią kartę",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i wstawić ten fragment do najnowszej karty. Działa bez napisów. Tylko mpv.",
   "Record → audio card": "Nagraj → karta audio",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i dodać kartę audio z tym fragmentem. Działa bez napisów. Tylko mpv.",
@@ -219,4 +209,16 @@ export default {
   "Replay current subtitle": "Powtórz bieżące napisy",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Wraca na początek wiersza na ekranie i odtwarza go ponownie, a gdy go nie ma — ostatniego wyświetlonego.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Skróty Karta z napisów, Zaktualizuj ostatnią kartę i Nagraj → karta korzystają z talii, typu notatki i pól z sekcji Anki powyżej. Gdy w napisach jest zaznaczone słowo (podświetlone przy wybieraniu słowa lub w otwartym okienku), wypełniane są wszystkie przypisane pola, łącznie ze słowem i definicjami; bez niego tylko zdanie, audio zdania, zrzut ekranu lub klip i tytuł.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Dodaje kartę z wiersza na ekranie ze zdaniem, audio i obrazem, korzystając z talii i pól z Słownik i Anki. Gdy w napisach jest zaznaczone słowo, na kartę trafiają też słowo i jego definicje. Tylko mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Wstawia wiersz z ekranu (zdanie, audio, obraz) do najnowszej karty w talii, jeśli dodano ją w ciągu ostatnich minut. Gdy słowo jest zaznaczone, także słowo i definicje. Tylko mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i dodać kartę z tym fragmentem. Działa bez napisów. Gdy przy zatrzymaniu słowo jest zaznaczone, na kartę trafiają też słowo i definicje. Tylko mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i wstawić ten fragment do najnowszej karty. Działa bez napisów. Gdy przy zatrzymaniu słowo jest zaznaczone, także słowo i definicje. Tylko mpv.",
+  "Added {word} to {deck}": "Dodano {word} do {deck}",
+  "Updated card in {deck} with {word}": "Zaktualizowano kartę w {deck} o {word}",
 };

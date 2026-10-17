@@ -125,8 +125,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "단어를 찾지 않고 플레이어에서 바로 카드를 만듭니다. 화면의 자막에서, 또는 같은 키를 두 번 눌러 녹음한 구간에서 만들 수 있습니다(자막 없이도 가능). 키는 설정 → 단축키 → 몰입에서 정하세요. mpv 전용.",
   "Sentence cards": "문장 카드",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "자막에서 카드, 마지막 카드 업데이트, 녹음 → 카드 키는 위 Anki 섹션의 덱, 노트 유형, 필드를 사용합니다. 문장, 문장 오디오, 스크린샷 또는 클립, 제목 필드만 채우고 단어 필드는 비워 둡니다.",
   "Pick a deck and note type above": "위에서 덱과 노트 유형을 고르세요",
   "Map a field to Sentence audio above": "위에서 필드를 문장 오디오에 연결하세요",
   "Audio cards": "오디오 카드",
@@ -182,20 +180,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "보통 속도와 동작에서 정한 느린 속도(기본 0.5x) 사이를 전환합니다.",
   "Anki: card from the subtitle": "Anki: 자막에서 카드",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "화면의 줄로 문장, 오디오, 이미지가 담긴 카드를 사전 및 Anki의 덱과 필드로 추가합니다. mpv 전용.",
   "Anki: update last card": "Anki: 마지막 카드 업데이트",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "화면의 줄(문장, 오디오, 이미지)을 몇 분 안에 추가된 덱의 최신 카드에 넣습니다. mpv 전용.",
   "Anki: audio card": "Anki: 오디오 카드",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "화면의 줄로 오디오만 담긴 카드를 오디오 카드 덱에 추가합니다. mpv 전용.",
   "Record → new card": "녹음 → 새 카드",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
   "Record → update last card": "녹음 → 마지막 카드 업데이트",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. mpv 전용.",
   "Record → audio card": "녹음 → 오디오 카드",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 오디오 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
@@ -210,4 +200,16 @@ export default {
   "Replay current subtitle": "현재 자막 다시 재생",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "화면의 줄 처음으로 돌아가 다시 재생합니다. 줄이 없으면 마지막으로 표시된 줄로 돌아갑니다.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "자막에서 카드, 마지막 카드 업데이트, 녹음 → 카드 키는 위 Anki 섹션의 덱, 노트 유형, 필드를 사용합니다. 자막에서 단어를 선택했을 때(단어 고르기에서 강조되었거나 열린 팝업에 표시된 단어) 단어와 정의를 포함한 모든 연결된 필드를 채우고, 선택하지 않았을 때는 문장, 문장 오디오, 스크린샷 또는 클립, 제목만 채웁니다.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "화면의 줄로 문장, 오디오, 이미지가 담긴 카드를 사전 및 Anki의 덱과 필드로 추가합니다. 자막에서 단어를 선택했다면 단어와 정의도 카드에 들어갑니다. mpv 전용.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "화면의 줄(문장, 오디오, 이미지)을 몇 분 안에 추가된 덱의 최신 카드에 넣습니다. 단어를 선택했다면 단어와 정의도 넣습니다. mpv 전용.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 카드를 추가합니다. 자막 없이도 됩니다. 멈출 때 단어를 선택했다면 단어와 정의도 카드에 들어갑니다. mpv 전용.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. 멈출 때 단어를 선택했다면 단어와 정의도 넣습니다. mpv 전용.",
+  "Added {word} to {deck}": "{word}을(를) {deck}에 추가했습니다",
+  "Updated card in {deck} with {word}": "{deck}의 카드를 {word}(으)로 업데이트했습니다",
 };

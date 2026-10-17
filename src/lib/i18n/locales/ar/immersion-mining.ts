@@ -126,8 +126,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "بطاقات من المشغّل مباشرة دون البحث عن كلمة: من الترجمة على الشاشة، أو من مقطع تسجّله بضغطتين على المفتاح نفسه (يعمل دون ترجمة). اضبط المفاتيح من الإعدادات ← الاختصارات ← الانغماس. mpv فقط.",
   "Sentence cards": "بطاقات الجمل",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "تستخدم مفاتيح بطاقة من الترجمة وتحديث آخر بطاقة والتسجيل ← بطاقة الرزمةَ ونوع الملاحظة والحقولَ من قسم Anki أعلاه. تُملأ حقول الجملة وصوت الجملة ولقطة الشاشة أو المقطع والعنوان فقط، وتبقى حقول الكلمة فارغة.",
   "Pick a deck and note type above": "اختر رزمة ونوع ملاحظة أعلاه",
   "Map a field to Sentence audio above": "اربط حقلًا بصوت الجملة أعلاه",
   "Audio cards": "البطاقات الصوتية",
@@ -184,20 +182,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "يبدّل بين السرعة العادية والسرعة البطيئة المضبوطة في السلوك (0.5x افتراضيًا).",
   "Anki: card from the subtitle": "Anki: بطاقة من الترجمة",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "يضيف بطاقة من السطر الظاهر على الشاشة مع جملته وصوته وصورته، باستخدام الرزمة والحقول في القاموس وAnki. mpv فقط.",
   "Anki: update last card": "Anki: تحديث آخر بطاقة",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "يضع السطر الظاهر على الشاشة (الجملة والصوت والصورة) في أحدث بطاقة في الرزمة إن أُضيفت في الدقائق الأخيرة. mpv فقط.",
   "Anki: audio card": "Anki: بطاقة صوتية",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "يضيف بطاقة صوتية فقط من السطر الظاهر على الشاشة، باستخدام رزمة البطاقات الصوتية. mpv فقط.",
   "Record → new card": "التسجيل ← بطاقة جديدة",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه وإضافة بطاقة بذلك المقطع. يعمل دون ترجمة. mpv فقط.",
   "Record → update last card": "التسجيل ← تحديث آخر بطاقة",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه ووضع المقطع في أحدث بطاقة. يعمل دون ترجمة. mpv فقط.",
   "Record → audio card": "التسجيل ← بطاقة صوتية",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه وإضافة بطاقة صوتية بذلك المقطع. يعمل دون ترجمة. mpv فقط.",
@@ -212,4 +202,16 @@ export default {
   "Replay current subtitle": "إعادة تشغيل الترجمة الحالية",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "يعود إلى بداية السطر الظاهر على الشاشة ويشغّله مرة أخرى، أو آخر سطر ظهر إن لم يوجد سطر.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "تستخدم مفاتيح بطاقة من الترجمة وتحديث آخر بطاقة والتسجيل ← بطاقة الرزمةَ ونوع الملاحظة والحقولَ من قسم Anki أعلاه. عند تحديد كلمة في الترجمة (مظلّلة أثناء اختيار كلمة، أو ظاهرة في نافذة منبثقة مفتوحة) تُملأ كل الحقول المربوطة بما فيها الكلمة والتعريفات؛ ومن دونها تُملأ حقول الجملة وصوت الجملة ولقطة الشاشة أو المقطع والعنوان فقط.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "يضيف بطاقة من السطر الظاهر على الشاشة مع جملته وصوته وصورته، باستخدام الرزمة والحقول في القاموس وAnki. عند تحديد كلمة في الترجمة تُضاف الكلمة وتعريفاتها إلى البطاقة أيضًا. mpv فقط.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "يضع السطر الظاهر على الشاشة (الجملة والصوت والصورة) في أحدث بطاقة في الرزمة إن أُضيفت في الدقائق الأخيرة. وعند تحديد كلمة، الكلمة وتعريفاتها أيضًا. mpv فقط.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه وإضافة بطاقة بذلك المقطع. يعمل دون ترجمة. إن كانت هناك كلمة محددة عند الإيقاف تُضاف الكلمة وتعريفاتها إلى البطاقة أيضًا. mpv فقط.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه ووضع المقطع في أحدث بطاقة. يعمل دون ترجمة. إن كانت هناك كلمة محددة عند الإيقاف، الكلمة وتعريفاتها أيضًا. mpv فقط.",
+  "Added {word} to {deck}": "تمت إضافة {word} إلى {deck}",
+  "Updated card in {deck} with {word}": "تم تحديث البطاقة في {deck} بـ {word}",
 };

@@ -131,8 +131,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Kelime aramadan doğrudan oynatıcıdan kartlar: ekrandaki altyazıdan ya da aynı tuşa iki kez basarak kaydettiğiniz bir bölümden (altyazısız çalışır). Tuşları Ayarlar → Kısayollar → Dalma bölümünden belirleyin. Yalnızca mpv.",
   "Sentence cards": "Cümle kartları",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Altyazıdan kart, Son kartı güncelle ve Kaydet → kart kısayolları, yukarıdaki Anki bölümünün destesini, not türünü ve alanlarını kullanır. Yalnızca cümle, cümle sesi, ekran görüntüsü veya klip ve başlık alanları doldurulur; kelime alanları boş kalır.",
   "Pick a deck and note type above": "Yukarıda bir deste ve not türü seçin",
   "Map a field to Sentence audio above": "Yukarıda bir alanı Cümle sesi ile eşleyin",
   "Audio cards": "Ses kartları",
@@ -188,20 +186,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Normal hız ile Davranış altında ayarlanan yavaş hız arasında geçiş yapar (varsayılan 0,5x).",
   "Anki: card from the subtitle": "Anki: altyazıdan kart",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Ekrandaki satırdan cümlesi, sesi ve görüntüsüyle bir kart ekler; Sözlük ve Anki'deki deste ve alanları kullanır. Yalnızca mpv.",
   "Anki: update last card": "Anki: son kartı güncelle",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Ekrandaki satırı (cümle, ses, görüntü), son birkaç dakikada eklendiyse destenin en yeni kartına koyar. Yalnızca mpv.",
   "Anki: audio card": "Anki: ses kartı",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Ekrandaki satırdan yalnızca sesli bir kart ekler; ses kartı destesini kullanır. Yalnızca mpv.",
   "Record → new card": "Kaydet → yeni kart",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Kaydı başlatmak için bir kez, durdurup o bölümle kart eklemek için tekrar basın. Altyazısız çalışır. Yalnızca mpv.",
   "Record → update last card": "Kaydet → son kartı güncelle",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Kaydı başlatmak için bir kez, durdurup o bölümü en yeni karta koymak için tekrar basın. Altyazısız çalışır. Yalnızca mpv.",
   "Record → audio card": "Kaydet → ses kartı",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Kaydı başlatmak için bir kez, durdurup o bölümle bir ses kartı eklemek için tekrar basın. Altyazısız çalışır. Yalnızca mpv.",
@@ -216,4 +206,16 @@ export default {
   "Replay current subtitle": "Geçerli altyazıyı tekrarla",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Ekrandaki satırın başına döner ve yeniden oynatır; yoksa son gösterilen satırın başına döner.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Altyazıdan kart, Son kartı güncelle ve Kaydet → kart kısayolları, yukarıdaki Anki bölümünün destesini, not türünü ve alanlarını kullanır. Altyazıda bir kelime seçiliyken (kelime seçerken vurgulanan ya da açık bir pencerede gösterilen) kelime ve tanımlar dahil tüm eşlenmiş alanlar doldurulur; seçili değilken yalnızca cümle, cümle sesi, ekran görüntüsü veya klip ve başlık.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Ekrandaki satırdan cümlesi, sesi ve görüntüsüyle bir kart ekler; Sözlük ve Anki'deki deste ve alanları kullanır. Altyazıda bir kelime seçiliyse kelime ve tanımları da karta eklenir. Yalnızca mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Ekrandaki satırı (cümle, ses, görüntü), son birkaç dakikada eklendiyse destenin en yeni kartına koyar. Bir kelime seçiliyse kelime ve tanımları da. Yalnızca mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Kaydı başlatmak için bir kez, durdurup o bölümle kart eklemek için tekrar basın. Altyazısız çalışır. Durdururken bir kelime seçiliyse kelime ve tanımları da karta eklenir. Yalnızca mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Kaydı başlatmak için bir kez, durdurup o bölümü en yeni karta koymak için tekrar basın. Altyazısız çalışır. Durdururken bir kelime seçiliyse kelime ve tanımları da. Yalnızca mpv.",
+  "Added {word} to {deck}": "{word}, {deck} destesine eklendi",
+  "Updated card in {deck} with {word}": "{deck} içindeki kart {word} ile güncellendi",
 };

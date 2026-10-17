@@ -753,7 +753,7 @@ function ImmersionSection() {
     >
       <Row
         label={t("Sentence cards")}
-        sub={t("Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.")}
+        sub={t("Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.")}
       >
         <span className={`text-[12.5px] ${sentenceAudioMapped && settings.ankiDeck ? "text-success" : "text-danger"}`}>
           {!settings.ankiDeck || !settings.ankiModel

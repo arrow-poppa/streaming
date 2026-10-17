@@ -130,8 +130,6 @@ export default {
   "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
     "Kartu langsung dari pemutar, tanpa mencari kata: dari subtitel di layar, atau dari potongan yang Anda rekam dengan dua kali menekan tombol yang sama (berfungsi tanpa subtitel). Atur tombolnya di Pengaturan → Pintasan → Imersi. Hanya mpv.",
   "Sentence cards": "Kartu kalimat",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
-    "Pintasan Kartu dari subtitel, Perbarui kartu terakhir, dan Rekam → kartu memakai dek, jenis catatan, dan bidang dari bagian Anki di atas. Hanya bidang kalimat, audio kalimat, tangkapan layar atau klip, dan judul yang diisi; bidang kata tetap kosong.",
   "Pick a deck and note type above": "Pilih dek dan jenis catatan di atas",
   "Map a field to Sentence audio above": "Petakan sebuah bidang ke Audio kalimat di atas",
   "Audio cards": "Kartu audio",
@@ -188,20 +186,12 @@ export default {
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Beralih antara kecepatan normal dan kecepatan lambat yang diatur di Perilaku (bawaan 0,5x).",
   "Anki: card from the subtitle": "Anki: kartu dari subtitel",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
-    "Menambahkan kartu dari baris di layar dengan kalimat, audio, dan gambarnya, memakai dek dan bidang di Kamus & Anki. Hanya mpv.",
   "Anki: update last card": "Anki: perbarui kartu terakhir",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
-    "Memasukkan baris di layar (kalimat, audio, gambar) ke kartu terbaru di dek, jika ditambahkan dalam beberapa menit terakhir. Hanya mpv.",
   "Anki: audio card": "Anki: kartu audio",
   "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
     "Menambahkan kartu khusus audio dari baris di layar, memakai dek kartu audio. Hanya mpv.",
   "Record → new card": "Rekam → kartu baru",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
-    "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan menambahkan kartu dengan potongan itu. Berfungsi tanpa subtitel. Hanya mpv.",
   "Record → update last card": "Rekam → perbarui kartu terakhir",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
-    "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan memasukkan potongan itu ke kartu terbaru. Berfungsi tanpa subtitel. Hanya mpv.",
   "Record → audio card": "Rekam → kartu audio",
   "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
     "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan menambahkan kartu audio dengan potongan itu. Berfungsi tanpa subtitel. Hanya mpv.",
@@ -216,4 +206,16 @@ export default {
   "Replay current subtitle": "Ulangi subtitel saat ini",
   "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
     "Kembali ke awal baris di layar dan memutarnya lagi, atau baris terakhir yang tampil jika tidak ada.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. With a word selected in the subtitles (highlighted while picking a word, or in an open popup) every mapped field is filled, word and definitions included; without one only the sentence, sentence audio, screenshot or clip and title fields are.":
+    "Pintasan Kartu dari subtitel, Perbarui kartu terakhir, dan Rekam → kartu memakai dek, jenis catatan, dan bidang dari bagian Anki di atas. Jika ada kata yang dipilih di subtitel (disorot saat memilih kata, atau di popup yang terbuka), semua bidang yang dipetakan diisi, termasuk kata dan definisinya; jika tidak, hanya kalimat, audio kalimat, tangkapan layar atau klip, dan judul.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. With a word selected in the subtitles, the word and its definitions go on the card too. mpv only.":
+    "Menambahkan kartu dari baris di layar dengan kalimat, audio, dan gambarnya, memakai dek dan bidang di Kamus & Anki. Jika ada kata yang dipilih di subtitel, kata dan definisinya juga masuk ke kartu. Hanya mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. With a word selected, the word and its definitions too. mpv only.":
+    "Memasukkan baris di layar (kalimat, audio, gambar) ke kartu terbaru di dek, jika ditambahkan dalam beberapa menit terakhir. Jika ada kata yang dipilih, kata dan definisinya juga. Hanya mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. With a word selected when you stop, the word and its definitions go on the card too. mpv only.":
+    "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan menambahkan kartu dengan potongan itu. Berfungsi tanpa subtitel. Jika ada kata yang dipilih saat berhenti, kata dan definisinya juga masuk ke kartu. Hanya mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. With a word selected when you stop, the word and its definitions too. mpv only.":
+    "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan memasukkan potongan itu ke kartu terbaru. Berfungsi tanpa subtitel. Jika ada kata yang dipilih saat berhenti, kata dan definisinya juga. Hanya mpv.",
+  "Added {word} to {deck}": "{word} ditambahkan ke {deck}",
+  "Updated card in {deck} with {word}": "Kartu di {deck} diperbarui dengan {word}",
 };
