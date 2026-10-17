@@ -41,6 +41,10 @@ export function subscribeLive(cb: () => void): () => void {
   };
 }
 
+export function liveButtons(): LiveGamepad["buttons"] {
+  return state.buttons;
+}
+
 export function liveAxes(): LiveGamepad["axes"] {
   return state.axes;
 }

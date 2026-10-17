@@ -1,4 +1,6 @@
-export type HotkeyScope = "Player" | "Global" | "Manga";
+// Lookup bindings apply only while picking a word in the subtitles, so they
+// can reuse keys the player already uses (the arrows, Enter, Escape).
+export type HotkeyScope = "Player" | "Global" | "Manga" | "Lookup";
 
 export type HotkeyId =
   | "playerClose"
@@ -28,6 +30,17 @@ export type HotkeyId =
   | "playerRecordNew"
   | "playerRecordUpdate"
   | "playerRecordAudio"
+  | "playerLookupMode"
+  | "lookupNextWord"
+  | "lookupPrevWord"
+  | "lookupPrevLine"
+  | "lookupNextLine"
+  | "lookupAddAnki"
+  | "lookupAiExplain"
+  | "lookupWordAudio"
+  | "lookupScrollDown"
+  | "lookupScrollUp"
+  | "lookupExit"
   | "playerNextEpisode"
   | "playerPrevEpisode"
   | "playerPrevChannel"
@@ -522,6 +535,96 @@ export const HOTKEYS: HotkeyDef[] = [
     description:
       "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.",
     defaultBinding: "",
+  },
+  {
+    id: "playerLookupMode",
+    scope: "Player",
+    group: "Immersion",
+    label: "Pick a word in the subtitles",
+    description:
+      "Pause and select the first word of the subtitle to look it up without the mouse. Move between words with the Word lookup keys; press again to leave.",
+    defaultBinding: "",
+  },
+
+  {
+    id: "lookupNextWord",
+    scope: "Lookup",
+    group: "Words",
+    label: "Next word",
+    description: "Select and look up the next word.",
+    defaultBinding: "ArrowRight",
+  },
+  {
+    id: "lookupPrevWord",
+    scope: "Lookup",
+    group: "Words",
+    label: "Previous word",
+    description: "Select and look up the previous word.",
+    defaultBinding: "ArrowLeft",
+  },
+  {
+    id: "lookupPrevLine",
+    scope: "Lookup",
+    group: "Words",
+    label: "Line above",
+    description: "Go to the first word of the subtitle line above.",
+    defaultBinding: "ArrowUp",
+  },
+  {
+    id: "lookupNextLine",
+    scope: "Lookup",
+    group: "Words",
+    label: "Line below",
+    description: "Go to the first word of the subtitle line below.",
+    defaultBinding: "ArrowDown",
+  },
+  {
+    id: "lookupAddAnki",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Add to Anki",
+    description: "Add the selected word to Anki, like the Anki button in the popup.",
+    defaultBinding: "Enter",
+  },
+  {
+    id: "lookupAiExplain",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Generate AI explanation",
+    description: "Generate the AI explanation of the word, or generate it again.",
+    defaultBinding: "g",
+  },
+  {
+    id: "lookupWordAudio",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Play word audio",
+    description: "Play the word's local audio; press again for the next voice.",
+    defaultBinding: "p",
+  },
+  {
+    id: "lookupScrollDown",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Scroll popup down",
+    description: "Scroll the definitions down. On a controller the right stick scrolls too.",
+    defaultBinding: "shift+ArrowDown",
+  },
+  {
+    id: "lookupScrollUp",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Scroll popup up",
+    description: "Scroll the definitions up.",
+    defaultBinding: "shift+ArrowUp",
+  },
+  {
+    id: "lookupExit",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Leave word lookup",
+    description: "Close the popup and resume playback if picking a word paused it.",
+    defaultBinding: "Escape",
   },
 
   {

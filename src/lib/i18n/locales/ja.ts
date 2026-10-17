@@ -1,3 +1,4 @@
+import controllerLookup from "./ja/controller-lookup";
 import immersionMining from "./ja/immersion-mining";
 import playOrders from "./ja/play-orders";
 import gameRomLibrary from "./ja/game-rom-library";
@@ -377,6 +378,7 @@ const ja: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default ja;

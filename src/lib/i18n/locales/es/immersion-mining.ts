@@ -8,46 +8,61 @@ export default {
   "Added to {deck}": "Añadida a {deck}",
   "{n}s recorded": "{n}s grabados",
   "Recording → {target}. Press again to stop.": "Grabando → {target}. Pulsa de nuevo para detener.",
-  "the video went back since the recording started": "el vídeo retrocedió desde que empezó la grabación",
+  "the video went back since the recording started":
+    "el vídeo retrocedió desde que empezó la grabación",
   "too short": "demasiado corta",
   "longer than the {n}s limit": "supera el límite de {n}s",
   "Recording discarded: {reason}": "Grabación descartada: {reason}",
   "Stopped · {n}s recorded · adding card…": "Detenida · {n}s grabados · añadiendo tarjeta…",
-  "Anki cards from the player need the mpv player in the desktop app.": "Las tarjetas de Anki desde el reproductor necesitan el reproductor mpv en la app de escritorio.",
-  "No subtitle on screen. Use a Record shortcut for parts without subtitles.": "No hay subtítulo en pantalla. Usa un atajo de Grabar para partes sin subtítulos.",
+  "Anki cards from the player need the mpv player in the desktop app.":
+    "Las tarjetas de Anki desde el reproductor necesitan el reproductor mpv en la app de escritorio.",
+  "No subtitle on screen. Use a Record shortcut for parts without subtitles.":
+    "No hay subtítulo en pantalla. Usa un atajo de Grabar para partes sin subtítulos.",
   "Subtitle dictionary": "Diccionario de subtítulos",
-  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.": "Pasa el ratón por una palabra de los subtítulos para buscarla en tus diccionarios de Yomitan, oírla y añadirla a Anki. Usa el motor de diccionarios de Manatan.",
+  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.":
+    "Pasa el ratón por una palabra de los subtítulos para buscarla en tus diccionarios de Yomitan, oírla y añadirla a Anki. Usa el motor de diccionarios de Manatan.",
   "Look up words in subtitles": "Buscar palabras en los subtítulos",
-  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.": "Funciona con los subtítulos de Harbor y con subtítulos con estilo (ASS) dibujados por mpv. Los subtítulos de imagen (PGS) no tienen texto que buscar.",
+  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.":
+    "Funciona con los subtítulos de Harbor y con subtítulos con estilo (ASS) dibujados por mpv. Los subtítulos de imagen (PGS) no tienen texto que buscar.",
   "Pause while the popup is open": "Pausar mientras la ventana emergente está abierta",
   "Resumes when the popup closes.": "Se reanuda al cerrar la ventana emergente.",
-  "Keep the popup open when the mouse leaves": "Mantener la ventana emergente abierta cuando sale el ratón",
-  "The popup (and the pause) stays until you click outside it or press Escape.": "La ventana emergente (y la pausa) se mantiene hasta que hagas clic fuera o pulses Escape.",
+  "Keep the popup open when the mouse leaves":
+    "Mantener la ventana emergente abierta cuando sale el ratón",
+  "The popup (and the pause) stays until you click outside it or press Escape.":
+    "La ventana emergente (y la pausa) se mantiene hasta que hagas clic fuera o pulses Escape.",
   "Look up with": "Buscar con",
-  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.": "Pasar el ratón busca las palabras a medida que pasa sobre ellas. Con una tecla, mantenla pulsada mientras pasas el ratón (o púlsala sobre una palabra) y pasar el ratón sin más no hace nada. Hacer clic en una palabra siempre la busca.",
+  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.":
+    "Pasar el ratón busca las palabras a medida que pasa sobre ellas. Con una tecla, mantenla pulsada mientras pasas el ratón (o púlsala sobre una palabra) y pasar el ratón sin más no hace nada. Hacer clic en una palabra siempre la busca.",
   "Hover": "Pasar el ratón",
   "Hold Shift": "Mantener Shift",
   "Hold Ctrl": "Mantener Ctrl",
   "Hold Alt": "Mantener Alt",
   "Scan delay (in milliseconds)": "Retraso de búsqueda (en milisegundos)",
-  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.": "Espera antes de buscar la palabra bajo el ratón cuando no se requiere tecla. Menos es más rápido; más evita búsquedas cuando el ratón solo pasa por el subtítulo.",
+  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.":
+    "Espera antes de buscar la palabra bajo el ratón cuando no se requiere tecla. Menos es más rápido; más evita búsquedas cuando el ratón solo pasa por el subtítulo.",
   "Keep subtitles above the seek bar": "Mantener los subtítulos sobre la barra de progreso",
-  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.": "La barra de progreso tapa la línea más baja del subtítulo, así que sube los subtítulos por encima mientras buscas palabras.",
+  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.":
+    "La barra de progreso tapa la línea más baja del subtítulo, así que sube los subtítulos por encima mientras buscas palabras.",
   "Same setting as Player → Subtitles.": "El mismo ajuste que Reproductor → Subtítulos.",
   "Subtitle height": "Altura de los subtítulos",
   "Distance from the bottom of the video.": "Distancia desde la parte inferior del vídeo.",
   "Subtitle language": "Idioma de los subtítulos",
-  "Picks the deinflection rules used for lookups.": "Elige las reglas de deflexión usadas en las búsquedas.",
+  "Picks the deinflection rules used for lookups.":
+    "Elige las reglas de deflexión usadas en las búsquedas.",
   "Loading dictionaries…": "Cargando diccionarios…",
-  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.": "Aún no hay diccionarios. Importa archivos .zip de Yomitan como JMdict o Jitendex.",
+  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.":
+    "Aún no hay diccionarios. Importa archivos .zip de Yomitan como JMdict o Jitendex.",
   "Importing {name}…": "Importando {name}…",
   "Import dictionary (.zip)": "Importar diccionario (.zip)",
   "AI Explanation": "Explicación con IA",
-  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).": "Genera una explicación contextual de la palabra buscada con tu propio proveedor de IA. Las solicitudes van directamente de este dispositivo a cualquier endpoint compatible con OpenAI (OpenRouter, OpenAI, DeepSeek, Groq, un servidor local…).",
+  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).":
+    "Genera una explicación contextual de la palabra buscada con tu propio proveedor de IA. Las solicitudes van directamente de este dispositivo a cualquier endpoint compatible con OpenAI (OpenRouter, OpenAI, DeepSeek, Groq, un servidor local…).",
   "AI explanation in the popup": "Explicación con IA en la ventana emergente",
-  "Shows the explanation above the dictionary entries.": "Muestra la explicación sobre las entradas del diccionario.",
+  "Shows the explanation above the dictionary entries.":
+    "Muestra la explicación sobre las entradas del diccionario.",
   "Custom endpoint": "Endpoint personalizado",
-  "Full URL, used exactly as entered. No path is appended.": "URL completa, usada tal cual se escribe. No se añade ninguna ruta.",
+  "Full URL, used exactly as entered. No path is appended.":
+    "URL completa, usada tal cual se escribe. No se añade ninguna ruta.",
   "Stored on this device only.": "Guardada solo en este dispositivo.",
   "Model ID sent to the provider.": "ID del modelo enviado al proveedor.",
   "OpenRouter provider routing": "Enrutamiento de proveedores de OpenRouter",
@@ -62,28 +77,37 @@ export default {
   "Custom thinking value": "Valor de razonamiento personalizado",
   "A word, a token count, or a JSON object.": "Una palabra, un número de tokens o un objeto JSON.",
   "Custom request body JSON": "JSON personalizado del cuerpo de la solicitud",
-  "A JSON object merged over the generated request.": "Un objeto JSON combinado sobre la solicitud generada.",
+  "A JSON object merged over the generated request.":
+    "Un objeto JSON combinado sobre la solicitud generada.",
   "Auto generate on lookup": "Generar automáticamente al buscar",
-  "When off, the box appears without sending a request and you generate it manually.": "Desactivado, el cuadro aparece sin enviar ninguna solicitud y la generas manualmente.",
+  "When off, the box appears without sending a request and you generate it manually.":
+    "Desactivado, el cuadro aparece sin enviar ninguna solicitud y la generas manualmente.",
   "Real time response": "Respuesta en tiempo real",
-  "Stream the explanation into the popup as it is written.": "Transmite la explicación a la ventana emergente mientras se escribe.",
+  "Stream the explanation into the popup as it is written.":
+    "Transmite la explicación a la ventana emergente mientras se escribe.",
   "Cancel unfinished requests": "Cancelar solicitudes sin terminar",
-  "Drop an explanation still being generated when the popup closes or another word is looked up.": "Descarta una explicación que aún se está generando cuando se cierra la ventana emergente o se busca otra palabra.",
+  "Drop an explanation still being generated when the popup closes or another word is looked up.":
+    "Descarta una explicación que aún se está generando cuando se cierra la ventana emergente o se busca otra palabra.",
   "Fallback for unknown words": "Alternativa para palabras desconocidas",
-  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.": "Abre la ventana emergente para palabras que ningún diccionario contiene, solo con la explicación con IA, para que aún puedan ir a Anki.",
+  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.":
+    "Abre la ventana emergente para palabras que ningún diccionario contiene, solo con la explicación con IA, para que aún puedan ir a Anki.",
   "Custom prompt": "Prompt personalizado",
-  "Use {{target}} for the word and {{sentence}} for its context.": "Usa {{target}} para la palabra y {{sentence}} para su contexto.",
+  "Use {{target}} for the word and {{sentence}} for its context.":
+    "Usa {{target}} para la palabra y {{sentence}} para su contexto.",
   "System prompt": "Prompt del sistema",
-  "Optional instructions sent before the user prompt. Leave empty to send none.": "Instrucciones opcionales enviadas antes del prompt del usuario. Déjalo vacío para no enviar ninguna.",
+  "Optional instructions sent before the user prompt. Leave empty to send none.":
+    "Instrucciones opcionales enviadas antes del prompt del usuario. Déjalo vacío para no enviar ninguna.",
   "Temperature": "Temperatura",
   "Between 0 and 2. Lower is more deterministic.": "Entre 0 y 2. Más bajo es más determinista.",
   "Word audio": "Audio de la palabra",
-  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.": "Reproduce y mina pronunciaciones de una base de datos local-audio-yomichan (Forvo, NHK16, Shinmeikai8, JPod101). Elige android.db, o entries.db junto a sus carpetas *_files. La versión Flatpak solo puede leer android.db.",
+  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.":
+    "Reproduce y mina pronunciaciones de una base de datos local-audio-yomichan (Forvo, NHK16, Shinmeikai8, JPod101). Elige android.db, o entries.db junto a sus carpetas *_files. La versión Flatpak solo puede leer android.db.",
   "No database selected": "Ninguna base de datos seleccionada",
   "Choose database": "Elegir base de datos",
   "Connected to Anki": "Conectado a Anki",
   "Anki": "Anki",
-  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.": "Añade tarjetas mediante AnkiConnect con la palabra, la frase, las definiciones, una captura, el audio de la frase y el audio de la palabra. Anki debe estar abierto con el complemento AnkiConnect.",
+  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.":
+    "Añade tarjetas mediante AnkiConnect con la palabra, la frase, las definiciones, una captura, el audio de la frase y el audio de la palabra. Anki debe estar abierto con el complemento AnkiConnect.",
   "AnkiConnect address": "Dirección de AnkiConnect",
   "Deck": "Mazo",
   "Choose…": "Elegir…",
@@ -93,38 +117,51 @@ export default {
   "Auto-fill": "Rellenar automáticamente",
   "Separated by spaces.": "Separadas por espacios.",
   "Sentence audio padding": "Margen del audio de la frase",
-  "Seconds added before and after the subtitle line.": "Segundos añadidos antes y después de la línea del subtítulo.",
+  "Seconds added before and after the subtitle line.":
+    "Segundos añadidos antes y después de la línea del subtítulo.",
   "Animated clip format": "Formato del clip animado",
-  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.": "Para los campos configurados como clip animado. AVIF es el más pequeño; WebP y GIF se reproducen en versiones antiguas de Anki. Pasa a WebP y luego a GIF si falta un codificador.",
+  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.":
+    "Para los campos configurados como clip animado. AVIF es el más pequeño; WebP y GIF se reproducen en versiones antiguas de Anki. Pasa a WebP y luego a GIF si falta un codificador.",
   "Animated clip size": "Tamaño del clip animado",
-  "Width in pixels and frames per second. Clips stop after 12 seconds.": "Ancho en píxeles y fotogramas por segundo. Los clips se detienen a los 12 segundos.",
+  "Width in pixels and frames per second. Clips stop after 12 seconds.":
+    "Ancho en píxeles y fotogramas por segundo. Los clips se detienen a los 12 segundos.",
   "Allow duplicate cards": "Permitir tarjetas duplicadas",
-  "When off, words already in the deck are refused.": "Desactivado, se rechazan las palabras que ya están en el mazo.",
+  "When off, words already in the deck are refused.":
+    "Desactivado, se rechazan las palabras que ya están en el mazo.",
   "Immersion": "Inmersión",
-  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.": "Tarjetas directamente desde el reproductor, sin buscar una palabra: del subtítulo en pantalla, o de un fragmento que grabas con dos pulsaciones de la misma tecla (funciona sin subtítulos). Configura las teclas en Ajustes → Atajos → Inmersión. Solo mpv.",
+  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
+    "Tarjetas directamente desde el reproductor, sin buscar una palabra: del subtítulo en pantalla, o de un fragmento que grabas con dos pulsaciones de la misma tecla (funciona sin subtítulos). Configura las teclas en Ajustes → Atajos → Inmersión. Solo mpv.",
   "Sentence cards": "Tarjetas de frase",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.": "Los atajos Tarjeta del subtítulo, Actualizar última tarjeta y Grabar → tarjeta usan el mazo, el tipo de nota y los campos de la sección Anki de arriba. Solo se rellenan los campos de frase, audio de la frase, captura o clip y título; los campos de palabra quedan vacíos.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
+    "Los atajos Tarjeta del subtítulo, Actualizar última tarjeta y Grabar → tarjeta usan el mazo, el tipo de nota y los campos de la sección Anki de arriba. Solo se rellenan los campos de frase, audio de la frase, captura o clip y título; los campos de palabra quedan vacíos.",
   "Pick a deck and note type above": "Elige un mazo y un tipo de nota arriba",
   "Map a field to Sentence audio above": "Asigna un campo a Audio de la frase arriba",
   "Audio cards": "Tarjetas de audio",
   "Audio card deck": "Mazo de la tarjeta de audio",
   "Audio card note type": "Tipo de nota de la tarjeta de audio",
   "Audio field": "Campo de audio",
-  "Gets the audio of the line or of the recording.": "Recibe el audio de la línea o de la grabación.",
+  "Gets the audio of the line or of the recording.":
+    "Recibe el audio de la línea o de la grabación.",
   "Pick a note type first": "Elige primero un tipo de nota",
   "Sentence field (optional)": "Campo de la frase (opcional)",
   "Gets the subtitle text, when there is one.": "Recibe el texto del subtítulo, cuando lo hay.",
   "(empty)": "(vacío)",
   "Update last card window": "Ventana de Actualizar última tarjeta",
-  "Update last card only touches a card added this many minutes ago or less.": "Actualizar última tarjeta solo modifica una tarjeta añadida hace este número de minutos o menos.",
+  "Update last card only touches a card added this many minutes ago or less.":
+    "Actualizar última tarjeta solo modifica una tarjeta añadida hace este número de minutos o menos.",
   "Longest recording": "Grabación más larga",
-  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.": "Una grabación más larga que esto se descarta. Los clips animados siguen deteniéndose a los 12 segundos.",
-  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.": "Las búsquedas en el diccionario de subtítulos, el audio de palabras y la minería para Anki funcionan en la app de escritorio de Harbor.",
-  "Download the desktop app to look up words while you watch.": "Descarga la app de escritorio para buscar palabras mientras ves.",
+  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.":
+    "Una grabación más larga que esto se descarta. Los clips animados siguen deteniéndose a los 12 segundos.",
+  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.":
+    "Las búsquedas en el diccionario de subtítulos, el audio de palabras y la minería para Anki funcionan en la app de escritorio de Harbor.",
+  "Download the desktop app to look up words while you watch.":
+    "Descarga la app de escritorio para buscar palabras mientras ves.",
   "Long seek": "Salto largo",
-  "The jump of the Long seek back and Long seek forward shortcuts.": "El salto de los atajos Salto largo hacia atrás y Salto largo hacia delante.",
+  "The jump of the Long seek back and Long seek forward shortcuts.":
+    "El salto de los atajos Salto largo hacia atrás y Salto largo hacia delante.",
   "Slow speed": "Velocidad lenta",
-  "The speed the Toggle slow speed shortcut switches to from normal speed.": "La velocidad a la que cambia el atajo Alternar velocidad lenta desde la velocidad normal.",
+  "The speed the Toggle slow speed shortcut switches to from normal speed.":
+    "La velocidad a la que cambia el atajo Alternar velocidad lenta desde la velocidad normal.",
   "Word": "Palabra",
   "Word with furigana": "Palabra con furigana",
   "Definitions (all)": "Definiciones (todas)",
@@ -139,32 +176,45 @@ export default {
   "Pitch accent": "Acento tonal",
   "Title / episode": "Título / episodio",
   "AI explanation": "Explicación con IA",
-  "Text selected in the popup (else first definition)": "Texto seleccionado en la ventana emergente (si no, la primera definición)",
+  "Text selected in the popup (else first definition)":
+    "Texto seleccionado en la ventana emergente (si no, la primera definición)",
   "Not a valid JSON object.": "No es un objeto JSON válido.",
   "Toggle subtitles on/off": "Activar/desactivar subtítulos",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.": "Oculta todos los subtítulos (principal y secundario), o recupera la última pista principal.",
+  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
+    "Oculta todos los subtítulos (principal y secundario), o recupera la última pista principal.",
   "Next subtitle line": "Siguiente línea de subtítulo",
-  "Jump to the start of the next subtitle line.": "Salta al inicio de la siguiente línea de subtítulo.",
+  "Jump to the start of the next subtitle line.":
+    "Salta al inicio de la siguiente línea de subtítulo.",
   "Previous subtitle line": "Línea de subtítulo anterior",
-  "Jump to the start of the previous subtitle line (the current one if it just started).": "Salta al inicio de la línea de subtítulo anterior (la actual si acaba de empezar).",
+  "Jump to the start of the previous subtitle line (the current one if it just started).":
+    "Salta al inicio de la línea de subtítulo anterior (la actual si acaba de empezar).",
   "Toggle slow speed": "Alternar velocidad lenta",
-  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).": "Cambia entre la velocidad normal y la velocidad lenta configurada en Comportamiento (0,5x por defecto).",
+  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
+    "Cambia entre la velocidad normal y la velocidad lenta configurada en Comportamiento (0,5x por defecto).",
   "Anki: card from the subtitle": "Anki: tarjeta del subtítulo",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.": "Añade una tarjeta de la línea en pantalla con su frase, audio e imagen, usando el mazo y los campos de Diccionario y Anki. Solo mpv.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
+    "Añade una tarjeta de la línea en pantalla con su frase, audio e imagen, usando el mazo y los campos de Diccionario y Anki. Solo mpv.",
   "Anki: update last card": "Anki: actualizar última tarjeta",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.": "Pone la línea en pantalla (frase, audio, imagen) en la tarjeta más reciente del mazo, si se añadió en los últimos minutos. Solo mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
+    "Pone la línea en pantalla (frase, audio, imagen) en la tarjeta más reciente del mazo, si se añadió en los últimos minutos. Solo mpv.",
   "Anki: audio card": "Anki: tarjeta de audio",
-  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.": "Añade una tarjeta solo de audio de la línea en pantalla, usando el mazo de la tarjeta de audio. Solo mpv.",
+  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
+    "Añade una tarjeta solo de audio de la línea en pantalla, usando el mazo de la tarjeta de audio. Solo mpv.",
   "Record → new card": "Grabar → tarjeta nueva",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.": "Pulsa una vez para empezar a grabar y otra para detener y añadir una tarjeta con ese fragmento. Funciona sin subtítulos. Solo mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
+    "Pulsa una vez para empezar a grabar y otra para detener y añadir una tarjeta con ese fragmento. Funciona sin subtítulos. Solo mpv.",
   "Record → update last card": "Grabar → actualizar última tarjeta",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.": "Pulsa una vez para empezar a grabar y otra para detener y poner ese fragmento en la tarjeta más reciente. Funciona sin subtítulos. Solo mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
+    "Pulsa una vez para empezar a grabar y otra para detener y poner ese fragmento en la tarjeta más reciente. Funciona sin subtítulos. Solo mpv.",
   "Record → audio card": "Grabar → tarjeta de audio",
-  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.": "Pulsa una vez para empezar a grabar y otra para detener y añadir una tarjeta de audio con ese fragmento. Funciona sin subtítulos. Solo mpv.",
+  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
+    "Pulsa una vez para empezar a grabar y otra para detener y añadir una tarjeta de audio con ese fragmento. Funciona sin subtítulos. Solo mpv.",
   "Long seek back": "Salto largo hacia atrás",
-  "Jump back by the Long seek step set under Behavior (30 seconds by default).": "Retrocede según el paso de Salto largo configurado en Comportamiento (30 segundos por defecto).",
+  "Jump back by the Long seek step set under Behavior (30 seconds by default).":
+    "Retrocede según el paso de Salto largo configurado en Comportamiento (30 segundos por defecto).",
   "Long seek forward": "Salto largo hacia delante",
-  "Jump forward by the Long seek step set under Behavior (30 seconds by default).": "Avanza según el paso de Salto largo configurado en Comportamiento (30 segundos por defecto).",
+  "Jump forward by the Long seek step set under Behavior (30 seconds by default).":
+    "Avanza según el paso de Salto largo configurado en Comportamiento (30 segundos por defecto).",
   "Greek": "Griego",
   "Latin": "Latín",
 };

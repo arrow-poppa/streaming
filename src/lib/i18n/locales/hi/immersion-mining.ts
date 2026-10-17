@@ -13,41 +13,53 @@ export default {
   "longer than the {n}s limit": "{n}s की सीमा से लंबा",
   "Recording discarded: {reason}": "रिकॉर्डिंग हटा दी गई: {reason}",
   "Stopped · {n}s recorded · adding card…": "रुका · {n}s रिकॉर्ड हुए · कार्ड जोड़ा जा रहा है…",
-  "Anki cards from the player need the mpv player in the desktop app.": "प्लेयर से Anki कार्ड के लिए डेस्कटॉप ऐप में mpv प्लेयर चाहिए.",
-  "No subtitle on screen. Use a Record shortcut for parts without subtitles.": "स्क्रीन पर कोई सबटाइटल नहीं है. बिना सबटाइटल वाले हिस्सों के लिए रिकॉर्ड शॉर्टकट इस्तेमाल करें.",
+  "Anki cards from the player need the mpv player in the desktop app.":
+    "प्लेयर से Anki कार्ड के लिए डेस्कटॉप ऐप में mpv प्लेयर चाहिए.",
+  "No subtitle on screen. Use a Record shortcut for parts without subtitles.":
+    "स्क्रीन पर कोई सबटाइटल नहीं है. बिना सबटाइटल वाले हिस्सों के लिए रिकॉर्ड शॉर्टकट इस्तेमाल करें.",
   "Subtitle dictionary": "सबटाइटल शब्दकोश",
-  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.": "सबटाइटल के किसी शब्द पर माउस ले जाएँ ताकि उसे अपने Yomitan शब्दकोशों में देख सकें, सुन सकें और Anki में जोड़ सकें. Manatan का शब्दकोश इंजन इस्तेमाल करता है.",
+  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.":
+    "सबटाइटल के किसी शब्द पर माउस ले जाएँ ताकि उसे अपने Yomitan शब्दकोशों में देख सकें, सुन सकें और Anki में जोड़ सकें. Manatan का शब्दकोश इंजन इस्तेमाल करता है.",
   "Look up words in subtitles": "सबटाइटल में शब्द देखें",
-  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.": "Harbor के सबटाइटल और mpv द्वारा बनाए गए स्टाइल वाले (ASS) सबटाइटल के साथ काम करता है. इमेज सबटाइटल (PGS) में देखने के लिए टेक्स्ट नहीं होता.",
+  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.":
+    "Harbor के सबटाइटल और mpv द्वारा बनाए गए स्टाइल वाले (ASS) सबटाइटल के साथ काम करता है. इमेज सबटाइटल (PGS) में देखने के लिए टेक्स्ट नहीं होता.",
   "Pause while the popup is open": "पॉपअप खुला रहने तक रोकें",
   "Resumes when the popup closes.": "पॉपअप बंद होने पर फिर चलता है.",
   "Keep the popup open when the mouse leaves": "माउस हटने पर भी पॉपअप खुला रखें",
-  "The popup (and the pause) stays until you click outside it or press Escape.": "पॉपअप (और रुकावट) तब तक रहता है जब तक आप उसके बाहर क्लिक न करें या Escape न दबाएँ.",
+  "The popup (and the pause) stays until you click outside it or press Escape.":
+    "पॉपअप (और रुकावट) तब तक रहता है जब तक आप उसके बाहर क्लिक न करें या Escape न दबाएँ.",
   "Look up with": "इससे देखें",
-  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.": "होवर करने पर माउस जिन शब्दों से गुज़रता है वे देखे जाते हैं. किसी कुंजी के साथ, होवर करते समय उसे दबाए रखें (या किसी शब्द पर दबाएँ); सिर्फ़ होवर करने से कुछ नहीं होता. किसी शब्द पर क्लिक करने से वह हमेशा देखा जाता है.",
+  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.":
+    "होवर करने पर माउस जिन शब्दों से गुज़रता है वे देखे जाते हैं. किसी कुंजी के साथ, होवर करते समय उसे दबाए रखें (या किसी शब्द पर दबाएँ); सिर्फ़ होवर करने से कुछ नहीं होता. किसी शब्द पर क्लिक करने से वह हमेशा देखा जाता है.",
   "Hover": "होवर",
   "Hold Shift": "Shift दबाए रखें",
   "Hold Ctrl": "Ctrl दबाए रखें",
   "Hold Alt": "Alt दबाए रखें",
   "Scan delay (in milliseconds)": "खोज में देरी (मिलीसेकंड में)",
-  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.": "जब कोई कुंजी ज़रूरी न हो, तब माउस के नीचे के शब्द को देखने से पहले का इंतज़ार. कम होने पर तेज़; ज़्यादा होने पर माउस के सिर्फ़ सबटाइटल पर से गुज़रने पर खोज नहीं होती.",
+  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.":
+    "जब कोई कुंजी ज़रूरी न हो, तब माउस के नीचे के शब्द को देखने से पहले का इंतज़ार. कम होने पर तेज़; ज़्यादा होने पर माउस के सिर्फ़ सबटाइटल पर से गुज़रने पर खोज नहीं होती.",
   "Keep subtitles above the seek bar": "सबटाइटल को सीक बार के ऊपर रखें",
-  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.": "सीक बार सबसे नीचे की सबटाइटल पंक्ति को ढक देता है, इसलिए शब्द देखते समय सबटाइटल उसके ऊपर उठाएँ.",
+  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.":
+    "सीक बार सबसे नीचे की सबटाइटल पंक्ति को ढक देता है, इसलिए शब्द देखते समय सबटाइटल उसके ऊपर उठाएँ.",
   "Same setting as Player → Subtitles.": "प्लेयर → सबटाइटल वाली ही सेटिंग.",
   "Subtitle height": "सबटाइटल की ऊँचाई",
   "Distance from the bottom of the video.": "वीडियो के निचले किनारे से दूरी.",
   "Subtitle language": "सबटाइटल की भाषा",
-  "Picks the deinflection rules used for lookups.": "खोज के लिए इस्तेमाल होने वाले रूप-परिवर्तन हटाने के नियम चुनता है.",
+  "Picks the deinflection rules used for lookups.":
+    "खोज के लिए इस्तेमाल होने वाले रूप-परिवर्तन हटाने के नियम चुनता है.",
   "Loading dictionaries…": "शब्दकोश लोड हो रहे हैं…",
-  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.": "अभी कोई शब्दकोश नहीं है. JMdict या Jitendex जैसी Yomitan .zip फ़ाइलें इम्पोर्ट करें.",
+  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.":
+    "अभी कोई शब्दकोश नहीं है. JMdict या Jitendex जैसी Yomitan .zip फ़ाइलें इम्पोर्ट करें.",
   "Importing {name}…": "{name} इम्पोर्ट हो रहा है…",
   "Import dictionary (.zip)": "शब्दकोश इम्पोर्ट करें (.zip)",
   "AI Explanation": "AI व्याख्या",
-  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).": "अपने AI प्रदाता से देखे गए शब्द की संदर्भ के अनुसार व्याख्या बनाएँ. अनुरोध इस डिवाइस से सीधे किसी भी OpenAI-संगत endpoint पर जाते हैं (OpenRouter, OpenAI, DeepSeek, Groq, कोई लोकल सर्वर…).",
+  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).":
+    "अपने AI प्रदाता से देखे गए शब्द की संदर्भ के अनुसार व्याख्या बनाएँ. अनुरोध इस डिवाइस से सीधे किसी भी OpenAI-संगत endpoint पर जाते हैं (OpenRouter, OpenAI, DeepSeek, Groq, कोई लोकल सर्वर…).",
   "AI explanation in the popup": "पॉपअप में AI व्याख्या",
   "Shows the explanation above the dictionary entries.": "शब्दकोश प्रविष्टियों के ऊपर व्याख्या दिखाता है.",
   "Custom endpoint": "कस्टम endpoint",
-  "Full URL, used exactly as entered. No path is appended.": "पूरा URL, ठीक वैसे ही इस्तेमाल होता है जैसे लिखा गया. कोई पाथ नहीं जोड़ा जाता.",
+  "Full URL, used exactly as entered. No path is appended.":
+    "पूरा URL, ठीक वैसे ही इस्तेमाल होता है जैसे लिखा गया. कोई पाथ नहीं जोड़ा जाता.",
   "Stored on this device only.": "केवल इसी डिवाइस पर सहेजा जाता है.",
   "Model ID sent to the provider.": "प्रदाता को भेजी जाने वाली मॉडल ID.",
   "OpenRouter provider routing": "OpenRouter प्रदाता रूटिंग",
@@ -62,28 +74,37 @@ export default {
   "Custom thinking value": "कस्टम सोचने का मान",
   "A word, a token count, or a JSON object.": "एक शब्द, टोकन की संख्या या एक JSON ऑब्जेक्ट.",
   "Custom request body JSON": "कस्टम अनुरोध बॉडी JSON",
-  "A JSON object merged over the generated request.": "बनाए गए अनुरोध के ऊपर मिलाया जाने वाला JSON ऑब्जेक्ट.",
+  "A JSON object merged over the generated request.":
+    "बनाए गए अनुरोध के ऊपर मिलाया जाने वाला JSON ऑब्जेक्ट.",
   "Auto generate on lookup": "खोज पर अपने-आप बनाएँ",
-  "When off, the box appears without sending a request and you generate it manually.": "बंद होने पर बॉक्स बिना अनुरोध भेजे दिखता है और आप उसे ख़ुद बनाते हैं.",
+  "When off, the box appears without sending a request and you generate it manually.":
+    "बंद होने पर बॉक्स बिना अनुरोध भेजे दिखता है और आप उसे ख़ुद बनाते हैं.",
   "Real time response": "रीयल टाइम जवाब",
-  "Stream the explanation into the popup as it is written.": "व्याख्या लिखी जाते समय ही उसे पॉपअप में दिखाता है.",
+  "Stream the explanation into the popup as it is written.":
+    "व्याख्या लिखी जाते समय ही उसे पॉपअप में दिखाता है.",
   "Cancel unfinished requests": "अधूरे अनुरोध रद्द करें",
-  "Drop an explanation still being generated when the popup closes or another word is looked up.": "पॉपअप बंद होने या दूसरा शब्द देखने पर अभी बन रही व्याख्या छोड़ देता है.",
+  "Drop an explanation still being generated when the popup closes or another word is looked up.":
+    "पॉपअप बंद होने या दूसरा शब्द देखने पर अभी बन रही व्याख्या छोड़ देता है.",
   "Fallback for unknown words": "अनजान शब्दों के लिए फ़ॉलबैक",
-  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.": "जो शब्द किसी शब्दकोश में नहीं हैं उनके लिए भी सिर्फ़ AI व्याख्या के साथ पॉपअप खोलता है, ताकि वे फिर भी Anki में जा सकें.",
+  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.":
+    "जो शब्द किसी शब्दकोश में नहीं हैं उनके लिए भी सिर्फ़ AI व्याख्या के साथ पॉपअप खोलता है, ताकि वे फिर भी Anki में जा सकें.",
   "Custom prompt": "कस्टम प्रॉम्प्ट",
-  "Use {{target}} for the word and {{sentence}} for its context.": "शब्द के लिए {{target}} और उसके संदर्भ के लिए {{sentence}} इस्तेमाल करें.",
+  "Use {{target}} for the word and {{sentence}} for its context.":
+    "शब्द के लिए {{target}} और उसके संदर्भ के लिए {{sentence}} इस्तेमाल करें.",
   "System prompt": "सिस्टम प्रॉम्प्ट",
-  "Optional instructions sent before the user prompt. Leave empty to send none.": "उपयोगकर्ता प्रॉम्प्ट से पहले भेजे जाने वाले वैकल्पिक निर्देश. कुछ न भेजने के लिए खाली छोड़ें.",
+  "Optional instructions sent before the user prompt. Leave empty to send none.":
+    "उपयोगकर्ता प्रॉम्प्ट से पहले भेजे जाने वाले वैकल्पिक निर्देश. कुछ न भेजने के लिए खाली छोड़ें.",
   "Temperature": "तापमान",
   "Between 0 and 2. Lower is more deterministic.": "0 और 2 के बीच. कम मान ज़्यादा निश्चित होता है.",
   "Word audio": "शब्द का ऑडियो",
-  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.": "local-audio-yomichan डेटाबेस (Forvo, NHK16, Shinmeikai8, JPod101) से उच्चारण चलाता और जोड़ता है. android.db चुनें, या *_files फ़ोल्डरों के पास वाला entries.db. Flatpak संस्करण केवल android.db पढ़ सकता है.",
+  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.":
+    "local-audio-yomichan डेटाबेस (Forvo, NHK16, Shinmeikai8, JPod101) से उच्चारण चलाता और जोड़ता है. android.db चुनें, या *_files फ़ोल्डरों के पास वाला entries.db. Flatpak संस्करण केवल android.db पढ़ सकता है.",
   "No database selected": "कोई डेटाबेस नहीं चुना गया",
   "Choose database": "डेटाबेस चुनें",
   "Connected to Anki": "Anki से जुड़ गया",
   "Anki": "Anki",
-  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.": "AnkiConnect के ज़रिए शब्द, वाक्य, परिभाषाएँ, स्क्रीनशॉट, वाक्य का ऑडियो और शब्द का ऑडियो वाले कार्ड जोड़ता है. Anki, AnkiConnect ऐड-ऑन के साथ खुला होना चाहिए.",
+  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.":
+    "AnkiConnect के ज़रिए शब्द, वाक्य, परिभाषाएँ, स्क्रीनशॉट, वाक्य का ऑडियो और शब्द का ऑडियो वाले कार्ड जोड़ता है. Anki, AnkiConnect ऐड-ऑन के साथ खुला होना चाहिए.",
   "AnkiConnect address": "AnkiConnect पता",
   "Deck": "डेक",
   "Choose…": "चुनें…",
@@ -93,17 +114,23 @@ export default {
   "Auto-fill": "अपने-आप भरें",
   "Separated by spaces.": "स्पेस से अलग करें.",
   "Sentence audio padding": "वाक्य ऑडियो की पैडिंग",
-  "Seconds added before and after the subtitle line.": "सबटाइटल पंक्ति से पहले और बाद में जोड़े जाने वाले सेकंड.",
+  "Seconds added before and after the subtitle line.":
+    "सबटाइटल पंक्ति से पहले और बाद में जोड़े जाने वाले सेकंड.",
   "Animated clip format": "एनिमेटेड क्लिप का फ़ॉर्मैट",
-  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.": "एनिमेटेड क्लिप पर सेट फ़ील्ड के लिए. AVIF सबसे छोटा है; WebP और GIF पुराने Anki संस्करणों में चलते हैं. एन्कोडर न होने पर WebP, फिर GIF पर जाता है.",
+  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.":
+    "एनिमेटेड क्लिप पर सेट फ़ील्ड के लिए. AVIF सबसे छोटा है; WebP और GIF पुराने Anki संस्करणों में चलते हैं. एन्कोडर न होने पर WebP, फिर GIF पर जाता है.",
   "Animated clip size": "एनिमेटेड क्लिप का आकार",
-  "Width in pixels and frames per second. Clips stop after 12 seconds.": "पिक्सल में चौड़ाई और प्रति सेकंड फ़्रेम. क्लिप 12 सेकंड बाद रुक जाती हैं.",
+  "Width in pixels and frames per second. Clips stop after 12 seconds.":
+    "पिक्सल में चौड़ाई और प्रति सेकंड फ़्रेम. क्लिप 12 सेकंड बाद रुक जाती हैं.",
   "Allow duplicate cards": "डुप्लिकेट कार्ड की अनुमति दें",
-  "When off, words already in the deck are refused.": "बंद होने पर डेक में पहले से मौजूद शब्द अस्वीकार हो जाते हैं.",
+  "When off, words already in the deck are refused.":
+    "बंद होने पर डेक में पहले से मौजूद शब्द अस्वीकार हो जाते हैं.",
   "Immersion": "इमर्शन",
-  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.": "शब्द देखे बिना सीधे प्लेयर से कार्ड: स्क्रीन के सबटाइटल से, या उस हिस्से से जिसे आप एक ही कुंजी दो बार दबाकर रिकॉर्ड करते हैं (बिना सबटाइटल के भी चलता है). कुंजियाँ सेटिंग → शॉर्टकट → इमर्शन में तय करें. केवल mpv.",
+  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
+    "शब्द देखे बिना सीधे प्लेयर से कार्ड: स्क्रीन के सबटाइटल से, या उस हिस्से से जिसे आप एक ही कुंजी दो बार दबाकर रिकॉर्ड करते हैं (बिना सबटाइटल के भी चलता है). कुंजियाँ सेटिंग → शॉर्टकट → इमर्शन में तय करें. केवल mpv.",
   "Sentence cards": "वाक्य कार्ड",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.": "सबटाइटल से कार्ड, पिछला कार्ड अपडेट करें और रिकॉर्ड → कार्ड कुंजियाँ ऊपर के Anki हिस्से का डेक, नोट प्रकार और फ़ील्ड इस्तेमाल करती हैं. केवल वाक्य, वाक्य ऑडियो, स्क्रीनशॉट या क्लिप और शीर्षक वाले फ़ील्ड भरे जाते हैं; शब्द वाले फ़ील्ड खाली रहते हैं.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
+    "सबटाइटल से कार्ड, पिछला कार्ड अपडेट करें और रिकॉर्ड → कार्ड कुंजियाँ ऊपर के Anki हिस्से का डेक, नोट प्रकार और फ़ील्ड इस्तेमाल करती हैं. केवल वाक्य, वाक्य ऑडियो, स्क्रीनशॉट या क्लिप और शीर्षक वाले फ़ील्ड भरे जाते हैं; शब्द वाले फ़ील्ड खाली रहते हैं.",
   "Pick a deck and note type above": "ऊपर डेक और नोट प्रकार चुनें",
   "Map a field to Sentence audio above": "ऊपर किसी फ़ील्ड को वाक्य ऑडियो से जोड़ें",
   "Audio cards": "ऑडियो कार्ड",
@@ -116,15 +143,21 @@ export default {
   "Gets the subtitle text, when there is one.": "सबटाइटल का टेक्स्ट पाता है, अगर हो.",
   "(empty)": "(खाली)",
   "Update last card window": "पिछला कार्ड अपडेट करें की समय सीमा",
-  "Update last card only touches a card added this many minutes ago or less.": "पिछला कार्ड अपडेट करें केवल उसी कार्ड को बदलता है जो इतने मिनट या उससे कम पहले जोड़ा गया हो.",
+  "Update last card only touches a card added this many minutes ago or less.":
+    "पिछला कार्ड अपडेट करें केवल उसी कार्ड को बदलता है जो इतने मिनट या उससे कम पहले जोड़ा गया हो.",
   "Longest recording": "सबसे लंबी रिकॉर्डिंग",
-  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.": "इससे लंबी रिकॉर्डिंग हटा दी जाती है. एनिमेटेड क्लिप फिर भी 12 सेकंड बाद रुकती हैं.",
-  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.": "सबटाइटल शब्दकोश खोज, शब्द ऑडियो और Anki माइनिंग Harbor डेस्कटॉप ऐप में चलते हैं.",
-  "Download the desktop app to look up words while you watch.": "देखते हुए शब्द खोजने के लिए डेस्कटॉप ऐप डाउनलोड करें.",
+  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.":
+    "इससे लंबी रिकॉर्डिंग हटा दी जाती है. एनिमेटेड क्लिप फिर भी 12 सेकंड बाद रुकती हैं.",
+  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.":
+    "सबटाइटल शब्दकोश खोज, शब्द ऑडियो और Anki माइनिंग Harbor डेस्कटॉप ऐप में चलते हैं.",
+  "Download the desktop app to look up words while you watch.":
+    "देखते हुए शब्द खोजने के लिए डेस्कटॉप ऐप डाउनलोड करें.",
   "Long seek": "लंबा सीक",
-  "The jump of the Long seek back and Long seek forward shortcuts.": "लंबा पीछे सीक और लंबा आगे सीक शॉर्टकट की छलांग.",
+  "The jump of the Long seek back and Long seek forward shortcuts.":
+    "लंबा पीछे सीक और लंबा आगे सीक शॉर्टकट की छलांग.",
   "Slow speed": "धीमी गति",
-  "The speed the Toggle slow speed shortcut switches to from normal speed.": "वह गति जिस पर धीमी गति टॉगल शॉर्टकट सामान्य गति से जाता है.",
+  "The speed the Toggle slow speed shortcut switches to from normal speed.":
+    "वह गति जिस पर धीमी गति टॉगल शॉर्टकट सामान्य गति से जाता है.",
   "Word": "शब्द",
   "Word with furigana": "फ़ुरिगाना वाला शब्द",
   "Definitions (all)": "परिभाषाएँ (सभी)",
@@ -139,32 +172,44 @@ export default {
   "Pitch accent": "पिच एक्सेंट",
   "Title / episode": "शीर्षक / एपिसोड",
   "AI explanation": "AI व्याख्या",
-  "Text selected in the popup (else first definition)": "पॉपअप में चुना गया टेक्स्ट (नहीं तो पहली परिभाषा)",
+  "Text selected in the popup (else first definition)":
+    "पॉपअप में चुना गया टेक्स्ट (नहीं तो पहली परिभाषा)",
   "Not a valid JSON object.": "मान्य JSON ऑब्जेक्ट नहीं है.",
   "Toggle subtitles on/off": "सबटाइटल चालू/बंद करें",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.": "सभी सबटाइटल (प्राथमिक और द्वितीयक) छिपाता है, या पिछला प्राथमिक ट्रैक वापस लाता है.",
+  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
+    "सभी सबटाइटल (प्राथमिक और द्वितीयक) छिपाता है, या पिछला प्राथमिक ट्रैक वापस लाता है.",
   "Next subtitle line": "अगली सबटाइटल पंक्ति",
   "Jump to the start of the next subtitle line.": "अगली सबटाइटल पंक्ति की शुरुआत पर जाता है.",
   "Previous subtitle line": "पिछली सबटाइटल पंक्ति",
-  "Jump to the start of the previous subtitle line (the current one if it just started).": "पिछली सबटाइटल पंक्ति की शुरुआत पर जाता है (मौजूदा पंक्ति, अगर वह अभी शुरू हुई है).",
+  "Jump to the start of the previous subtitle line (the current one if it just started).":
+    "पिछली सबटाइटल पंक्ति की शुरुआत पर जाता है (मौजूदा पंक्ति, अगर वह अभी शुरू हुई है).",
   "Toggle slow speed": "धीमी गति टॉगल करें",
-  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).": "सामान्य गति और व्यवहार में तय धीमी गति (डिफ़ॉल्ट 0.5x) के बीच बदलता है.",
+  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
+    "सामान्य गति और व्यवहार में तय धीमी गति (डिफ़ॉल्ट 0.5x) के बीच बदलता है.",
   "Anki: card from the subtitle": "Anki: सबटाइटल से कार्ड",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.": "स्क्रीन की पंक्ति से वाक्य, ऑडियो और तस्वीर वाला कार्ड, शब्दकोश और Anki के डेक और फ़ील्ड से जोड़ता है. केवल mpv.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
+    "स्क्रीन की पंक्ति से वाक्य, ऑडियो और तस्वीर वाला कार्ड, शब्दकोश और Anki के डेक और फ़ील्ड से जोड़ता है. केवल mpv.",
   "Anki: update last card": "Anki: पिछला कार्ड अपडेट करें",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.": "स्क्रीन की पंक्ति (वाक्य, ऑडियो, तस्वीर) डेक के सबसे नए कार्ड में डालता है, अगर वह पिछले कुछ मिनटों में जोड़ा गया हो. केवल mpv.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
+    "स्क्रीन की पंक्ति (वाक्य, ऑडियो, तस्वीर) डेक के सबसे नए कार्ड में डालता है, अगर वह पिछले कुछ मिनटों में जोड़ा गया हो. केवल mpv.",
   "Anki: audio card": "Anki: ऑडियो कार्ड",
-  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.": "स्क्रीन की पंक्ति से केवल ऑडियो वाला कार्ड, ऑडियो कार्ड के डेक में जोड़ता है. केवल mpv.",
+  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
+    "स्क्रीन की पंक्ति से केवल ऑडियो वाला कार्ड, ऑडियो कार्ड के डेक में जोड़ता है. केवल mpv.",
   "Record → new card": "रिकॉर्ड → नया कार्ड",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.": "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
+    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
   "Record → update last card": "रिकॉर्ड → पिछला कार्ड अपडेट करें",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.": "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
+    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
   "Record → audio card": "रिकॉर्ड → ऑडियो कार्ड",
-  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.": "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से ऑडियो कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
+  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
+    "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर उस हिस्से से ऑडियो कार्ड जोड़ने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. केवल mpv.",
   "Long seek back": "लंबा पीछे सीक",
-  "Jump back by the Long seek step set under Behavior (30 seconds by default).": "व्यवहार में तय लंबे सीक जितना पीछे जाता है (डिफ़ॉल्ट 30 सेकंड).",
+  "Jump back by the Long seek step set under Behavior (30 seconds by default).":
+    "व्यवहार में तय लंबे सीक जितना पीछे जाता है (डिफ़ॉल्ट 30 सेकंड).",
   "Long seek forward": "लंबा आगे सीक",
-  "Jump forward by the Long seek step set under Behavior (30 seconds by default).": "व्यवहार में तय लंबे सीक जितना आगे जाता है (डिफ़ॉल्ट 30 सेकंड).",
+  "Jump forward by the Long seek step set under Behavior (30 seconds by default).":
+    "व्यवहार में तय लंबे सीक जितना आगे जाता है (डिफ़ॉल्ट 30 सेकंड).",
   "Greek": "यूनानी",
   "Latin": "लैटिन",
 };

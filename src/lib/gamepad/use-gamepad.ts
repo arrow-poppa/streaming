@@ -5,6 +5,10 @@ import { makeSafeTauriUnlisten } from "@/lib/tauri-unlisten";
 import { useSettings } from "@/lib/settings";
 import { useView } from "@/lib/view";
 import { dispatchTvNav } from "@/lib/keyboard-navigation";
+import { HOTKEY_MAP } from "@/lib/hotkeys";
+import { LOOKUP_ACTIONS, isLookupNavActive, sendLookupCommand, type LookupCommand } from "@/lib/player/lookup-nav";
+import { PAD_MODIFIERS, isDefaultPadBinding, modifierInUse, padAction, type PadMode } from "./bindings";
+import { runPadAction } from "./dispatch";
 import { isGamepadCaptured } from "./capture";
 import { publishGamepads } from "./store";
 import { resetLiveGamepad, setLiveAxis, setLiveButton } from "./live";
@@ -114,6 +118,9 @@ export function useGamepad(): void {
   const playerRef = useRef(!!player);
   playerRef.current = !!player;
 
+  const bindRef = useRef({ pad: settings.gamepadHotkeys ?? {}, keys: settings.hotkeys ?? {} });
+  bindRef.current = { pad: settings.gamepadHotkeys ?? {}, keys: settings.hotkeys ?? {} };
+
   const backgroundInputRef = useRef(backgroundInput);
   backgroundInputRef.current = backgroundInput;
 
@@ -147,15 +154,42 @@ export function useGamepad(): void {
       for (const id of [...repeats.keys()]) stopRepeat(id);
     };
 
-    const fireButton = (button: GpButton, repeat = false) => {
+    const lookupMode = () => playerRef.current && isLookupNavActive();
+    const padMode = (): PadMode => (lookupMode() ? "lookup" : "normal");
+
+    // `chord` is the button, or "modifier+button" while a shoulder or trigger
+    // that some binding combines with is held.
+    const fireButton = (button: GpButton, repeat = false, chord: string = button) => {
       if (isGamepadCaptured()) return;
+      const { pad, keys } = bindRef.current;
+      const plain = chord === button;
       if (playerRef.current) {
         window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
-        if (!(controlsUp() && NAV_WHEN_CONTROLS_UP.has(button))) {
-          const key = PLAYER_BUTTON[button];
-          if (key) synthKey(key);
+        if (lookupMode()) {
+          const id = padAction(pad, "lookup", chord);
+          const cmd = id && LOOKUP_ACTIONS.find(([a]) => a === id)?.[1];
+          if (cmd) {
+            sendLookupCommand(cmd);
+            return;
+          }
+        }
+        if (!(plain && !lookupMode() && controlsUp() && NAV_WHEN_CONTROLS_UP.has(button))) {
+          const id = padAction(pad, "normal", chord);
+          if (!id || HOTKEY_MAP[id].scope === "Lookup") return;
+          // Untouched defaults still press the key they always pressed, so
+          // menus that listen for Escape or Space behave exactly as before.
+          const legacy = plain && isDefaultPadBinding(pad, "normal", chord) ? PLAYER_BUTTON[button] : undefined;
+          if (legacy) synthKey(legacy);
+          else runPadAction(id, keys, repeat);
           return;
         }
+      } else {
+        const id = padAction(pad, "normal", chord);
+        if (id && HOTKEY_MAP[id].scope !== "Player" && HOTKEY_MAP[id].scope !== "Lookup") {
+          runPadAction(id, keys, repeat);
+          return;
+        }
+        if (!plain) return;
       }
       const nav = NAV_BUTTON[button];
       if (nav && !keyboardNav(nav)) {
@@ -166,8 +200,21 @@ export function useGamepad(): void {
       }
     };
 
+    // While picking a word the sticks move between words and scroll the popup.
+    const LOOKUP_AXIS: Partial<Record<GpAxis, { neg: LookupCommand; pos: LookupCommand }>> = {
+      lx: { neg: "prevWord", pos: "nextWord" },
+      ly: { neg: "prevLine", pos: "nextLine" },
+      ry: { neg: "scrollUp", pos: "scrollDown" },
+    };
+
     const fireAxis = (axis: GpAxis, dir: "neg" | "pos", repeat = false) => {
       if (isGamepadCaptured()) return;
+      const lookupAxis = lookupMode() ? LOOKUP_AXIS[axis] : undefined;
+      if (lookupAxis) {
+        window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
+        sendLookupCommand(lookupAxis[dir], axis === "ry" ? 0.5 : 1);
+        return;
+      }
       if (playerRef.current) {
         window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
         if (!axisNavigates(axis)) {
@@ -180,23 +227,44 @@ export function useGamepad(): void {
       if (nav) dispatchTvNav(nav, repeat);
     };
 
+    // A shoulder or trigger that a binding combines with waits for its
+    // release: alone it does its own job then, held with another button it
+    // forms the chord. One no binding combines with acts on press, as before.
+    const heldModifiers = new Map<GpButton, boolean>();
+
     const onButton = (button: GpButton, pressed: boolean) => {
       if (!pressed) {
         stopRepeat(`btn:${button}`);
+        if (heldModifiers.has(button)) {
+          const used = heldModifiers.get(button);
+          heldModifiers.delete(button);
+          if (!used) fireButton(button);
+        }
         return;
       }
+      if (isGamepadCaptured()) return;
+      const { pad } = bindRef.current;
+      const modifier = PAD_MODIFIERS.find((m) => m !== button && heldModifiers.has(m));
+      if (!modifier && PAD_MODIFIERS.includes(button) && modifierInUse(pad, padMode(), button)) {
+        heldModifiers.set(button, false);
+        return;
+      }
+      if (modifier) heldModifiers.set(modifier, true);
+      const chord = modifier ? `${modifier}+${button}` : button;
       const repeatable = playerRef.current
         ? PLAYER_REPEATABLE.has(button)
         : NAV_REPEATABLE.has(button);
-      if (repeatable) startRepeat(`btn:${button}`, (r) => fireButton(button, r));
-      else fireButton(button);
+      if (repeatable) startRepeat(`btn:${button}`, (r) => fireButton(button, r, chord));
+      else fireButton(button, false, chord);
     };
 
     const axisNavigates = (axis: GpAxis) =>
       !playerRef.current || (controlsUp() && !!NAV_AXIS[axis] && axis !== "ry");
 
     const onAxis = (axis: GpAxis, value: number) => {
-      const mapped = axisNavigates(axis) ? NAV_AXIS[axis] : PLAYER_AXIS[axis];
+      const mapped =
+        (lookupMode() ? LOOKUP_AXIS[axis] : undefined) ??
+        (axisNavigates(axis) ? NAV_AXIS[axis] : PLAYER_AXIS[axis]);
       const dz = Math.max(0.05, cfgRef.current.deadzone);
       const dir: "neg" | "pos" | null = !mapped
         ? null
@@ -261,6 +329,7 @@ export function useGamepad(): void {
     return () => {
       cancelled = true;
       stopAll();
+      heldModifiers.clear();
       stopWebSource();
       axisDir.clear();
       webPads = [];

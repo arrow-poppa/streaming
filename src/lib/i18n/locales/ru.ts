@@ -1,3 +1,4 @@
+import controllerLookup from "./ru/controller-lookup";
 import immersionMining from "./ru/immersion-mining";
 import playOrders from "./ru/play-orders";
 import gameRomLibrary from "./ru/game-rom-library";
@@ -393,6 +394,7 @@ const ru: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default ru;

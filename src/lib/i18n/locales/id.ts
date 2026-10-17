@@ -1,3 +1,4 @@
+import controllerLookup from "./id/controller-lookup";
 import immersionMining from "./id/immersion-mining";
 import playOrders from "./id/play-orders";
 import gameRomLibrary from "./id/game-rom-library";
@@ -342,6 +343,7 @@ const id: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default id;

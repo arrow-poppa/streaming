@@ -1,3 +1,4 @@
+import controllerLookup from "./tr/controller-lookup";
 import immersionMining from "./tr/immersion-mining";
 import playOrders from "./tr/play-orders";
 import gameRomLibrary from "./tr/game-rom-library";
@@ -340,6 +341,7 @@ const tr: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default tr;

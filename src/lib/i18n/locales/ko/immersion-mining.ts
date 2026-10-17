@@ -13,41 +13,52 @@ export default {
   "longer than the {n}s limit": "{n}초 제한보다 김",
   "Recording discarded: {reason}": "녹음을 버렸습니다: {reason}",
   "Stopped · {n}s recorded · adding card…": "멈춤 · {n}초 녹음됨 · 카드 추가 중…",
-  "Anki cards from the player need the mpv player in the desktop app.": "플레이어에서 Anki 카드를 만들려면 데스크톱 앱의 mpv 플레이어가 필요합니다.",
-  "No subtitle on screen. Use a Record shortcut for parts without subtitles.": "화면에 자막이 없습니다. 자막 없는 구간에는 녹음 단축키를 사용하세요.",
+  "Anki cards from the player need the mpv player in the desktop app.":
+    "플레이어에서 Anki 카드를 만들려면 데스크톱 앱의 mpv 플레이어가 필요합니다.",
+  "No subtitle on screen. Use a Record shortcut for parts without subtitles.":
+    "화면에 자막이 없습니다. 자막 없는 구간에는 녹음 단축키를 사용하세요.",
   "Subtitle dictionary": "자막 사전",
-  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.": "자막의 단어에 마우스를 올리면 Yomitan 사전에서 찾아보고, 들어 보고, Anki에 추가할 수 있습니다. Manatan의 사전 엔진을 사용합니다.",
+  "Hover a word in the subtitles to look it up in your Yomitan dictionaries, hear it and add it to Anki. Uses Manatan's dictionary engine.":
+    "자막의 단어에 마우스를 올리면 Yomitan 사전에서 찾아보고, 들어 보고, Anki에 추가할 수 있습니다. Manatan의 사전 엔진을 사용합니다.",
   "Look up words in subtitles": "자막에서 단어 찾기",
-  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.": "Harbor 자막과 mpv가 그리는 스타일 자막(ASS)에서 작동합니다. 이미지 자막(PGS)에는 찾을 텍스트가 없습니다.",
+  "Works with Harbor's subtitles and with styled (ASS) subtitles drawn by mpv. Image subtitles (PGS) have no text to look up.":
+    "Harbor 자막과 mpv가 그리는 스타일 자막(ASS)에서 작동합니다. 이미지 자막(PGS)에는 찾을 텍스트가 없습니다.",
   "Pause while the popup is open": "팝업이 열려 있는 동안 일시정지",
   "Resumes when the popup closes.": "팝업이 닫히면 다시 재생합니다.",
   "Keep the popup open when the mouse leaves": "마우스가 벗어나도 팝업 유지",
-  "The popup (and the pause) stays until you click outside it or press Escape.": "팝업(과 일시정지)은 바깥을 클릭하거나 Escape를 누를 때까지 유지됩니다.",
+  "The popup (and the pause) stays until you click outside it or press Escape.":
+    "팝업(과 일시정지)은 바깥을 클릭하거나 Escape를 누를 때까지 유지됩니다.",
   "Look up with": "찾기 방식",
-  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.": "마우스 올리기는 마우스가 지나가는 단어를 찾습니다. 키를 쓰면 마우스를 올린 채 키를 누르고 있어야 하며(또는 단어 위에서 누르기), 그냥 올리기만 해서는 아무 일도 일어나지 않습니다. 단어를 클릭하면 항상 찾습니다.",
+  "Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.":
+    "마우스 올리기는 마우스가 지나가는 단어를 찾습니다. 키를 쓰면 마우스를 올린 채 키를 누르고 있어야 하며(또는 단어 위에서 누르기), 그냥 올리기만 해서는 아무 일도 일어나지 않습니다. 단어를 클릭하면 항상 찾습니다.",
   "Hover": "마우스 올리기",
   "Hold Shift": "Shift 누르기",
   "Hold Ctrl": "Ctrl 누르기",
   "Hold Alt": "Alt 누르기",
   "Scan delay (in milliseconds)": "찾기 지연(밀리초)",
-  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.": "키가 필요 없을 때 마우스 아래 단어를 찾기 전 기다리는 시간입니다. 낮을수록 빠르고, 높을수록 마우스가 자막 위를 지나가기만 할 때 찾지 않습니다.",
+  "Wait before looking up the word under the mouse when no key is required. Lower is faster; higher avoids lookups while the mouse just passes over the subtitle.":
+    "키가 필요 없을 때 마우스 아래 단어를 찾기 전 기다리는 시간입니다. 낮을수록 빠르고, 높을수록 마우스가 자막 위를 지나가기만 할 때 찾지 않습니다.",
   "Keep subtitles above the seek bar": "자막을 탐색 막대 위에 유지",
-  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.": "탐색 막대가 맨 아래 자막 줄을 가리므로 단어를 찾는 동안 자막을 그 위로 올립니다.",
+  "The seek bar covers the lowest subtitle line, so lift the subtitles above it while you look words up.":
+    "탐색 막대가 맨 아래 자막 줄을 가리므로 단어를 찾는 동안 자막을 그 위로 올립니다.",
   "Same setting as Player → Subtitles.": "플레이어 → 자막과 같은 설정입니다.",
   "Subtitle height": "자막 높이",
   "Distance from the bottom of the video.": "영상 아래쪽에서의 거리입니다.",
   "Subtitle language": "자막 언어",
   "Picks the deinflection rules used for lookups.": "찾기에 쓰는 활용 해제 규칙을 고릅니다.",
   "Loading dictionaries…": "사전을 불러오는 중…",
-  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.": "아직 사전이 없습니다. JMdict나 Jitendex 같은 Yomitan .zip 파일을 가져오세요.",
+  "No dictionaries yet. Import Yomitan .zip files such as JMdict or Jitendex.":
+    "아직 사전이 없습니다. JMdict나 Jitendex 같은 Yomitan .zip 파일을 가져오세요.",
   "Importing {name}…": "{name} 가져오는 중…",
   "Import dictionary (.zip)": "사전 가져오기(.zip)",
   "AI Explanation": "AI 설명",
-  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).": "찾은 단어의 문맥 설명을 직접 쓰는 AI 제공자로 생성합니다. 요청은 이 기기에서 OpenAI 호환 엔드포인트(OpenRouter, OpenAI, DeepSeek, Groq, 로컬 서버…)로 바로 전송됩니다.",
+  "Generate a contextual explanation of the looked-up word with your own AI provider. Requests go directly from this device to any OpenAI-compatible endpoint (OpenRouter, OpenAI, DeepSeek, Groq, a local server…).":
+    "찾은 단어의 문맥 설명을 직접 쓰는 AI 제공자로 생성합니다. 요청은 이 기기에서 OpenAI 호환 엔드포인트(OpenRouter, OpenAI, DeepSeek, Groq, 로컬 서버…)로 바로 전송됩니다.",
   "AI explanation in the popup": "팝업의 AI 설명",
   "Shows the explanation above the dictionary entries.": "사전 항목 위에 설명을 표시합니다.",
   "Custom endpoint": "사용자 지정 엔드포인트",
-  "Full URL, used exactly as entered. No path is appended.": "입력한 그대로 사용하는 전체 URL입니다. 경로를 덧붙이지 않습니다.",
+  "Full URL, used exactly as entered. No path is appended.":
+    "입력한 그대로 사용하는 전체 URL입니다. 경로를 덧붙이지 않습니다.",
   "Stored on this device only.": "이 기기에만 저장됩니다.",
   "Model ID sent to the provider.": "제공자에게 보내는 모델 ID입니다.",
   "OpenRouter provider routing": "OpenRouter 제공자 라우팅",
@@ -64,26 +75,34 @@ export default {
   "Custom request body JSON": "사용자 지정 요청 본문 JSON",
   "A JSON object merged over the generated request.": "생성된 요청 위에 병합되는 JSON 객체입니다.",
   "Auto generate on lookup": "찾을 때 자동 생성",
-  "When off, the box appears without sending a request and you generate it manually.": "끄면 요청을 보내지 않은 채 상자가 나타나고 직접 생성합니다.",
+  "When off, the box appears without sending a request and you generate it manually.":
+    "끄면 요청을 보내지 않은 채 상자가 나타나고 직접 생성합니다.",
   "Real time response": "실시간 응답",
-  "Stream the explanation into the popup as it is written.": "설명이 작성되는 대로 팝업에 스트리밍합니다.",
+  "Stream the explanation into the popup as it is written.":
+    "설명이 작성되는 대로 팝업에 스트리밍합니다.",
   "Cancel unfinished requests": "끝나지 않은 요청 취소",
-  "Drop an explanation still being generated when the popup closes or another word is looked up.": "팝업이 닫히거나 다른 단어를 찾을 때 생성 중인 설명을 버립니다.",
+  "Drop an explanation still being generated when the popup closes or another word is looked up.":
+    "팝업이 닫히거나 다른 단어를 찾을 때 생성 중인 설명을 버립니다.",
   "Fallback for unknown words": "모르는 단어 대체",
-  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.": "어느 사전에도 없는 단어도 AI 설명만으로 팝업을 열어 Anki에 보낼 수 있게 합니다.",
+  "Open the popup for words no dictionary contains, with only the AI explanation, so they can still go to Anki.":
+    "어느 사전에도 없는 단어도 AI 설명만으로 팝업을 열어 Anki에 보낼 수 있게 합니다.",
   "Custom prompt": "사용자 지정 프롬프트",
-  "Use {{target}} for the word and {{sentence}} for its context.": "단어에는 {{target}}, 문맥에는 {{sentence}}를 사용하세요.",
+  "Use {{target}} for the word and {{sentence}} for its context.":
+    "단어에는 {{target}}, 문맥에는 {{sentence}}를 사용하세요.",
   "System prompt": "시스템 프롬프트",
-  "Optional instructions sent before the user prompt. Leave empty to send none.": "사용자 프롬프트 앞에 보내는 선택 지시입니다. 보내지 않으려면 비워 두세요.",
+  "Optional instructions sent before the user prompt. Leave empty to send none.":
+    "사용자 프롬프트 앞에 보내는 선택 지시입니다. 보내지 않으려면 비워 두세요.",
   "Temperature": "온도",
   "Between 0 and 2. Lower is more deterministic.": "0에서 2 사이. 낮을수록 더 결정적입니다.",
   "Word audio": "단어 오디오",
-  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.": "local-audio-yomichan 데이터베이스(Forvo, NHK16, Shinmeikai8, JPod101)에서 발음을 재생하고 카드에 넣습니다. android.db, 또는 *_files 폴더 옆의 entries.db를 고르세요. Flatpak 버전은 android.db만 읽을 수 있습니다.",
+  "Plays and mines pronunciations from a local-audio-yomichan database (Forvo, NHK16, Shinmeikai8, JPod101). Pick android.db, or entries.db next to its *_files folders. The Flatpak build can only read android.db.":
+    "local-audio-yomichan 데이터베이스(Forvo, NHK16, Shinmeikai8, JPod101)에서 발음을 재생하고 카드에 넣습니다. android.db, 또는 *_files 폴더 옆의 entries.db를 고르세요. Flatpak 버전은 android.db만 읽을 수 있습니다.",
   "No database selected": "선택한 데이터베이스 없음",
   "Choose database": "데이터베이스 선택",
   "Connected to Anki": "Anki에 연결됨",
   "Anki": "Anki",
-  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.": "AnkiConnect로 단어, 문장, 정의, 스크린샷, 문장 오디오, 단어 오디오가 담긴 카드를 추가합니다. AnkiConnect 애드온과 함께 Anki가 열려 있어야 합니다.",
+  "Adds cards through AnkiConnect with the word, sentence, definitions, a screenshot, the sentence audio and the word audio. Anki must be open with the AnkiConnect add-on.":
+    "AnkiConnect로 단어, 문장, 정의, 스크린샷, 문장 오디오, 단어 오디오가 담긴 카드를 추가합니다. AnkiConnect 애드온과 함께 Anki가 열려 있어야 합니다.",
   "AnkiConnect address": "AnkiConnect 주소",
   "Deck": "덱",
   "Choose…": "선택…",
@@ -95,15 +114,19 @@ export default {
   "Sentence audio padding": "문장 오디오 여백",
   "Seconds added before and after the subtitle line.": "자막 줄 앞뒤에 더하는 초입니다.",
   "Animated clip format": "애니메이션 클립 형식",
-  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.": "애니메이션 클립으로 설정한 필드용입니다. AVIF가 가장 작고, WebP와 GIF는 이전 Anki에서도 재생됩니다. 인코더가 없으면 WebP, 그다음 GIF로 바꿉니다.",
+  "For fields set to the animated clip. AVIF is smallest; WebP and GIF play in older Anki versions. Falls back to WebP, then GIF, if an encoder is missing.":
+    "애니메이션 클립으로 설정한 필드용입니다. AVIF가 가장 작고, WebP와 GIF는 이전 Anki에서도 재생됩니다. 인코더가 없으면 WebP, 그다음 GIF로 바꿉니다.",
   "Animated clip size": "애니메이션 클립 크기",
-  "Width in pixels and frames per second. Clips stop after 12 seconds.": "픽셀 단위 너비와 초당 프레임. 클립은 12초 후에 멈춥니다.",
+  "Width in pixels and frames per second. Clips stop after 12 seconds.":
+    "픽셀 단위 너비와 초당 프레임. 클립은 12초 후에 멈춥니다.",
   "Allow duplicate cards": "중복 카드 허용",
   "When off, words already in the deck are refused.": "끄면 덱에 이미 있는 단어는 거부됩니다.",
   "Immersion": "몰입",
-  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.": "단어를 찾지 않고 플레이어에서 바로 카드를 만듭니다. 화면의 자막에서, 또는 같은 키를 두 번 눌러 녹음한 구간에서 만들 수 있습니다(자막 없이도 가능). 키는 설정 → 단축키 → 몰입에서 정하세요. mpv 전용.",
+  "Cards straight from the player, without looking a word up: from the subtitle on screen, or from a stretch you record with two presses of the same key (works without subtitles). Set the keys in Settings → Hotkeys → Immersion. mpv only.":
+    "단어를 찾지 않고 플레이어에서 바로 카드를 만듭니다. 화면의 자막에서, 또는 같은 키를 두 번 눌러 녹음한 구간에서 만들 수 있습니다(자막 없이도 가능). 키는 설정 → 단축키 → 몰입에서 정하세요. mpv 전용.",
   "Sentence cards": "문장 카드",
-  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.": "자막에서 카드, 마지막 카드 업데이트, 녹음 → 카드 키는 위 Anki 섹션의 덱, 노트 유형, 필드를 사용합니다. 문장, 문장 오디오, 스크린샷 또는 클립, 제목 필드만 채우고 단어 필드는 비워 둡니다.",
+  "Card from the subtitle, Update last card and the Record → card keys use the deck, note type and fields of the Anki section above. Only the sentence, sentence audio, screenshot or clip and title fields are filled; word fields stay empty.":
+    "자막에서 카드, 마지막 카드 업데이트, 녹음 → 카드 키는 위 Anki 섹션의 덱, 노트 유형, 필드를 사용합니다. 문장, 문장 오디오, 스크린샷 또는 클립, 제목 필드만 채우고 단어 필드는 비워 둡니다.",
   "Pick a deck and note type above": "위에서 덱과 노트 유형을 고르세요",
   "Map a field to Sentence audio above": "위에서 필드를 문장 오디오에 연결하세요",
   "Audio cards": "오디오 카드",
@@ -116,15 +139,21 @@ export default {
   "Gets the subtitle text, when there is one.": "자막이 있으면 그 텍스트가 들어갑니다.",
   "(empty)": "(비어 있음)",
   "Update last card window": "마지막 카드 업데이트 기간",
-  "Update last card only touches a card added this many minutes ago or less.": "마지막 카드 업데이트는 이 분 이내에 추가된 카드만 바꿉니다.",
+  "Update last card only touches a card added this many minutes ago or less.":
+    "마지막 카드 업데이트는 이 분 이내에 추가된 카드만 바꿉니다.",
   "Longest recording": "최대 녹음 길이",
-  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.": "이보다 긴 녹음은 버립니다. 애니메이션 클립은 여전히 12초 후에 멈춥니다.",
-  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.": "자막 사전 찾기, 단어 오디오, Anki 마이닝은 Harbor 데스크톱 앱에서 작동합니다.",
-  "Download the desktop app to look up words while you watch.": "보면서 단어를 찾으려면 데스크톱 앱을 내려받으세요.",
+  "A recording longer than this is discarded. Animated clips still stop after 12 seconds.":
+    "이보다 긴 녹음은 버립니다. 애니메이션 클립은 여전히 12초 후에 멈춥니다.",
+  "Subtitle dictionary lookups, word audio and Anki mining run in the Harbor desktop app.":
+    "자막 사전 찾기, 단어 오디오, Anki 마이닝은 Harbor 데스크톱 앱에서 작동합니다.",
+  "Download the desktop app to look up words while you watch.":
+    "보면서 단어를 찾으려면 데스크톱 앱을 내려받으세요.",
   "Long seek": "긴 탐색",
-  "The jump of the Long seek back and Long seek forward shortcuts.": "긴 뒤로 탐색과 긴 앞으로 탐색 단축키의 이동 폭입니다.",
+  "The jump of the Long seek back and Long seek forward shortcuts.":
+    "긴 뒤로 탐색과 긴 앞으로 탐색 단축키의 이동 폭입니다.",
   "Slow speed": "느린 속도",
-  "The speed the Toggle slow speed shortcut switches to from normal speed.": "느린 속도 전환 단축키가 보통 속도에서 바꾸는 속도입니다.",
+  "The speed the Toggle slow speed shortcut switches to from normal speed.":
+    "느린 속도 전환 단축키가 보통 속도에서 바꾸는 속도입니다.",
   "Word": "단어",
   "Word with furigana": "후리가나가 있는 단어",
   "Definitions (all)": "정의(전체)",
@@ -142,29 +171,40 @@ export default {
   "Text selected in the popup (else first definition)": "팝업에서 선택한 텍스트(없으면 첫 정의)",
   "Not a valid JSON object.": "올바른 JSON 객체가 아닙니다.",
   "Toggle subtitles on/off": "자막 켜기/끄기",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.": "모든 자막(기본과 보조)을 숨기거나 마지막 기본 트랙을 되돌립니다.",
+  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
+    "모든 자막(기본과 보조)을 숨기거나 마지막 기본 트랙을 되돌립니다.",
   "Next subtitle line": "다음 자막 줄",
   "Jump to the start of the next subtitle line.": "다음 자막 줄의 시작으로 이동합니다.",
   "Previous subtitle line": "이전 자막 줄",
-  "Jump to the start of the previous subtitle line (the current one if it just started).": "이전 자막 줄의 시작으로 이동합니다(방금 시작했다면 현재 줄).",
+  "Jump to the start of the previous subtitle line (the current one if it just started).":
+    "이전 자막 줄의 시작으로 이동합니다(방금 시작했다면 현재 줄).",
   "Toggle slow speed": "느린 속도 전환",
-  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).": "보통 속도와 동작에서 정한 느린 속도(기본 0.5x) 사이를 전환합니다.",
+  "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
+    "보통 속도와 동작에서 정한 느린 속도(기본 0.5x) 사이를 전환합니다.",
   "Anki: card from the subtitle": "Anki: 자막에서 카드",
-  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.": "화면의 줄로 문장, 오디오, 이미지가 담긴 카드를 사전 및 Anki의 덱과 필드로 추가합니다. mpv 전용.",
+  "Add a card from the line on screen with its sentence, audio and picture, using the deck and fields under Dictionary & Anki. mpv only.":
+    "화면의 줄로 문장, 오디오, 이미지가 담긴 카드를 사전 및 Anki의 덱과 필드로 추가합니다. mpv 전용.",
   "Anki: update last card": "Anki: 마지막 카드 업데이트",
-  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.": "화면의 줄(문장, 오디오, 이미지)을 몇 분 안에 추가된 덱의 최신 카드에 넣습니다. mpv 전용.",
+  "Put the line on screen (sentence, audio, picture) into the newest card of the deck, if it was added in the last few minutes. mpv only.":
+    "화면의 줄(문장, 오디오, 이미지)을 몇 분 안에 추가된 덱의 최신 카드에 넣습니다. mpv 전용.",
   "Anki: audio card": "Anki: 오디오 카드",
-  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.": "화면의 줄로 오디오만 담긴 카드를 오디오 카드 덱에 추가합니다. mpv 전용.",
+  "Add an audio-only card from the line on screen, using the audio card deck. mpv only.":
+    "화면의 줄로 오디오만 담긴 카드를 오디오 카드 덱에 추가합니다. mpv 전용.",
   "Record → new card": "녹음 → 새 카드",
-  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.": "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
+  "Press once to start recording, again to stop and add a card with that stretch. Works without subtitles. mpv only.":
+    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
   "Record → update last card": "녹음 → 마지막 카드 업데이트",
-  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.": "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. mpv 전용.",
+  "Press once to start recording, again to stop and put that stretch into the newest card. Works without subtitles. mpv only.":
+    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. mpv 전용.",
   "Record → audio card": "녹음 → 오디오 카드",
-  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.": "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 오디오 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
+  "Press once to start recording, again to stop and add an audio card with that stretch. Works without subtitles. mpv only.":
+    "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간으로 오디오 카드를 추가합니다. 자막 없이도 됩니다. mpv 전용.",
   "Long seek back": "긴 뒤로 탐색",
-  "Jump back by the Long seek step set under Behavior (30 seconds by default).": "동작에서 정한 긴 탐색 폭만큼 뒤로 갑니다(기본 30초).",
+  "Jump back by the Long seek step set under Behavior (30 seconds by default).":
+    "동작에서 정한 긴 탐색 폭만큼 뒤로 갑니다(기본 30초).",
   "Long seek forward": "긴 앞으로 탐색",
-  "Jump forward by the Long seek step set under Behavior (30 seconds by default).": "동작에서 정한 긴 탐색 폭만큼 앞으로 갑니다(기본 30초).",
+  "Jump forward by the Long seek step set under Behavior (30 seconds by default).":
+    "동작에서 정한 긴 탐색 폭만큼 앞으로 갑니다(기본 30초).",
   "Greek": "그리스어",
   "Latin": "라틴어",
 };

@@ -82,6 +82,7 @@ import { usePlayerExit } from "./player/hooks/use-player-exit";
 import { usePendingSeekApply } from "./player/hooks/use-pending-seek-apply";
 import { usePlayerHotkeys } from "./player/hooks/use-player-hotkeys";
 import { useImmersion } from "./player/hooks/use-immersion";
+import { sendLookupCommand } from "@/lib/player/lookup-nav";
 import { clearMediaControls, updateMediaControls } from "@/lib/media-session";
 import { usePlayerMedia } from "./player/hooks/use-player-media";
 import { useTrickplay } from "./player/hooks/use-trickplay";
@@ -1045,6 +1046,15 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
       if (on != null) showSyncToast("ok", on ? t("Subtitles on") : t("Subtitles off"));
     },
     onImmersion: immersion.trigger,
+    onLookupMode: () => {
+      if (sendLookupCommand("toggle")) return;
+      showSyncToast(
+        "error",
+        settings.subLookupEnabled
+          ? t("No subtitle on screen to pick a word from.")
+          : t("Turn on Look up words in subtitles under Dictionary & Anki to pick words."),
+      );
+    },
   });
 
   useEffect(() => {

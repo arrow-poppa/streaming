@@ -516,6 +516,7 @@ export const DEFAULT: Settings = {
   navCustomizationOwn: null,
   animeRows: { order: [], hidden: [], renamed: {} },
   hotkeys: {},
+  gamepadHotkeys: {},
   animeFavoriteGenres: [],
   animeExcludeOrigins: ["CN"],
   animeHideWatchedPicks: true,

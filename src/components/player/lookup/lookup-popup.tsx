@@ -16,6 +16,7 @@ import {
 import { dictionaryMedia, type DictLookupResult, type DictTerm } from "@/lib/mining/dictionary";
 import { glossaryEntryHtml, scopedDictionaryCss } from "@/lib/mining/glossary-html";
 import { findWordAudio, playWordAudio, type LocalAudioEntry } from "@/lib/mining/local-audio";
+import { onLookupCommand } from "@/lib/player/lookup-nav";
 
 const MAX_TERMS = 8;
 // Wait this long before an automatic AI request, so sweeping the mouse
@@ -72,6 +73,30 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
     window.addEventListener("resize", place);
     return () => window.removeEventListener("resize", place);
   }, [anchor, result]);
+
+  // Keyboard and controller lookup bindings (see lookup-nav). The buttons are
+  // clicked rather than re-implemented so they keep their own states (busy,
+  // duplicate, next voice). Only the first entry's buttons are used.
+  const aiRef = useRef(ai);
+  aiRef.current = ai;
+  const aiUsable = aiOn && !aiProblem;
+  useEffect(
+    () =>
+      onLookupCommand((cmd, amount) => {
+        const el = ref.current;
+        if (!el) return false;
+        if (cmd === "anki") el.querySelector<HTMLButtonElement>("[data-hb-anki-add]")?.click();
+        else if (cmd === "audio") el.querySelector<HTMLButtonElement>("[data-hb-word-audio]:not(:disabled)")?.click();
+        else if (cmd === "ai") {
+          if (!aiUsable) return false;
+          void aiRef.current.generate(aiRef.current.state !== "manual");
+        } else if (cmd === "scrollDown" || cmd === "scrollUp") {
+          el.scrollBy({ top: (cmd === "scrollDown" ? 1 : -1) * 140 * amount });
+        } else return false;
+        return true;
+      }),
+    [aiUsable],
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -419,6 +444,7 @@ function WordAudioButton({ term, dbPath }: { term: DictTerm; dbPath: string }) {
   return (
     <button
       type="button"
+      data-hb-word-audio=""
       disabled={!current}
       title={err ?? (none ? "No local audio for this word" : current ? `${current.label} — click again for the next voice` : "")}
       onClick={() => {
@@ -504,6 +530,7 @@ function AnkiButton({ term, mining }: { term: DictTerm; mining: Omit<MiningConte
         // Keep a text selection made in the popup: it can be exported to Anki.
         onMouseDown={(e) => e.preventDefault()}
         onClick={add}
+        data-hb-anki-add=""
         title={title}
         className={`flex h-8 items-center gap-1 rounded-lg px-2.5 text-[12px] font-semibold transition-colors ${
           state === "done"

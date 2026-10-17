@@ -1,3 +1,4 @@
+import controllerLookup from "./zh/controller-lookup";
 import immersionMining from "./zh/immersion-mining";
 import playOrders from "./zh/play-orders";
 import gameRomLibrary from "./zh/game-rom-library";
@@ -343,6 +344,7 @@ const zh: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default zh;

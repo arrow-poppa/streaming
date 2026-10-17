@@ -47,6 +47,7 @@ export function usePlayerHotkeys(params: {
   onVolumeFeedback?: (volume: number, muted: boolean) => void;
   onToggleSubtitles?: () => void;
   onImmersion?: (action: ImmersionAction) => void;
+  onLookupMode?: () => void;
 }) {
   const {
     bridgeRef,
@@ -86,6 +87,7 @@ export function usePlayerHotkeys(params: {
     onVolumeFeedback,
     onToggleSubtitles,
     onImmersion,
+    onLookupMode,
   } = params;
 
   const [showStats, setShowStats] = useState(false);
@@ -136,6 +138,7 @@ export function usePlayerHotkeys(params: {
     onVolumeFeedback,
     onToggleSubtitles,
     onImmersion,
+    onLookupMode,
   });
 
   return { holdSpeedActive, showStats, subtitleOffsetSec };

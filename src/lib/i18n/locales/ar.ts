@@ -1,3 +1,4 @@
+import controllerLookup from "./ar/controller-lookup";
 import immersionMining from "./ar/immersion-mining";
 import playOrders from "./ar/play-orders";
 import gameRomLibrary from "./ar/game-rom-library";
@@ -384,6 +385,7 @@ const ar: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default ar;

@@ -281,6 +281,8 @@ export function useSubtitleLookup({
     hit,
     result,
     open,
+    // Looks up the word at a position, for picking words without the mouse.
+    lookupAt: runLookup,
     pinned,
     setPinned,
     close,

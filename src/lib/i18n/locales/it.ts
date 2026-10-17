@@ -1,3 +1,4 @@
+import controllerLookup from "./it/controller-lookup";
 import immersionMining from "./it/immersion-mining";
 import playOrders from "./it/play-orders";
 import gameRomLibrary from "./it/game-rom-library";
@@ -336,6 +337,7 @@ const it: Record<string, string> = {
   ...gameNotes,
   ...playOrders,
   ...immersionMining,
+  ...controllerLookup,
 };
 
 export default it;

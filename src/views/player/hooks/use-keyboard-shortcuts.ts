@@ -17,6 +17,9 @@ import { round2 } from "../player-utils";
 import type { ImmersionAction } from "./use-immersion";
 import { subCueSeekTarget } from "@/lib/player/sub-seek";
 import { getPlaybackPosition } from "@/lib/player/playback-clock";
+import { LOOKUP_ACTIONS, isLookupNavActive, sendLookupCommand } from "@/lib/player/lookup-nav";
+import { PLAYER_HOTKEY_EVENT, type PlayerHotkeyDetail } from "@/lib/gamepad/dispatch";
+
 import { SFX } from "@/lib/sfx";
 
 export function useKeyboardShortcuts(params: {
@@ -61,6 +64,7 @@ export function useKeyboardShortcuts(params: {
   onVolumeFeedback?: (volume: number, muted: boolean) => void;
   onToggleSubtitles?: () => void;
   onImmersion?: (action: ImmersionAction) => void;
+  onLookupMode?: () => void;
 }) {
   const {
     bridgeRef,
@@ -103,6 +107,7 @@ export function useKeyboardShortcuts(params: {
     onVolumeFeedback,
     onToggleSubtitles,
     onImmersion,
+    onLookupMode,
   } = params;
   const { settings, update } = useSettings();
   const overrides = settings.hotkeys ?? {};
@@ -165,10 +170,12 @@ export function useKeyboardShortcuts(params: {
   };
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
+    // `forced` runs one action by id: a controller button bound to it, which
+    // works even when the action has no keyboard key.
+    const onKey = (e: KeyboardEvent, forced?: HotkeyId) => {
       if (document.querySelector('[data-harbor-player][data-detached="true"]') && !e.key.startsWith("Media")) return;
       const dock = document.querySelector('[data-harbor-player][data-docked="true"]');
-      if (dock && !dock.contains(e.target as Node) && !e.key.startsWith("Media")) return;
+      if (!forced && dock && !dock.contains(e.target as Node) && !e.key.startsWith("Media")) return;
       if (isPlayerInteractionLocked()) {
         if (e.cancelable) e.preventDefault();
         return;
@@ -176,7 +183,31 @@ export function useKeyboardShortcuts(params: {
       if (isTypingTarget(e)) return;
 
       const binding = eventToBinding(e);
-      const match = (id: HotkeyId): boolean => effectiveBinding(id, overrides) === binding;
+      const match = (id: HotkeyId): boolean =>
+        forced ? id === forced : effectiveBinding(id, overrides) === binding;
+
+      // While picking a word, its keys come first; the rest of the player
+      // keeps working (play/pause, seeking with other keys).
+      if (!forced && isLookupNavActive()) {
+        const hit = LOOKUP_ACTIONS.find(([id]) => match(id));
+        if (hit) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          sendLookupCommand(hit[1]);
+          return;
+        }
+      }
+      if (match("playerLookupMode") && onLookupMode) {
+        e.preventDefault();
+        if (!e.repeat) onLookupMode();
+        return;
+      }
+      // Hold-to-speed-up needs the key's release, which a controller event
+      // does not have.
+      if (forced === "playerPlayPause") {
+        playPauseToggle();
+        return;
+      }
 
       if (e.key === "MediaPlayPause") {
         e.preventDefault();
@@ -604,11 +635,18 @@ export function useKeyboardShortcuts(params: {
     const onBlur = () => {
       if (holdRef.current.key != null) releaseHold();
     };
-    window.addEventListener("keydown", onKey);
+    const onForced = (ev: Event) => {
+      const { id, repeat } = (ev as CustomEvent<PlayerHotkeyDetail>).detail;
+      onKey(new KeyboardEvent("keydown", { repeat, cancelable: true }), id);
+    };
+    const onKeyDown = (e: KeyboardEvent) => onKey(e);
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener(PLAYER_HOTKEY_EVENT, onForced);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("blur", onBlur);
     return () => {
-      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener(PLAYER_HOTKEY_EVENT, onForced);
       window.removeEventListener("keyup", onKeyUp);
       window.removeEventListener("blur", onBlur);
     };
@@ -652,6 +690,7 @@ export function useKeyboardShortcuts(params: {
     onVolumeFeedback,
     onToggleSubtitles,
     onImmersion,
+    onLookupMode,
     settings.halfSpeedRate,
     settings.playerEscExitsFullscreen,
     settings.playerConfirmLeave,
