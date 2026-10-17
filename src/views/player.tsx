@@ -1043,8 +1043,7 @@ function NativePlayerView({ src }: { src: PlayerSrc }) {
     videoFill,
     onVolumeFeedback: showVolumeFeedback,
     onToggleSubtitles: () => {
-      const on = toggleSubtitles();
-      if (on != null) showSyncToast("ok", on ? t("Subtitles on") : t("Subtitles off"));
+      toggleSubtitles();
     },
     onImmersion: immersion.trigger,
     onLookupMode: () => {
