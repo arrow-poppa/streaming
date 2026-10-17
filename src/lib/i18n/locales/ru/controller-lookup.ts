@@ -49,4 +49,7 @@ export default {
     "Закрывает окно и продолжает воспроизведение, если выбор слова его приостановил.",
   "Words": "Слова",
   "Popup": "Окно",
+  "Show the popup": "Показать окно",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Открывает или закрывает окно словаря для выделенного слова. Переход к другому слову закрывает его.",
 };

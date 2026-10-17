@@ -64,6 +64,9 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
   // knows still gets highlighted, and the next step starts from it.
   const navRef = useRef<{ pos: WordPos; history: WordPos[]; pausedByNav: boolean } | null>(null);
   const [navPos, setNavPos] = useState<WordPos | null>(null);
+  // In the mode the dictionary is still queried on every step (its match is
+  // how far a Japanese word reaches), but the popup only shows on request.
+  const [navPopup, setNavPopup] = useState(false);
   const hitRef = useRef(lookup.hit);
   hitRef.current = lookup.hit;
   const lookupAt = lookup.lookupAt;
@@ -74,20 +77,23 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     const nav = navRef.current;
     navRef.current = null;
     setNavPos(null);
+    setNavPopup(false);
     setLookupNavActive(false);
     plainClose();
     const c = controlsRef.current;
     if (nav?.pausedByNav && !c.isPlaying()) c.togglePlay();
   }, [plainClose]);
 
-  // Closing the popup by any means (Escape, a click outside) also leaves the mode.
-  const closeLookup = useCallback(() => (navRef.current ? exitNav() : plainClose()), [exitNav, plainClose]);
+  // In the mode, closing the popup (Escape, a click outside) only hides it;
+  // leaving the mode is its own key.
+  const closeLookup = useCallback(() => (navRef.current ? setNavPopup(false) : plainClose()), [plainClose]);
 
   useEffect(() => {
     const goTo = (pos: WordPos) => {
       if (!navRef.current) return;
       navRef.current.pos = pos;
       setNavPos(pos);
+      setNavPopup(false);
       lookupAt(pos.line, pos.index);
       setPinned(true);
     };
@@ -111,6 +117,10 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       if (!nav) return false;
       if (cmd === "exit") {
         exitNav();
+        return true;
+      }
+      if (cmd === "popup") {
+        setNavPopup((open) => !open);
         return true;
       }
       if (cmd === "nextWord") {
@@ -154,11 +164,12 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       : null;
   const shownHit = lookup.hit ?? navHit;
   const revealed = !native || hovering || lookup.open || !!navPos;
+  const popupShown = lookup.open && (!navPos || navPopup);
 
   // With "keep open", the first click outside the subtitle and the popup only
   // dismisses it; that click is swallowed so it does not also toggle playback.
   useEffect(() => {
-    if (!stayOpen || !lookup.open) return;
+    if (!stayOpen || !popupShown) return;
     const inside = (target: EventTarget | null) =>
       target instanceof Element &&
       (!!target.closest(".hb-lookup-popup") || !!rootRef.current?.contains(target));
@@ -185,11 +196,11 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     };
     window.addEventListener("pointerdown", onDown, true);
     return () => window.removeEventListener("pointerdown", onDown, true);
-  }, [stayOpen, lookup.open, closeLookup]);
+  }, [stayOpen, popupShown, closeLookup]);
 
   useLayoutEffect(() => {
-    setAnchor(lookup.open && markRef.current ? markRef.current.getBoundingClientRect() : null);
-  }, [lookup.open, lookup.hit]);
+    setAnchor(popupShown && markRef.current ? markRef.current.getBoundingClientRect() : null);
+  }, [popupShown, lookup.hit]);
 
   // Swap mpv's own subtitle for this copy while it is revealed.
   useEffect(() => {
@@ -249,7 +260,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
           <Line key={i} index={i} text={line} hit={shownHit} markRef={markRef} visible={revealed} />
         ))}
       </div>
-      {lookup.open && anchor && lookup.result && (
+      {popupShown && anchor && lookup.result && (
         <LookupPopup
           result={lookup.result}
           anchor={anchor}

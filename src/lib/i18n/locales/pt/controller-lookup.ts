@@ -49,4 +49,7 @@ export default {
     "Fecha o popup e retoma o vídeo se escolher a palavra o pausou.",
   "Words": "Palavras",
   "Popup": "Popup",
+  "Show the popup": "Mostrar o popup",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Abre ou fecha o popup do dicionário para a palavra selecionada. Ir para outra palavra o fecha.",
 };

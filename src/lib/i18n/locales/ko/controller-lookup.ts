@@ -46,4 +46,7 @@ export default {
     "팝업을 닫고, 단어를 고르느라 일시정지했다면 재생을 다시 시작합니다.",
   "Words": "단어",
   "Popup": "팝업",
+  "Show the popup": "팝업 표시",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "선택한 단어의 사전 팝업을 열거나 닫습니다. 다른 단어로 이동하면 닫힙니다.",
 };

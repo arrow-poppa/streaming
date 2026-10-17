@@ -46,4 +46,7 @@ export default {
     "पॉपअप बंद करता है और अगर शब्द चुनने से वीडियो रुका था तो उसे फिर चलाता है.",
   "Words": "शब्द",
   "Popup": "पॉपअप",
+  "Show the popup": "पॉपअप दिखाएँ",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "चुने गए शब्द का शब्दकोश पॉपअप खोलता या बंद करता है. दूसरे शब्द पर जाने से यह बंद हो जाता है.",
 };

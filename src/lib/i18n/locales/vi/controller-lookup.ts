@@ -46,4 +46,7 @@ export default {
     "Đóng cửa sổ bật lên và phát tiếp nếu việc chọn từ đã tạm dừng video.",
   "Words": "Từ",
   "Popup": "Cửa sổ bật lên",
+  "Show the popup": "Hiện cửa sổ bật lên",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Mở hoặc đóng cửa sổ từ điển cho từ đã chọn. Chuyển sang từ khác sẽ đóng nó.",
 };

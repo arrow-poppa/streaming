@@ -49,4 +49,7 @@ export default {
     "Chiude il popup e riprende la riproduzione se la scelta della parola l’aveva messa in pausa.",
   "Words": "Parole",
   "Popup": "Popup",
+  "Show the popup": "Mostra il popup",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Apre o chiude il popup del dizionario per la parola selezionata. Passare a un’altra parola lo chiude.",
 };

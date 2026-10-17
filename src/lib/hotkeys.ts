@@ -35,6 +35,7 @@ export type HotkeyId =
   | "lookupPrevWord"
   | "lookupPrevLine"
   | "lookupNextLine"
+  | "lookupOpenPopup"
   | "lookupAddAnki"
   | "lookupAiExplain"
   | "lookupWordAudio"
@@ -579,12 +580,21 @@ export const HOTKEYS: HotkeyDef[] = [
     defaultBinding: "ArrowDown",
   },
   {
+    id: "lookupOpenPopup",
+    scope: "Lookup",
+    group: "Popup",
+    label: "Show the popup",
+    description:
+      "Open or close the dictionary popup for the selected word. Moving to another word closes it.",
+    defaultBinding: "Enter",
+  },
+  {
     id: "lookupAddAnki",
     scope: "Lookup",
     group: "Popup",
     label: "Add to Anki",
     description: "Add the selected word to Anki, like the Anki button in the popup.",
-    defaultBinding: "Enter",
+    defaultBinding: "a",
   },
   {
     id: "lookupAiExplain",

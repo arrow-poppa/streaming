@@ -49,4 +49,7 @@ export default {
     "Schließt das Popup und setzt die Wiedergabe fort, falls das Wählen sie pausiert hat.",
   "Words": "Wörter",
   "Popup": "Popup",
+  "Show the popup": "Popup anzeigen",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Öffnet oder schließt das Wörterbuch-Popup für das gewählte Wort. Der Wechsel zu einem anderen Wort schließt es.",
 };

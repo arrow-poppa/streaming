@@ -49,4 +49,7 @@ export default {
     "Zamyka okienko i wznawia odtwarzanie, jeśli wybieranie słowa je wstrzymało.",
   "Words": "Słowa",
   "Popup": "Okienko",
+  "Show the popup": "Pokaż okienko",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Otwiera lub zamyka okienko słownika dla zaznaczonego słowa. Przejście do innego słowa je zamyka.",
 };

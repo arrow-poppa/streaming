@@ -48,4 +48,7 @@ export default {
     "Pencereyi kapatır ve kelime seçmek oynatmayı duraklattıysa devam ettirir.",
   "Words": "Kelimeler",
   "Popup": "Pencere",
+  "Show the popup": "Pencereyi göster",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Seçili kelimenin sözlük penceresini açar veya kapatır. Başka bir kelimeye geçmek onu kapatır.",
 };

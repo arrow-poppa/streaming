@@ -52,6 +52,12 @@ test("combinations make the shoulder wait, and resetting gives the defaults back
 
 test("word lookup buttons are their own layer", () => {
   assert.equal(padAction({}, "lookup", "dright"), "lookupNextWord");
+  assert.equal(
+    padAction({}, "lookup", "south"),
+    "lookupOpenPopup",
+    "A opens the popup, it never opens on its own",
+  );
+  assert.equal(padAction({}, "lookup", "rb"), "lookupAddAnki");
   assert.equal(padAction({}, "normal", "dright"), "playerSeekForward10");
   assert.equal(modifierInUse({}, "lookup", "lb"), false);
 });

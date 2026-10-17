@@ -46,4 +46,7 @@ export default {
     "关闭弹窗，如果选词时暂停了播放，则继续播放。",
   "Words": "单词",
   "Popup": "弹窗",
+  "Show the popup": "显示弹窗",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "打开或关闭所选单词的词典弹窗。移到其他单词时会关闭。",
 };

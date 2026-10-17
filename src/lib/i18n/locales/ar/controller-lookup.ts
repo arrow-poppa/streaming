@@ -46,4 +46,7 @@ export default {
     "يغلق النافذة المنبثقة ويستأنف التشغيل إن كان اختيار الكلمة قد أوقفه مؤقتًا.",
   "Words": "الكلمات",
   "Popup": "النافذة المنبثقة",
+  "Show the popup": "إظهار النافذة المنبثقة",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "يفتح نافذة القاموس المنبثقة للكلمة المحددة أو يغلقها. الانتقال إلى كلمة أخرى يغلقها.",
 };

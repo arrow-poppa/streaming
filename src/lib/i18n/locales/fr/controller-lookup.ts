@@ -48,4 +48,7 @@ export default {
     "Ferme la fenêtre et reprend la lecture si le choix du mot l’avait mise en pause.",
   "Words": "Mots",
   "Popup": "Fenêtre",
+  "Show the popup": "Afficher la fenêtre",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Ouvre ou ferme la fenêtre du dictionnaire pour le mot sélectionné. Passer à un autre mot la ferme.",
 };

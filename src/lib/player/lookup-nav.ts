@@ -12,6 +12,7 @@ export type LookupCommand =
   | "prevWord"
   | "prevLine"
   | "nextLine"
+  | "popup"
   | "anki"
   | "ai"
   | "audio"
@@ -24,6 +25,7 @@ export const LOOKUP_ACTIONS: ReadonlyArray<readonly [HotkeyId, LookupCommand]> =
   ["lookupPrevWord", "prevWord"],
   ["lookupPrevLine", "prevLine"],
   ["lookupNextLine", "nextLine"],
+  ["lookupOpenPopup", "popup"],
   ["lookupAddAnki", "anki"],
   ["lookupAiExplain", "ai"],
   ["lookupWordAudio", "audio"],

@@ -46,4 +46,7 @@ export default {
     "ポップアップを閉じ、単語を選ぶために一時停止していた場合は再生を再開します。",
   "Words": "単語",
   "Popup": "ポップアップ",
+  "Show the popup": "ポップアップを表示",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "選んだ単語の辞書ポップアップを開閉します。別の単語へ移動すると閉じます。",
 };

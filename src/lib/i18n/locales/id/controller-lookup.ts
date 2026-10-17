@@ -49,4 +49,7 @@ export default {
     "Menutup popup dan melanjutkan pemutaran jika memilih kata tadi menjedanya.",
   "Words": "Kata",
   "Popup": "Popup",
+  "Show the popup": "Tampilkan popup",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Membuka atau menutup popup kamus untuk kata yang dipilih. Berpindah ke kata lain akan menutupnya.",
 };

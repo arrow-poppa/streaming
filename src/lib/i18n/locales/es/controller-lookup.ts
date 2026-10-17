@@ -49,4 +49,7 @@ export default {
     "Cierra la ventana emergente y reanuda la reproducción si elegir la palabra la pausó.",
   "Words": "Palabras",
   "Popup": "Ventana emergente",
+  "Show the popup": "Mostrar la ventana emergente",
+  "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
+    "Abre o cierra la ventana del diccionario para la palabra seleccionada. Pasar a otra palabra la cierra.",
 };
