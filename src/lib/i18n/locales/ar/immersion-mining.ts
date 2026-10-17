@@ -176,8 +176,7 @@ export default {
   "Next subtitle line": "سطر الترجمة التالي",
   "Jump to the start of the next subtitle line.": "ينتقل إلى بداية سطر الترجمة التالي.",
   "Previous subtitle line": "سطر الترجمة السابق",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "ينتقل إلى بداية سطر الترجمة السابق (أو الحالي إن كان قد بدأ للتو).",
+  "Jump to the start of the previous subtitle line.": "ينتقل إلى بداية سطر الترجمة السابق.",
   "Toggle slow speed": "تبديل السرعة البطيئة",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "يبدّل بين السرعة العادية والسرعة البطيئة المضبوطة في السلوك (0.5x افتراضيًا).",
@@ -214,4 +213,7 @@ export default {
     "اضغط مرة لبدء التسجيل، ثم مرة أخرى لإيقافه ووضع المقطع في أحدث بطاقة. يعمل دون ترجمة. إن كانت هناك كلمة محددة عند الإيقاف، الكلمة وتعريفاتها أيضًا. mpv فقط.",
   "Added {word} to {deck}": "تمت إضافة {word} إلى {deck}",
   "Updated card in {deck} with {word}": "تم تحديث البطاقة في {deck} بـ {word}",
+  "Sending the card to Anki…": "جارٍ إرسال البطاقة إلى Anki…",
+  "Updating the last card in Anki…": "جارٍ تحديث آخر بطاقة في Anki…",
+  "Sending the audio card to Anki…": "جارٍ إرسال بطاقة الصوت إلى Anki…",
 };

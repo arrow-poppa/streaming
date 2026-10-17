@@ -184,8 +184,8 @@ export default {
   "Jump to the start of the next subtitle line.":
     "Salta all’inizio della riga di sottotitolo successiva.",
   "Previous subtitle line": "Riga di sottotitolo precedente",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Salta all’inizio della riga di sottotitolo precedente (quella attuale se è appena iniziata).",
+  "Jump to the start of the previous subtitle line.":
+    "Salta all’inizio della riga di sottotitolo precedente.",
   "Toggle slow speed": "Attiva/disattiva velocità lenta",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Alterna tra la velocità normale e la velocità lenta impostata in Comportamento (0,5x per impostazione predefinita).",
@@ -222,4 +222,7 @@ export default {
     "Premi una volta per iniziare a registrare e di nuovo per fermare e inserire quel tratto nella scheda più recente. Funziona senza sottotitoli. Con una parola selezionata quando fermi, anche la parola e le definizioni. Solo mpv.",
   "Added {word} to {deck}": "{word} aggiunta a {deck}",
   "Updated card in {deck} with {word}": "Scheda in {deck} aggiornata con {word}",
+  "Sending the card to Anki…": "Invio della carta ad Anki…",
+  "Updating the last card in Anki…": "Aggiornamento dell’ultima carta in Anki…",
+  "Sending the audio card to Anki…": "Invio della carta audio ad Anki…",
 };

@@ -178,8 +178,7 @@ export default {
   "Next subtitle line": "Dòng phụ đề tiếp theo",
   "Jump to the start of the next subtitle line.": "Nhảy đến đầu dòng phụ đề tiếp theo.",
   "Previous subtitle line": "Dòng phụ đề trước",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Nhảy đến đầu dòng phụ đề trước (dòng hiện tại nếu nó vừa bắt đầu).",
+  "Jump to the start of the previous subtitle line.": "Nhảy đến đầu dòng phụ đề trước.",
   "Toggle slow speed": "Bật/tắt tốc độ chậm",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Chuyển giữa tốc độ bình thường và tốc độ chậm đặt trong Hành vi (mặc định 0,5x).",
@@ -216,4 +215,7 @@ export default {
     "Nhấn một lần để bắt đầu ghi, nhấn lần nữa để dừng và đưa đoạn đó vào thẻ mới nhất. Dùng được khi không có phụ đề. Nếu đang chọn một từ lúc dừng, cả từ và định nghĩa. Chỉ mpv.",
   "Added {word} to {deck}": "Đã thêm {word} vào {deck}",
   "Updated card in {deck} with {word}": "Đã cập nhật thẻ trong {deck} với {word}",
+  "Sending the card to Anki…": "Đang gửi thẻ sang Anki…",
+  "Updating the last card in Anki…": "Đang cập nhật thẻ cuối cùng trong Anki…",
+  "Sending the audio card to Anki…": "Đang gửi thẻ âm thanh sang Anki…",
 };

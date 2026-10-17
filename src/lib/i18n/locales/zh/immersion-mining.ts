@@ -172,8 +172,7 @@ export default {
   "Next subtitle line": "下一行字幕",
   "Jump to the start of the next subtitle line.": "跳到下一行字幕的开头。",
   "Previous subtitle line": "上一行字幕",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "跳到上一行字幕的开头（若当前行刚开始，则跳到当前行）。",
+  "Jump to the start of the previous subtitle line.": "跳到上一行字幕的开头。",
   "Toggle slow speed": "切换慢速",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "在正常速度和“行为”中设置的慢速（默认 0.5x）之间切换。",
@@ -210,4 +209,7 @@ export default {
     "按一次开始录制，再按一次停止并把该片段放入最新的卡片。没有字幕也可以。停止时若选中了单词，也会加入单词及其释义。仅限 mpv。",
   "Added {word} to {deck}": "已将 {word} 添加到 {deck}",
   "Updated card in {deck} with {word}": "已用 {word} 更新 {deck} 中的卡片",
+  "Sending the card to Anki…": "正在把卡片发送到 Anki…",
+  "Updating the last card in Anki…": "正在更新 Anki 中的最新卡片…",
+  "Sending the audio card to Anki…": "正在把音频卡发送到 Anki…",
 };

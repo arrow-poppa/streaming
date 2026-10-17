@@ -180,8 +180,7 @@ export default {
   "Next subtitle line": "Sonraki altyazı satırı",
   "Jump to the start of the next subtitle line.": "Sonraki altyazı satırının başına atlar.",
   "Previous subtitle line": "Önceki altyazı satırı",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Önceki altyazı satırının başına atlar (yeni başladıysa şu ankine).",
+  "Jump to the start of the previous subtitle line.": "Önceki altyazı satırının başına atlar.",
   "Toggle slow speed": "Yavaş hızı aç/kapat",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Normal hız ile Davranış altında ayarlanan yavaş hız arasında geçiş yapar (varsayılan 0,5x).",
@@ -218,4 +217,7 @@ export default {
     "Kaydı başlatmak için bir kez, durdurup o bölümü en yeni karta koymak için tekrar basın. Altyazısız çalışır. Durdururken bir kelime seçiliyse kelime ve tanımları da. Yalnızca mpv.",
   "Added {word} to {deck}": "{word}, {deck} destesine eklendi",
   "Updated card in {deck} with {word}": "{deck} içindeki kart {word} ile güncellendi",
+  "Sending the card to Anki…": "Kart Anki'ye gönderiliyor…",
+  "Updating the last card in Anki…": "Anki'deki son kart güncelleniyor…",
+  "Sending the audio card to Anki…": "Ses kartı Anki'ye gönderiliyor…",
 };

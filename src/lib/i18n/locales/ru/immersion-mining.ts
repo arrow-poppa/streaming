@@ -181,8 +181,8 @@ export default {
   "Next subtitle line": "Следующая строка субтитров",
   "Jump to the start of the next subtitle line.": "Переходит к началу следующей строки субтитров.",
   "Previous subtitle line": "Предыдущая строка субтитров",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Переходит к началу предыдущей строки субтитров (текущей, если она только началась).",
+  "Jump to the start of the previous subtitle line.":
+    "Переходит к началу предыдущей строки субтитров.",
   "Toggle slow speed": "Переключить медленную скорость",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Переключает между обычной скоростью и медленной, заданной в разделе «Поведение» (по умолчанию 0,5x).",
@@ -219,4 +219,7 @@ export default {
     "Нажмите один раз, чтобы начать запись, и ещё раз, чтобы остановить и поместить фрагмент в самую новую карточку. Работает без субтитров. Если при остановке выбрано слово — также слово и определения. Только mpv.",
   "Added {word} to {deck}": "{word} добавлено в {deck}",
   "Updated card in {deck} with {word}": "Карточка в {deck} обновлена словом {word}",
+  "Sending the card to Anki…": "Карточка отправляется в Anki…",
+  "Updating the last card in Anki…": "Обновляется последняя карточка в Anki…",
+  "Sending the audio card to Anki…": "Аудиокарточка отправляется в Anki…",
 };

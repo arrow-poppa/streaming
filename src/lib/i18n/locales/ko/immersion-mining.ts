@@ -174,8 +174,7 @@ export default {
   "Next subtitle line": "다음 자막 줄",
   "Jump to the start of the next subtitle line.": "다음 자막 줄의 시작으로 이동합니다.",
   "Previous subtitle line": "이전 자막 줄",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "이전 자막 줄의 시작으로 이동합니다(방금 시작했다면 현재 줄).",
+  "Jump to the start of the previous subtitle line.": "이전 자막 줄의 시작으로 이동합니다.",
   "Toggle slow speed": "느린 속도 전환",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "보통 속도와 동작에서 정한 느린 속도(기본 0.5x) 사이를 전환합니다.",
@@ -212,4 +211,7 @@ export default {
     "한 번 누르면 녹음을 시작하고, 다시 누르면 멈추고 그 구간을 최신 카드에 넣습니다. 자막 없이도 됩니다. 멈출 때 단어를 선택했다면 단어와 정의도 넣습니다. mpv 전용.",
   "Added {word} to {deck}": "{word}을(를) {deck}에 추가했습니다",
   "Updated card in {deck} with {word}": "{deck}의 카드를 {word}(으)로 업데이트했습니다",
+  "Sending the card to Anki…": "카드를 Anki로 보내는 중…",
+  "Updating the last card in Anki…": "Anki의 마지막 카드를 업데이트하는 중…",
+  "Sending the audio card to Anki…": "오디오 카드를 Anki로 보내는 중…",
 };

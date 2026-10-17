@@ -183,8 +183,8 @@ export default {
   "Jump to the start of the next subtitle line.":
     "Przeskakuje na początek następnego wiersza napisów.",
   "Previous subtitle line": "Poprzedni wiersz napisów",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Przeskakuje na początek poprzedniego wiersza napisów (bieżącego, jeśli dopiero się zaczął).",
+  "Jump to the start of the previous subtitle line.":
+    "Przeskakuje na początek poprzedniego wiersza napisów.",
   "Toggle slow speed": "Przełącz wolne tempo",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Przełącza między normalnym tempem a wolnym tempem ustawionym w Zachowaniu (domyślnie 0,5x).",
@@ -221,4 +221,7 @@ export default {
     "Naciśnij raz, aby zacząć nagrywać, i ponownie, aby zatrzymać i wstawić ten fragment do najnowszej karty. Działa bez napisów. Gdy przy zatrzymaniu słowo jest zaznaczone, także słowo i definicje. Tylko mpv.",
   "Added {word} to {deck}": "Dodano {word} do {deck}",
   "Updated card in {deck} with {word}": "Zaktualizowano kartę w {deck} o {word}",
+  "Sending the card to Anki…": "Wysyłanie karty do Anki…",
+  "Updating the last card in Anki…": "Aktualizowanie ostatniej karty w Anki…",
+  "Sending the audio card to Anki…": "Wysyłanie karty audio do Anki…",
 };

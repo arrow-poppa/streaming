@@ -184,8 +184,8 @@ export default {
   "Jump to the start of the next subtitle line.":
     "Salta al inicio de la siguiente línea de subtítulo.",
   "Previous subtitle line": "Línea de subtítulo anterior",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Salta al inicio de la línea de subtítulo anterior (la actual si acaba de empezar).",
+  "Jump to the start of the previous subtitle line.":
+    "Salta al inicio de la línea de subtítulo anterior.",
   "Toggle slow speed": "Alternar velocidad lenta",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Cambia entre la velocidad normal y la velocidad lenta configurada en Comportamiento (0,5x por defecto).",
@@ -222,4 +222,7 @@ export default {
     "Pulsa una vez para empezar a grabar y otra para detener y poner ese fragmento en la tarjeta más reciente. Funciona sin subtítulos. Con una palabra seleccionada al detener, también la palabra y sus definiciones. Solo mpv.",
   "Added {word} to {deck}": "{word} añadida a {deck}",
   "Updated card in {deck} with {word}": "Tarjeta de {deck} actualizada con {word}",
+  "Sending the card to Anki…": "Enviando la tarjeta a Anki…",
+  "Updating the last card in Anki…": "Actualizando la última tarjeta en Anki…",
+  "Sending the audio card to Anki…": "Enviando la tarjeta de audio a Anki…",
 };

@@ -179,8 +179,7 @@ export default {
   "Next subtitle line": "अगली सबटाइटल पंक्ति",
   "Jump to the start of the next subtitle line.": "अगली सबटाइटल पंक्ति की शुरुआत पर जाता है.",
   "Previous subtitle line": "पिछली सबटाइटल पंक्ति",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "पिछली सबटाइटल पंक्ति की शुरुआत पर जाता है (मौजूदा पंक्ति, अगर वह अभी शुरू हुई है).",
+  "Jump to the start of the previous subtitle line.": "पिछली सबटाइटल पंक्ति की शुरुआत पर जाता है.",
   "Toggle slow speed": "धीमी गति टॉगल करें",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "सामान्य गति और व्यवहार में तय धीमी गति (डिफ़ॉल्ट 0.5x) के बीच बदलता है.",
@@ -217,4 +216,7 @@ export default {
     "रिकॉर्डिंग शुरू करने के लिए एक बार दबाएँ, फिर रोककर वह हिस्सा सबसे नए कार्ड में डालने के लिए दोबारा दबाएँ. बिना सबटाइटल के भी चलता है. रोकते समय कोई शब्द चुना हो तो शब्द और परिभाषाएँ भी. केवल mpv.",
   "Added {word} to {deck}": "{word} को {deck} में जोड़ा गया",
   "Updated card in {deck} with {word}": "{deck} का कार्ड {word} के साथ अपडेट किया गया",
+  "Sending the card to Anki…": "कार्ड Anki को भेजा जा रहा है…",
+  "Updating the last card in Anki…": "Anki में आख़िरी कार्ड अपडेट हो रहा है…",
+  "Sending the audio card to Anki…": "ऑडियो कार्ड Anki को भेजा जा रहा है…",
 };

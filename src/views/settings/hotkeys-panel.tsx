@@ -8,6 +8,7 @@ import {
   eventToBinding,
   formatBindingForDisplay,
   isModifierOnly,
+  setBindingCapture,
   type HotkeyDef,
   type HotkeyId,
   type HotkeyScope,
@@ -117,6 +118,7 @@ export function HotkeysPanel() {
 
   useEffect(() => {
     if (!capturing) return;
+    setBindingCapture(true);
     const onKey = (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -143,7 +145,10 @@ export function HotkeysPanel() {
       setCapturing(null);
     };
     window.addEventListener("keydown", onKey, true);
-    return () => window.removeEventListener("keydown", onKey, true);
+    return () => {
+      window.removeEventListener("keydown", onKey, true);
+      setBindingCapture(false);
+    };
   }, [capturing, overrides]);
 
   const overrideCount =

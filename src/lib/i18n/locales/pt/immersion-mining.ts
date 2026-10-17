@@ -181,8 +181,8 @@ export default {
   "Next subtitle line": "Próxima linha da legenda",
   "Jump to the start of the next subtitle line.": "Pula para o início da próxima linha da legenda.",
   "Previous subtitle line": "Linha anterior da legenda",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Pula para o início da linha anterior da legenda (a atual, se ela acabou de começar).",
+  "Jump to the start of the previous subtitle line.":
+    "Pula para o início da linha anterior da legenda.",
   "Toggle slow speed": "Alternar velocidade lenta",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Alterna entre a velocidade normal e a velocidade lenta definida em Comportamento (0,5x por padrão).",
@@ -219,4 +219,7 @@ export default {
     "Aperte uma vez para começar a gravar e de novo para parar e colocar esse trecho no cartão mais novo. Funciona sem legendas. Com uma palavra selecionada ao parar, também a palavra e as definições. Só no mpv.",
   "Added {word} to {deck}": "{word} adicionada a {deck}",
   "Updated card in {deck} with {word}": "Cartão em {deck} atualizado com {word}",
+  "Sending the card to Anki…": "Enviando o cartão para o Anki…",
+  "Updating the last card in Anki…": "Atualizando o último cartão no Anki…",
+  "Sending the audio card to Anki…": "Enviando o cartão de áudio para o Anki…",
 };

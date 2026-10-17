@@ -58,6 +58,16 @@ export function useImmersion(params: {
       try {
         // The word selected when the key is pressed (or the recording stops).
         const selection = getWordSelection();
+        // A recording already said so when it stopped.
+        if (!recorded) {
+          const sending =
+            target === "update"
+              ? t("Updating the last card in Anki…")
+              : target === "audio"
+                ? t("Sending the audio card to Anki…")
+                : t("Sending the card to Anki…");
+          notify("ok", selection?.term ? `${sending} · ${selection.term}` : sending);
+        }
         const startedAt = performance.now();
         const res = await exportImmersionCard(
           settingsRef.current,

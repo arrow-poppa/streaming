@@ -184,8 +184,8 @@ export default {
   "Jump to the start of the next subtitle line.":
     "Saute au début de la ligne de sous-titre suivante.",
   "Previous subtitle line": "Ligne de sous-titre précédente",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Saute au début de la ligne de sous-titre précédente (l’actuelle si elle vient de commencer).",
+  "Jump to the start of the previous subtitle line.":
+    "Saute au début de la ligne de sous-titre précédente.",
   "Toggle slow speed": "Basculer la vitesse lente",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Alterne entre la vitesse normale et la vitesse lente définie dans Comportement (0,5x par défaut).",
@@ -222,4 +222,7 @@ export default {
     "Appuyez une fois pour commencer l’enregistrement, puis à nouveau pour l’arrêter et placer ce passage dans la carte la plus récente. Fonctionne sans sous-titres. Avec un mot sélectionné à l’arrêt, le mot et ses définitions aussi. mpv uniquement.",
   "Added {word} to {deck}": "{word} ajouté à {deck}",
   "Updated card in {deck} with {word}": "Carte de {deck} mise à jour avec {word}",
+  "Sending the card to Anki…": "Envoi de la carte à Anki…",
+  "Updating the last card in Anki…": "Mise à jour de la dernière carte dans Anki…",
+  "Sending the audio card to Anki…": "Envoi de la carte audio à Anki…",
 };

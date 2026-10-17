@@ -180,8 +180,7 @@ export default {
   "Next subtitle line": "Baris subtitel berikutnya",
   "Jump to the start of the next subtitle line.": "Lompat ke awal baris subtitel berikutnya.",
   "Previous subtitle line": "Baris subtitel sebelumnya",
-  "Jump to the start of the previous subtitle line (the current one if it just started).":
-    "Lompat ke awal baris subtitel sebelumnya (baris saat ini jika baru dimulai).",
+  "Jump to the start of the previous subtitle line.": "Lompat ke awal baris subtitel sebelumnya.",
   "Toggle slow speed": "Alihkan kecepatan lambat",
   "Switch between normal speed and the slow speed set under Behavior (0.5x by default).":
     "Beralih antara kecepatan normal dan kecepatan lambat yang diatur di Perilaku (bawaan 0,5x).",
@@ -218,4 +217,7 @@ export default {
     "Tekan sekali untuk mulai merekam, lalu lagi untuk berhenti dan memasukkan potongan itu ke kartu terbaru. Berfungsi tanpa subtitel. Jika ada kata yang dipilih saat berhenti, kata dan definisinya juga. Hanya mpv.",
   "Added {word} to {deck}": "{word} ditambahkan ke {deck}",
   "Updated card in {deck} with {word}": "Kartu di {deck} diperbarui dengan {word}",
+  "Sending the card to Anki…": "Mengirim kartu ke Anki…",
+  "Updating the last card in Anki…": "Memperbarui kartu terakhir di Anki…",
+  "Sending the audio card to Anki…": "Mengirim kartu audio ke Anki…",
 };

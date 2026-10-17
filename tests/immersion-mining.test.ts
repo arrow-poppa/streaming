@@ -54,15 +54,17 @@ test("the first-field marker is invisible and differs per note", () => {
   );
 });
 
-test("subtitle line seek goes to the next start, or back past a line that just began", () => {
+test("subtitle line seek goes to the next start, or to the line before", () => {
   const cues = [
     { start: 1, end: 2, text: "a" },
     { start: 4, end: 5, text: "b" },
     { start: 8, end: 9, text: "c" },
   ];
   assert.equal(subCueSeekTarget(cues, 4.2, 1), 8);
-  assert.equal(subCueSeekTarget(cues, 4.9, -1), 4, "well into a line: its own start");
-  assert.equal(subCueSeekTarget(cues, 4.2, -1), 1, "just started: the line before");
+  assert.equal(subCueSeekTarget(cues, 4.9, -1), 1, "inside a line: the line before");
+  assert.equal(subCueSeekTarget(cues, 3.98, -1), 1, "landed just before a line: the line before");
+  assert.equal(subCueSeekTarget(cues, 6, -1), 4, "between lines: the one that just played");
+  assert.equal(subCueSeekTarget(cues, 1.5, -1), null);
   assert.equal(subCueSeekTarget(cues, 9, 1), null);
 });
 
