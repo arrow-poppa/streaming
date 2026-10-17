@@ -71,8 +71,10 @@ export type MiningContext = {
   matchStart: number;
   matchLength: number;
   title: string;
+  // The line's sub-start/sub-end as mpv reports them, without sub-delay.
   subStartSec?: number;
   subEndSec?: number;
+  subDelaySec?: () => number;
   mpvEngine: boolean;
   // Final AI explanation text ("" when unavailable); may generate it first.
   aiExplanation?: () => Promise<string>;
@@ -108,6 +110,16 @@ export async function storeMedia(settings: Settings, filename: string, base64: s
 export function dataUrlBase64(url: string): string {
   const i = url.indexOf(",");
   return i >= 0 ? url.slice(i + 1) : url;
+}
+
+// mpv leaves sub-delay out of sub-start/sub-end, so a cut from them is off by
+// exactly the timing correction. null lets the native side read the line itself.
+function linePlaybackTime(ctx: MiningContext): { start: number | null; end: number | null } {
+  const delay = ctx.subDelaySec?.() ?? 0;
+  return {
+    start: ctx.subStartSec != null ? ctx.subStartSec + delay : null,
+    end: ctx.subEndSec != null ? ctx.subEndSec + delay : null,
+  };
 }
 
 async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningContext, warn: (m: string) => void): Promise<string> {
@@ -161,13 +173,14 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       return `<img src="${escapeHtml(name)}">`;
     }
     case "clip": {
+      const line = linePlaybackTime(ctx);
       if (!ctx.mpvEngine) {
         warn("Animated clips need the mpv player");
         return "";
       }
       const clip = await invoke<{ dataBase64: string; ext: string; format: string }>("mpv_sentence_clip", {
-        start: ctx.subStartSec ?? null,
-        end: ctx.subEndSec ?? null,
+        start: line.start,
+        end: line.end,
         padBefore: settings.ankiAudioPadSec,
         padAfter: settings.ankiAudioPadSec,
         format: settings.ankiClipFormat || "avif",
@@ -179,13 +192,14 @@ async function fieldValue(settings: Settings, src: AnkiFieldSource, ctx: MiningC
       return `<img src="${escapeHtml(name)}">`;
     }
     case "sentence-audio": {
+      const line = linePlaybackTime(ctx);
       if (!ctx.mpvEngine) {
         warn("Sentence audio needs the mpv player");
         return "";
       }
       const clip = await invoke<{ dataBase64: string; ext: string }>("mpv_sentence_audio", {
-        start: ctx.subStartSec ?? null,
-        end: ctx.subEndSec ?? null,
+        start: line.start,
+        end: line.end,
         padBefore: settings.ankiAudioPadSec,
         padAfter: settings.ankiAudioPadSec,
       });

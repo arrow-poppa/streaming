@@ -1,3 +1,4 @@
+import immersionMining from "./id/immersion-mining";
 import playOrders from "./id/play-orders";
 import gameRomLibrary from "./id/game-rom-library";
 import gameNotes from "./id/game-notes";
@@ -340,6 +341,7 @@ const id: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default id;

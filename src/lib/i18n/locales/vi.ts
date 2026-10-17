@@ -1,3 +1,4 @@
+import immersionMining from "./vi/immersion-mining";
 import playOrders from "./vi/play-orders";
 import gameRomLibrary from "./vi/game-rom-library";
 import gameNotes from "./vi/game-notes";
@@ -378,6 +379,7 @@ const vi: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default vi;

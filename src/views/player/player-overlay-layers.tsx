@@ -223,6 +223,7 @@ export const PlayerOverlayLayers = memo(function PlayerOverlayLayers(p: PlayerOv
       isPlaying: () => snapRef.current?.status === "playing",
       togglePlay: playPauseToggle,
       setNativeSubVisible: (on) => bridgeRef.current?.setSubVisible(on),
+      subDelaySec: () => snapRef.current?.subDelaySec ?? 0,
       title: lookupTitle,
       mpvEngine: engine === "mpv",
     }),

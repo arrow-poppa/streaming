@@ -1,3 +1,4 @@
+import immersionMining from "./hi/immersion-mining";
 import playOrders from "./hi/play-orders";
 import gameRomLibrary from "./hi/game-rom-library";
 import gameNotes from "./hi/game-notes";
@@ -328,6 +329,7 @@ const hi: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default hi;

@@ -1,3 +1,4 @@
+import immersionMining from "./ru/immersion-mining";
 import playOrders from "./ru/play-orders";
 import gameRomLibrary from "./ru/game-rom-library";
 import gameNotes from "./ru/game-notes";
@@ -391,6 +392,7 @@ const ru: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default ru;

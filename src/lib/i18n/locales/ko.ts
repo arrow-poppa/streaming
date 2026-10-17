@@ -1,3 +1,4 @@
+import immersionMining from "./ko/immersion-mining";
 import playOrders from "./ko/play-orders";
 import gameRomLibrary from "./ko/game-rom-library";
 import gameNotes from "./ko/game-notes";
@@ -337,6 +338,7 @@ const ko: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default ko;

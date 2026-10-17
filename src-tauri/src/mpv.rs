@@ -2465,6 +2465,14 @@ fn mpv_prop_f64(mpv: &Mpv, name: &str) -> Option<f64> {
     mpv.get_property::<String>(name).ok()?.trim().parse().ok()
 }
 
+/// `sub-start` / `sub-end` in playback time. mpv reports them without
+/// `sub-delay` (on mpv 0.41 a 5–8s line delayed by 2s shows at 7–10s while
+/// sub-start still says 5), so a cut taken from them would be off by exactly
+/// the timing correction.
+fn sub_line_time(mpv: &Mpv, name: &str) -> Option<f64> {
+    Some(mpv_prop_f64(mpv, name)? + mpv_prop_f64(mpv, "sub-delay").unwrap_or(0.0))
+}
+
 /// Encodes the audio between `start` and `end` (defaulting to the current
 /// subtitle line) to AAC for an Anki card, using the playing source and audio
 /// track. Runs a separate mpv so playback is not disturbed.
@@ -2485,10 +2493,10 @@ pub async fn mpv_sentence_audio(
         .get_property::<String>("path")
         .map_err(|e| format!("no source path: {}", e))?;
     let line_start = start
-        .or_else(|| mpv_prop_f64(&mpv, "sub-start"))
+        .or_else(|| sub_line_time(&mpv, "sub-start"))
         .ok_or_else(|| "no subtitle line on screen".to_string())?;
     let line_end = end
-        .or_else(|| mpv_prop_f64(&mpv, "sub-end"))
+        .or_else(|| sub_line_time(&mpv, "sub-end"))
         .ok_or_else(|| "no subtitle line on screen".to_string())?;
     let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
     let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);
@@ -2611,10 +2619,10 @@ pub async fn mpv_sentence_clip(
         .get_property::<String>("path")
         .map_err(|e| format!("no source path: {}", e))?;
     let line_start = start
-        .or_else(|| mpv_prop_f64(&mpv, "sub-start"))
+        .or_else(|| sub_line_time(&mpv, "sub-start"))
         .ok_or_else(|| "no subtitle line on screen".to_string())?;
     let line_end = end
-        .or_else(|| mpv_prop_f64(&mpv, "sub-end"))
+        .or_else(|| sub_line_time(&mpv, "sub-end"))
         .ok_or_else(|| "no subtitle line on screen".to_string())?;
     let from = (line_start - pad_before.unwrap_or(0.0).clamp(0.0, 5.0)).max(0.0);
     let to = line_end + pad_after.unwrap_or(0.0).clamp(0.0, 5.0);

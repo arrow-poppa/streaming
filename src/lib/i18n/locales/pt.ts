@@ -1,3 +1,4 @@
+import immersionMining from "./pt/immersion-mining";
 import playOrders from "./pt/play-orders";
 import gameRomLibrary from "./pt/game-rom-library";
 import gameNotes from "./pt/game-notes";
@@ -383,6 +384,7 @@ const pt: Record<string, string> = {
   ...gameRomLibrary,
   ...gameNotes,
   ...playOrders,
+  ...immersionMining,
 };
 
 export default pt;

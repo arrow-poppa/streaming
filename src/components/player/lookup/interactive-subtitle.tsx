@@ -115,9 +115,10 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       title: controls.title,
       subStartSec: startSec,
       subEndSec: endSec,
+      subDelaySec: controls.subDelaySec,
       mpvEngine: controls.mpvEngine,
     };
-  }, [lines, lookup.hit, controls.title, controls.mpvEngine, startSec, endSec]);
+  }, [lines, lookup.hit, controls.title, controls.mpvEngine, controls.subDelaySec, startSec, endSec]);
 
   const hiddenText: React.CSSProperties = { color: "transparent", textShadow: "none" };
   return (
