@@ -45,6 +45,41 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
   const [anchor, setAnchor] = useState<DOMRect | null>(null);
   const [hovering, setHovering] = useState(false);
   const revealed = !native || hovering || lookup.open;
+  const stayOpen = settings.subLookupStayOpen;
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // With "keep open", the first click outside the subtitle and the popup only
+  // dismisses it; that click is swallowed so it does not also toggle playback.
+  const closeLookup = lookup.close;
+  useEffect(() => {
+    if (!stayOpen || !lookup.open) return;
+    const inside = (target: EventTarget | null) =>
+      target instanceof Element &&
+      (!!target.closest(".hb-lookup-popup") || !!rootRef.current?.contains(target));
+    const onDown = (e: PointerEvent) => {
+      if (inside(e.target)) return;
+      e.stopPropagation();
+      // Closing unmounts this effect before the matching mousedown/click
+      // arrive, so they are swallowed by listeners that outlive it.
+      const swallow = (ev: Event) => {
+        ev.stopPropagation();
+        ev.preventDefault();
+        if (ev.type === "click") done();
+      };
+      const done = () => {
+        window.removeEventListener("mousedown", swallow, true);
+        window.removeEventListener("click", swallow, true);
+        window.clearTimeout(timer);
+      };
+      // A drag that ends elsewhere fires no click; stop waiting for it.
+      const timer = window.setTimeout(done, 1000);
+      window.addEventListener("mousedown", swallow, true);
+      window.addEventListener("click", swallow, true);
+      closeLookup();
+    };
+    window.addEventListener("pointerdown", onDown, true);
+    return () => window.removeEventListener("pointerdown", onDown, true);
+  }, [stayOpen, lookup.open, closeLookup]);
 
   useLayoutEffect(() => {
     setAnchor(lookup.open && markRef.current ? markRef.current.getBoundingClientRect() : null);
@@ -87,6 +122,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
   const hiddenText: React.CSSProperties = { color: "transparent", textShadow: "none" };
   return (
     <div
+      ref={rootRef}
       className="pointer-events-auto max-w-[80%] cursor-text"
       style={revealed ? boxStyle : undefined}
       onPointerEnter={() => {
@@ -96,7 +132,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       onPointerLeave={() => {
         setHovering(false);
         lookup.onPointerExit();
-        if (!lookup.pinned) lookup.scheduleClose();
+        if (!lookup.pinned && !stayOpen) lookup.scheduleClose();
       }}
       onPointerMove={lookup.onPointerMove}
       onMouseDown={(e) => e.stopPropagation()}
@@ -119,7 +155,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
           }}
           onLeave={() => {
             lookup.setPinned(false);
-            lookup.scheduleClose();
+            if (!stayOpen) lookup.scheduleClose();
           }}
           onClose={lookup.close}
         />

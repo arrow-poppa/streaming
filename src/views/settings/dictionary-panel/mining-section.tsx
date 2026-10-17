@@ -124,6 +124,12 @@ function DictionarySection() {
         value={settings.subLookupPauseOnHover}
         onChange={(v) => update({ subLookupPauseOnHover: v })}
       />
+      <ToggleRow
+        label={t("Keep the popup open when the mouse leaves")}
+        sub={t("The popup (and the pause) stays until you click outside it or press Escape.")}
+        value={settings.subLookupStayOpen}
+        onChange={(v) => update({ subLookupStayOpen: v })}
+      />
       <Row
         label={t("Look up with")}
         sub={t("Hover looks words up as the mouse passes over them. With a key, hold it while hovering (or press it on a word) and plain hovering does nothing. Clicking a word always looks it up.")}

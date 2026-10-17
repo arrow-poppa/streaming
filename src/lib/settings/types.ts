@@ -751,6 +751,9 @@ export type Settings = {
   subLookupEnabled: boolean;
   subLookupLanguage: string;
   subLookupPauseOnHover: boolean;
+  // Keep the popup open when the pointer leaves it; it then closes on a click
+  // outside it or Escape.
+  subLookupStayOpen: boolean;
   // Modifier that must be held to look up on hover ("none" = plain hover).
   subLookupScanKey: "none" | "shift" | "ctrl" | "alt";
   // Wait before looking up a hovered word when no key is required (Yomitan's "Scan delay").

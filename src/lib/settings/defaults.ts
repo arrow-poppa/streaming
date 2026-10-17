@@ -628,6 +628,7 @@ export const DEFAULT: Settings = {
   subLookupEnabled: false,
   subLookupLanguage: "japanese",
   subLookupPauseOnHover: true,
+  subLookupStayOpen: false,
   subLookupScanKey: "none",
   subLookupScanDelayMs: 20,
   subLookupLiftAboveControls: true,
