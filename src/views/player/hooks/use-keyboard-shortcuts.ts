@@ -16,6 +16,7 @@ import { isPlayerInteractionLocked } from "@/lib/player/interaction-lock";
 import { round2 } from "../player-utils";
 import type { ImmersionAction } from "./use-immersion";
 import { subCueSeekTarget } from "@/lib/player/sub-seek";
+import { lineFromSnapshot } from "@/lib/mining/immersion-core";
 import { getPlaybackPosition } from "@/lib/player/playback-clock";
 import { LOOKUP_ACTIONS, isLookupNavActive, sendLookupCommand } from "@/lib/player/lookup-nav";
 import { PLAYER_HOTKEY_EVENT, type PlayerHotkeyDetail } from "@/lib/gamepad/dispatch";
@@ -120,6 +121,10 @@ export function useKeyboardShortcuts(params: {
   // Rapid presses step line by line from where the last jump was headed, not
   // from a position the player has not reported yet.
   const subSeekRef = useRef<{ target: number; at: number } | null>(null);
+  // The last line shown, so replay still works in the gap after it ends.
+  const lastLineRef = useRef<{ start: number; end: number } | null>(null);
+  const currentLine = lineFromSnapshot(snap);
+  if (currentLine) lastLineRef.current = currentLine;
   const [subtitleOffsetSec, setSubtitleOffsetSec] = useState<number | null>(null);
   const subtitleOffsetTimerRef = useRef<number | null>(null);
   const showSubtitleOffset = (delaySec: number) => {
@@ -441,6 +446,15 @@ export function useKeyboardShortcuts(params: {
       if (match("playerPrevChannel") && onPrevChannel) {
         e.preventDefault();
         onPrevChannel();
+        return;
+      }
+      if (match("playerSubReplay")) {
+        e.preventDefault();
+        if (e.repeat) return;
+        const line = lastLineRef.current;
+        if (!line) return;
+        seekStep(line.start - getPlaybackPosition());
+        if (mediaRef.current.status !== "playing") mediaRef.current.playPauseToggle();
         return;
       }
       if (match("playerSubtitleToggle") && onToggleSubtitles) {

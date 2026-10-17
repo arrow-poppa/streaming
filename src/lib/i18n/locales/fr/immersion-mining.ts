@@ -217,4 +217,7 @@ export default {
     "Avance du pas de Saut long défini dans Comportement (30 secondes par défaut).",
   "Greek": "Grec",
   "Latin": "Latin",
+  "Replay current subtitle": "Rejouer le sous-titre actuel",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Revient au début de la ligne à l’écran et la rejoue, ou de la dernière affichée s’il n’y en a aucune.",
 };

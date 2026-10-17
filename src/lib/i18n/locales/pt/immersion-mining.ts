@@ -214,4 +214,7 @@ export default {
     "Avança pelo passo de Salto longo definido em Comportamento (30 segundos por padrão).",
   "Greek": "Grego",
   "Latin": "Latim",
+  "Replay current subtitle": "Repetir a legenda atual",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Volta ao início da fala na tela e toca de novo, ou da última fala mostrada quando não há nenhuma.",
 };

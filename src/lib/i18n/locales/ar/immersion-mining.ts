@@ -209,4 +209,7 @@ export default {
     "يتقدّم بمقدار القفزة الطويلة المضبوطة في السلوك (30 ثانية افتراضيًا).",
   "Greek": "اليونانية",
   "Latin": "اللاتينية",
+  "Replay current subtitle": "إعادة تشغيل الترجمة الحالية",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "يعود إلى بداية السطر الظاهر على الشاشة ويشغّله مرة أخرى، أو آخر سطر ظهر إن لم يوجد سطر.",
 };

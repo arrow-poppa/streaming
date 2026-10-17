@@ -207,4 +207,7 @@ export default {
     "동작에서 정한 긴 탐색 폭만큼 앞으로 갑니다(기본 30초).",
   "Greek": "그리스어",
   "Latin": "라틴어",
+  "Replay current subtitle": "현재 자막 다시 재생",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "화면의 줄 처음으로 돌아가 다시 재생합니다. 줄이 없으면 마지막으로 표시된 줄로 돌아갑니다.",
 };

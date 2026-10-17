@@ -213,4 +213,7 @@ export default {
     "Maju sejauh lompatan panjang yang diatur di Perilaku (bawaan 30 detik).",
   "Greek": "Yunani",
   "Latin": "Latin",
+  "Replay current subtitle": "Ulangi subtitel saat ini",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Kembali ke awal baris di layar dan memutarnya lagi, atau baris terakhir yang tampil jika tidak ada.",
 };

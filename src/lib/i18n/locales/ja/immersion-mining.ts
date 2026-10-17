@@ -210,4 +210,7 @@ export default {
     "動作で設定した長いシークの幅だけ進みます（既定は 30 秒）。",
   "Greek": "ギリシャ語",
   "Latin": "ラテン語",
+  "Replay current subtitle": "現在の字幕をもう一度再生",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "画面の行の先頭に戻ってもう一度再生します。行がない場合は最後に表示された行の先頭に戻ります。",
 };

@@ -23,6 +23,7 @@ export type HotkeyId =
   | "playerSubtitleToggle"
   | "playerSubNext"
   | "playerSubPrev"
+  | "playerSubReplay"
   | "playerHalfSpeed"
   | "playerAnkiNewCard"
   | "playerAnkiUpdateLast"
@@ -415,6 +416,15 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Tracks",
     label: "Previous subtitle line",
     description: "Jump to the start of the previous subtitle line (the current one if it just started).",
+    defaultBinding: "",
+  },
+  {
+    id: "playerSubReplay",
+    scope: "Player",
+    group: "Tracks",
+    label: "Replay current subtitle",
+    description:
+      "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.",
     defaultBinding: "",
   },
   {

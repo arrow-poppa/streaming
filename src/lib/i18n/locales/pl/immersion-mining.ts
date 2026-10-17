@@ -216,4 +216,7 @@ export default {
     "Przewija do przodu o długi skok ustawiony w Zachowaniu (domyślnie 30 sekund).",
   "Greek": "Grecki",
   "Latin": "Łacina",
+  "Replay current subtitle": "Powtórz bieżące napisy",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Wraca na początek wiersza na ekranie i odtwarza go ponownie, a gdy go nie ma — ostatniego wyświetlonego.",
 };

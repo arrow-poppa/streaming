@@ -211,4 +211,7 @@ export default {
     "Tới theo bước tua dài đặt trong Hành vi (mặc định 30 giây).",
   "Greek": "Tiếng Hy Lạp",
   "Latin": "Tiếng Latinh",
+  "Replay current subtitle": "Phát lại phụ đề hiện tại",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Quay về đầu dòng trên màn hình và phát lại, hoặc dòng hiện gần nhất khi không có dòng nào.",
 };

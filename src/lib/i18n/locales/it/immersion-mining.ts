@@ -217,4 +217,7 @@ export default {
     "Va avanti del passo di Salto lungo impostato in Comportamento (30 secondi per impostazione predefinita).",
   "Greek": "Greco",
   "Latin": "Latino",
+  "Replay current subtitle": "Ripeti il sottotitolo attuale",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Torna all’inizio della riga sullo schermo e la riproduce di nuovo, o dell’ultima mostrata se non ce n’è nessuna.",
 };

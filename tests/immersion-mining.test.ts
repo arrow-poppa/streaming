@@ -65,3 +65,13 @@ test("subtitle line seek goes to the next start, or back past a line that just b
   assert.equal(subCueSeekTarget(cues, 4.2, -1), 1, "just started: the line before");
   assert.equal(subCueSeekTarget(cues, 9, 1), null);
 });
+
+test("replay targets the line's start in playback time", () => {
+  const line = lineFromSnapshot({
+    subText: "otra vez",
+    subStartSec: 12,
+    subEndSec: 14,
+    subDelaySec: -0.5,
+  });
+  assert.equal(line?.start, 11.5);
+});

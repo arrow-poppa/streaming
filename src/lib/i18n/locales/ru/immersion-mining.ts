@@ -214,4 +214,7 @@ export default {
     "Перематывает вперёд на длинный шаг, заданный в разделе «Поведение» (по умолчанию 30 секунд).",
   "Greek": "Греческий",
   "Latin": "Латынь",
+  "Replay current subtitle": "Повторить текущие субтитры",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Возвращается к началу строки на экране и проигрывает её снова, а если её нет — последней показанной.",
 };

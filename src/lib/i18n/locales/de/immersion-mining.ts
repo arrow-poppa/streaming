@@ -217,4 +217,7 @@ export default {
     "Springt um den unter Verhalten festgelegten langen Sprung vorwärts (standardmäßig 30 Sekunden).",
   "Greek": "Griechisch",
   "Latin": "Latein",
+  "Replay current subtitle": "Aktuellen Untertitel wiederholen",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "Springt zum Anfang der Zeile auf dem Bildschirm und spielt sie erneut ab, oder der zuletzt gezeigten, wenn keine da ist.",
 };

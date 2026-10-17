@@ -212,4 +212,7 @@ export default {
     "व्यवहार में तय लंबे सीक जितना आगे जाता है (डिफ़ॉल्ट 30 सेकंड).",
   "Greek": "यूनानी",
   "Latin": "लैटिन",
+  "Replay current subtitle": "मौजूदा सबटाइटल दोबारा चलाएँ",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "स्क्रीन की पंक्ति की शुरुआत पर लौटकर उसे फिर चलाता है, या कोई पंक्ति न हो तो आख़िरी दिखी पंक्ति की.",
 };

@@ -205,4 +205,7 @@ export default {
     "按“行为”中设置的长跳转幅度前进（默认 30 秒）。",
   "Greek": "希腊语",
   "Latin": "拉丁语",
+  "Replay current subtitle": "重播当前字幕",
+  "Go back to the start of the line on screen and play it again, or of the last line shown when there is none.":
+    "回到屏幕上这一行的开头并再次播放；若没有字幕，则回到最后显示的一行。",
 };
