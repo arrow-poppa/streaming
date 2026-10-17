@@ -456,12 +456,14 @@ function SearchPill() {
     >
       <Search size={16} strokeWidth={1.75} className="shrink-0 text-ink-subtle" />
       <span className="flex-1 truncate text-[14px] text-ink-subtle">{t("search.placeholder")}</span>
-      <kbd
-        aria-hidden
-        className="hidden h-[22px] min-w-[22px] shrink-0 items-center justify-center rounded-md border border-edge-soft/70 bg-canvas/60 px-1.5 font-mono text-[11px] font-medium leading-none text-ink-subtle sm:inline-flex"
-      >
-        {formatBindingForDisplay(binding)}
-      </kbd>
+      {binding && (
+        <kbd
+          aria-hidden
+          className="hidden h-[22px] min-w-[22px] shrink-0 items-center justify-center rounded-md border border-edge-soft/70 bg-canvas/60 px-1.5 font-mono text-[11px] font-medium leading-none text-ink-subtle sm:inline-flex"
+        >
+          {formatBindingForDisplay(binding)}
+        </kbd>
+      )}
     </button>
   );
 

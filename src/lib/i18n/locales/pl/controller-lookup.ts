@@ -52,4 +52,6 @@ export default {
   "Show the popup": "Pokaż okienko",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Otwiera lub zamyka okienko słownika dla zaznaczonego słowa. Przejście do innego słowa je zamyka.",
+  "Clear the shortcut for {name}": "Wyczyść skrót dla {name}",
+  "Clear the shortcut": "Wyczyść skrót",
 };

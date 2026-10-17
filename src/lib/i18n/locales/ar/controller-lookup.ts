@@ -49,4 +49,6 @@ export default {
   "Show the popup": "إظهار النافذة المنبثقة",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "يفتح نافذة القاموس المنبثقة للكلمة المحددة أو يغلقها. الانتقال إلى كلمة أخرى يغلقها.",
+  "Clear the shortcut for {name}": "مسح اختصار {name}",
+  "Clear the shortcut": "مسح الاختصار",
 };

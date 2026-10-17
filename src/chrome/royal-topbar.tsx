@@ -327,9 +327,11 @@ function SearchPill({ onOpen }: { onOpen: () => void }) {
     >
       <Search size={14} strokeWidth={2.2} />
       <span className="hidden text-[12.5px] leading-none md:inline">{t("common.search")}</span>
-      <kbd className="ms-2 hidden items-center rounded-[5px] border border-edge-soft bg-elevated/60 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase leading-none text-ink-subtle md:flex">
-        {formatBindingForDisplay(binding)}
-      </kbd>
+      {binding && (
+        <kbd className="ms-2 hidden items-center rounded-[5px] border border-edge-soft bg-elevated/60 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase leading-none text-ink-subtle md:flex">
+          {formatBindingForDisplay(binding)}
+        </kbd>
+      )}
     </button>
   );
 }

@@ -49,4 +49,6 @@ export default {
   "Show the popup": "팝업 표시",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "선택한 단어의 사전 팝업을 열거나 닫습니다. 다른 단어로 이동하면 닫힙니다.",
+  "Clear the shortcut for {name}": "{name} 단축키 지우기",
+  "Clear the shortcut": "단축키 지우기",
 };

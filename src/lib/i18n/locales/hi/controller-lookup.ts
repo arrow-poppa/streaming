@@ -49,4 +49,6 @@ export default {
   "Show the popup": "पॉपअप दिखाएँ",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "चुने गए शब्द का शब्दकोश पॉपअप खोलता या बंद करता है. दूसरे शब्द पर जाने से यह बंद हो जाता है.",
+  "Clear the shortcut for {name}": "{name} का शॉर्टकट हटाएँ",
+  "Clear the shortcut": "शॉर्टकट हटाएँ",
 };

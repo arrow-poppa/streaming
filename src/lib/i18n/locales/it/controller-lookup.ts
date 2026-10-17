@@ -52,4 +52,6 @@ export default {
   "Show the popup": "Mostra il popup",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Apre o chiude il popup del dizionario per la parola selezionata. Passare a un’altra parola lo chiude.",
+  "Clear the shortcut for {name}": "Cancella la scorciatoia di {name}",
+  "Clear the shortcut": "Cancella la scorciatoia",
 };

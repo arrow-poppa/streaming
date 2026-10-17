@@ -49,4 +49,6 @@ export default {
   "Show the popup": "显示弹窗",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "打开或关闭所选单词的词典弹窗。移到其他单词时会关闭。",
+  "Clear the shortcut for {name}": "清除“{name}”的快捷键",
+  "Clear the shortcut": "清除快捷键",
 };

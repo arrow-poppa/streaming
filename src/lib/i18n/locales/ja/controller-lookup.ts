@@ -49,4 +49,6 @@ export default {
   "Show the popup": "ポップアップを表示",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "選んだ単語の辞書ポップアップを開閉します。別の単語へ移動すると閉じます。",
+  "Clear the shortcut for {name}": "{name} のショートカットを解除",
+  "Clear the shortcut": "ショートカットを解除",
 };

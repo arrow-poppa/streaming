@@ -51,4 +51,6 @@ export default {
   "Show the popup": "Pencereyi göster",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Seçili kelimenin sözlük penceresini açar veya kapatır. Başka bir kelimeye geçmek onu kapatır.",
+  "Clear the shortcut for {name}": "{name} kısayolunu temizle",
+  "Clear the shortcut": "Kısayolu temizle",
 };

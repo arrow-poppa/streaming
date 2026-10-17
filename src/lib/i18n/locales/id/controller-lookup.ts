@@ -52,4 +52,6 @@ export default {
   "Show the popup": "Tampilkan popup",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Membuka atau menutup popup kamus untuk kata yang dipilih. Berpindah ke kata lain akan menutupnya.",
+  "Clear the shortcut for {name}": "Hapus pintasan untuk {name}",
+  "Clear the shortcut": "Hapus pintasan",
 };

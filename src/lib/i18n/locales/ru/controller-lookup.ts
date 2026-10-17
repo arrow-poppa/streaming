@@ -52,4 +52,6 @@ export default {
   "Show the popup": "Показать окно",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Открывает или закрывает окно словаря для выделенного слова. Переход к другому слову закрывает его.",
+  "Clear the shortcut for {name}": "Очистить сочетание для «{name}»",
+  "Clear the shortcut": "Очистить сочетание",
 };

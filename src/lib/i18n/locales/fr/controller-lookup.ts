@@ -51,4 +51,6 @@ export default {
   "Show the popup": "Afficher la fenêtre",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Ouvre ou ferme la fenêtre du dictionnaire pour le mot sélectionné. Passer à un autre mot la ferme.",
+  "Clear the shortcut for {name}": "Effacer le raccourci de {name}",
+  "Clear the shortcut": "Effacer le raccourci",
 };

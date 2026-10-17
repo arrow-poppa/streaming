@@ -110,3 +110,9 @@ test("picking words in Japanese follows the dictionary match", () => {
   );
   assert.equal(nextWord(lines, { line: 0, index: 4 }, 2), null, "the full stop is not a word");
 });
+
+test("a cleared keyboard shortcut has no key, and Default brings the key back", async () => {
+  const { effectiveBinding, HOTKEY_MAP } = await import("../src/lib/hotkeys.ts");
+  assert.equal(effectiveBinding("lookupNextWord", { lookupNextWord: "" }), "");
+  assert.equal(effectiveBinding("lookupNextWord", {}), HOTKEY_MAP.lookupNextWord.defaultBinding);
+});

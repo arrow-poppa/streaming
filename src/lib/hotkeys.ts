@@ -789,7 +789,8 @@ export function matchesBinding(e: KeyboardEvent, binding: string): boolean {
 
 export function effectiveBinding(id: HotkeyId, overrides: Record<string, string>): string {
   const ov = overrides[id];
-  if (typeof ov === "string" && ov.length > 0) return ov;
+  // An empty override is a shortcut the user cleared: no key at all.
+  if (typeof ov === "string") return ov;
   return HOTKEY_MAP[id].defaultBinding;
 }
 

@@ -49,4 +49,6 @@ export default {
   "Show the popup": "Hiện cửa sổ bật lên",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Mở hoặc đóng cửa sổ từ điển cho từ đã chọn. Chuyển sang từ khác sẽ đóng nó.",
+  "Clear the shortcut for {name}": "Xóa phím tắt của {name}",
+  "Clear the shortcut": "Xóa phím tắt",
 };

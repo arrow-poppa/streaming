@@ -52,4 +52,6 @@ export default {
   "Show the popup": "Mostrar la ventana emergente",
   "Open or close the dictionary popup for the selected word. Moving to another word closes it.":
     "Abre o cierra la ventana del diccionario para la palabra seleccionada. Pasar a otra palabra la cierra.",
+  "Clear the shortcut for {name}": "Borrar el atajo de {name}",
+  "Clear the shortcut": "Borrar el atajo",
 };

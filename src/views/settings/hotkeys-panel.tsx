@@ -264,6 +264,10 @@ export function HotkeysPanel() {
                           setConflict(null);
                           setCapturing(def.id);
                         }}
+                        onClear={() => {
+                          setConflict(null);
+                          setBinding(def.id, "");
+                        }}
                         onReset={() => {
                           setBinding(def.id, null);
                           update({ gamepadHotkeys: resetPadFor(pad, def.id) });
@@ -642,6 +646,7 @@ function HotkeyRow({
   isCapturing,
   conflict,
   onStartCapture,
+  onClear,
   onReset,
   onCancel,
   pad,
@@ -652,6 +657,7 @@ function HotkeyRow({
   isCapturing: boolean;
   conflict?: string;
   onStartCapture: () => void;
+  onClear: () => void;
   onReset: () => void;
   onCancel: () => void;
   pad: PadRowProps;
@@ -704,6 +710,17 @@ function HotkeyRow({
           <span className="text-ink-subtle">{t("Not set")}</span>
         )}
       </button>
+      {binding && !isCapturing && (
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label={t("Clear the shortcut for {name}", { name: t(def.label) })}
+          title={t("Clear the shortcut")}
+          className={QUIET_ACTION}
+        >
+          <X size={17} strokeWidth={2.2} />
+        </button>
+      )}
     </SettingRow>
   );
 }
