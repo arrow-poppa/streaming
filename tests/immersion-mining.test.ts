@@ -95,3 +95,12 @@ test("popup size stays between 75% and 250% and steps by 10", async () => {
   assert.equal(stepPopupSize(80, -1), 75);
   assert.equal(stepPopupSize(245, 1), 250);
 });
+
+test("hidden subtitles are a player-wide flag that listeners follow", async () => {
+  const { isSubsHidden, setSubsHidden } = await import("../src/lib/player/subs-hidden.ts");
+  assert.equal(isSubsHidden(), false);
+  setSubsHidden(true);
+  assert.equal(isSubsHidden(), true);
+  setSubsHidden(false);
+  assert.equal(isSubsHidden(), false);
+});

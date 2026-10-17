@@ -7,6 +7,7 @@ import { SubStyleBar } from "@/components/player/sub-style-bar";
 import { PictureBar } from "@/components/player/picture-bar";
 import { SubSyncBar } from "@/components/player/sub-sync-bar";
 import { SubtitleOverlay } from "@/components/player/subtitle-overlay";
+import { useSubsHidden } from "@/lib/player/subs-hidden";
 import type { LookupControls } from "@/components/player/lookup/use-subtitle-lookup";
 import {
   VolumeIndicator,
@@ -69,6 +70,7 @@ export const StageOverlays = memo(function StageOverlays({
 }) {
   const t = useT();
   const captionsPopout = useCaptionsPopoutOpen();
+  const subsHidden = useSubsHidden();
   const showVolumeIndicator = volumeIndicator.visible;
   const topVolumeShowing = showVolumeIndicator && volumeHudPosition === "top";
   const primarySubtitleVisible =
@@ -88,6 +90,7 @@ export const StageOverlays = memo(function StageOverlays({
                 ? { controls: lookupControls, endSec: snap.subEndSec, chromeVisible }
                 : undefined
             }
+            hidden={subsHidden}
           />
         )}
       {!pipMode && !captionsPopout && subAssNative && engine === "mpv" && lookupControls && snap.subText && (
@@ -95,6 +98,7 @@ export const StageOverlays = memo(function StageOverlays({
           text={snap.subText}
           startSec={snap.subStartSec}
           lookup={{ controls: lookupControls, endSec: snap.subEndSec, native: true }}
+          hidden={subsHidden}
         />
       )}
       {showStats && !pipMode && <StatsOverlay snap={snap} engine={engine} />}

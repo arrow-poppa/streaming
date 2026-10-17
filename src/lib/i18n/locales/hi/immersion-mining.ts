@@ -174,8 +174,8 @@ export default {
     "पॉपअप में चुना गया टेक्स्ट (नहीं तो पहली परिभाषा)",
   "Not a valid JSON object.": "मान्य JSON ऑब्जेक्ट नहीं है.",
   "Toggle subtitles on/off": "सबटाइटल चालू/बंद करें",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "सभी सबटाइटल (प्राथमिक और द्वितीयक) छिपाता है, या पिछला प्राथमिक ट्रैक वापस लाता है.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "सभी सबटाइटल (मुख्य और दूसरा) छिपाता है या मुख्य सबटाइटल फिर दिखाता है. छिपे होने पर भी वे पंक्ति बदलने, दोहराने और Anki कार्ड के लिए काम करते हैं.",
   "Next subtitle line": "अगली सबटाइटल पंक्ति",
   "Jump to the start of the next subtitle line.": "अगली सबटाइटल पंक्ति की शुरुआत पर जाता है.",
   "Previous subtitle line": "पिछली सबटाइटल पंक्ति",

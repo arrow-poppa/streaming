@@ -175,8 +175,8 @@ export default {
     "Teks yang dipilih di popup (jika tidak, definisi pertama)",
   "Not a valid JSON object.": "Bukan objek JSON yang valid.",
   "Toggle subtitles on/off": "Aktifkan/matikan subtitel",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Sembunyikan semua subtitel (utama dan sekunder), atau kembalikan trek utama terakhir.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Menyembunyikan semua subtitel (utama dan sekunder) atau menampilkan subtitel utama lagi. Saat tersembunyi, subtitel tetap berfungsi untuk lompat baris, ulang, dan kartu Anki.",
   "Next subtitle line": "Baris subtitel berikutnya",
   "Jump to the start of the next subtitle line.": "Lompat ke awal baris subtitel berikutnya.",
   "Previous subtitle line": "Baris subtitel sebelumnya",

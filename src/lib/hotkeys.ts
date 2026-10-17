@@ -401,7 +401,7 @@ export const HOTKEYS: HotkeyDef[] = [
     group: "Tracks",
     label: "Toggle subtitles on/off",
     description:
-      "Hide every subtitle (primary and secondary), or bring the last primary track back.",
+      "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.",
     defaultBinding: "",
   },
   {

@@ -13,6 +13,7 @@ import type { PlayerBridge, PlayerSnapshot } from "@/lib/player/bridge";
 import { writePlayerPrefs } from "@/lib/player-prefs";
 import type { PlayerSrc, PlayEpisode } from "@/lib/view";
 import { isLivePlaybackSrc } from "@/lib/player/live-src";
+import { isSubsHidden } from "@/lib/player/subs-hidden";
 import { BpTenFootLayer } from "./bp-ten-foot";
 import { CastLayer } from "./cast-layer";
 import { DragClickStage } from "./drag-click-stage";
@@ -222,7 +223,8 @@ export const PlayerOverlayLayers = memo(function PlayerOverlayLayers(p: PlayerOv
     () => ({
       isPlaying: () => snapRef.current?.status === "playing",
       togglePlay: playPauseToggle,
-      setNativeSubVisible: (on) => bridgeRef.current?.setSubVisible(on),
+      // Hidden subtitles stay hidden however the lookup copy swaps them.
+      setNativeSubVisible: (on) => bridgeRef.current?.setSubVisible(on && !isSubsHidden()),
       subDelaySec: () => snapRef.current?.subDelaySec ?? 0,
       title: lookupTitle,
       mpvEngine: engine === "mpv",

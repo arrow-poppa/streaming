@@ -177,8 +177,8 @@ export default {
     "Tekst zaznaczony w okienku (inaczej pierwsza definicja)",
   "Not a valid JSON object.": "To nie jest poprawny obiekt JSON.",
   "Toggle subtitles on/off": "Włącz/wyłącz napisy",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Ukrywa wszystkie napisy (główne i dodatkowe) albo przywraca ostatnią główną ścieżkę.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Ukrywa wszystkie napisy (główne i dodatkowe) albo znów pokazuje główne. Ukryte nadal działają przy przeskakiwaniu wierszy, powtarzaniu i kartach Anki.",
   "Next subtitle line": "Następny wiersz napisów",
   "Jump to the start of the next subtitle line.":
     "Przeskakuje na początek następnego wiersza napisów.",

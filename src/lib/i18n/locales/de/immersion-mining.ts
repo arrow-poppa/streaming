@@ -178,8 +178,8 @@ export default {
     "Im Popup markierter Text (sonst erste Definition)",
   "Not a valid JSON object.": "Kein gültiges JSON-Objekt.",
   "Toggle subtitles on/off": "Untertitel ein/aus",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Blendet alle Untertitel aus (primär und sekundär) oder holt die letzte primäre Spur zurück.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Blendet alle Untertitel aus (Haupt- und Zweituntertitel) oder zeigt den Hauptuntertitel wieder an. Ausgeblendet funktionieren sie weiter für Zeilensprünge, Wiederholen und Anki-Karten.",
   "Next subtitle line": "Nächste Untertitelzeile",
   "Jump to the start of the next subtitle line.":
     "Springt zum Anfang der nächsten Untertitelzeile.",

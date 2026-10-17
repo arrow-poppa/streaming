@@ -172,8 +172,8 @@ export default {
     "ポップアップで選択したテキスト（なければ最初の定義）",
   "Not a valid JSON object.": "有効な JSON オブジェクトではありません。",
   "Toggle subtitles on/off": "字幕のオン/オフ",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "すべての字幕（メインとサブ）を隠すか、最後のメイントラックを戻します。",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "すべての字幕（メインとサブ）を隠すか、メイン字幕をもう一度表示します。隠している間も、行の移動・リプレイ・Anki カードには使えます。",
   "Next subtitle line": "次の字幕行",
   "Jump to the start of the next subtitle line.": "次の字幕行の先頭へ移動します。",
   "Previous subtitle line": "前の字幕行",

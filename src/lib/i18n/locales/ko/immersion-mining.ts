@@ -169,8 +169,8 @@ export default {
   "Text selected in the popup (else first definition)": "팝업에서 선택한 텍스트(없으면 첫 정의)",
   "Not a valid JSON object.": "올바른 JSON 객체가 아닙니다.",
   "Toggle subtitles on/off": "자막 켜기/끄기",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "모든 자막(기본과 보조)을 숨기거나 마지막 기본 트랙을 되돌립니다.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "모든 자막(기본 및 보조)을 숨기거나 기본 자막을 다시 표시합니다. 숨겨도 줄 이동, 다시 재생, Anki 카드에는 계속 쓰입니다.",
   "Next subtitle line": "다음 자막 줄",
   "Jump to the start of the next subtitle line.": "다음 자막 줄의 시작으로 이동합니다.",
   "Previous subtitle line": "이전 자막 줄",

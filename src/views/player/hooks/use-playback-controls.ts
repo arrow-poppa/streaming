@@ -12,6 +12,7 @@ import {
 } from "@/lib/subtitles/subtitle-memory";
 import { hasImportedSubTitle } from "@/lib/player/imported-subs";
 import { setSecondarySub } from "@/lib/player/secondary-sub";
+import { isSubsHidden, setSubsHidden } from "@/lib/player/subs-hidden";
 import type { RoomCommand } from "@/lib/together/protocol";
 import { cacheSelectedSubtitle } from "@/lib/subtitles/selected-subtitle-cache";
 import { notifyMediaSeeked } from "@/lib/media-session";
@@ -75,6 +76,8 @@ export function usePlaybackControls(params: {
 
   const rememberSubChoice = useCallback(
     (choice: SubChoiceInput | null | undefined) => {
+      // Picking a track (or Off) is a choice to see it, so hidden ends here.
+      setSubsHidden(false);
       pendingSubtitleCacheRef.current?.();
       const revision = ++subtitleCacheContextRef.current.revision;
       if (choice) {
@@ -176,21 +179,25 @@ export function usePlaybackControls(params: {
     }
   };
 
-  // Off hides everything, primary and secondary, so nothing is left on screen.
-  // On brings back only the primary track: a secondary that comes back with it
-  // is what doubles the subtitles. Returns the new state, null without tracks.
+  // Off hides everything, primary and secondary, so nothing is left on screen,
+  // but keeps the primary track selected: line seeking, replay and Anki cards
+  // still need its timing and text. On shows only the primary again: a
+  // secondary that comes back with it is what doubles the subtitles. Returns
+  // the new state, null without tracks.
   const lastSubIdRef = useRef<string | null>(null);
+  useEffect(() => () => setSubsHidden(false), []);
   const toggleSubtitles = (): boolean | null => {
     const subs = snapRef.current.subtitleTracks;
     if (subs.length === 0) return null;
     const selected = subs.find((t) => t.selected);
-    if (selected) {
+    if (selected && !isSubsHidden()) {
       lastSubIdRef.current = selected.id;
       setSecondarySub(null);
-      bridgeRef.current?.setSubtitleTrack(null);
-      rememberSubChoice(null);
+      setSubsHidden(true);
       return false;
     }
+    setSubsHidden(false);
+    if (selected) return true;
     const back = subs.find((t) => t.id === lastSubIdRef.current) ?? subs[0];
     bridgeRef.current?.setSubtitleTrack(back.id);
     rememberSubChoice(back);

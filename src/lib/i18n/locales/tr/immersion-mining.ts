@@ -175,8 +175,8 @@ export default {
   "Text selected in the popup (else first definition)": "Pencerede seçilen metin (yoksa ilk tanım)",
   "Not a valid JSON object.": "Geçerli bir JSON nesnesi değil.",
   "Toggle subtitles on/off": "Altyazıları aç/kapat",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Tüm altyazıları (birincil ve ikincil) gizler veya son birincil parçayı geri getirir.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Tüm altyazıları (birincil ve ikincil) gizler ya da birincili yeniden gösterir. Gizliyken de satır atlama, tekrar ve Anki kartları için çalışmaya devam eder.",
   "Next subtitle line": "Sonraki altyazı satırı",
   "Jump to the start of the next subtitle line.": "Sonraki altyazı satırının başına atlar.",
   "Previous subtitle line": "Önceki altyazı satırı",

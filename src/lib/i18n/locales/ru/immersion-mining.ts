@@ -176,8 +176,8 @@ export default {
     "Текст, выделенный в окне (иначе первое определение)",
   "Not a valid JSON object.": "Это не корректный объект JSON.",
   "Toggle subtitles on/off": "Включить/выключить субтитры",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Скрывает все субтитры (основные и дополнительные) или возвращает последнюю основную дорожку.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Скрывает все субтитры (основные и дополнительные) или снова показывает основные. Скрытые субтитры по-прежнему работают для перехода по строкам, повтора и карточек Anki.",
   "Next subtitle line": "Следующая строка субтитров",
   "Jump to the start of the next subtitle line.": "Переходит к началу следующей строки субтитров.",
   "Previous subtitle line": "Предыдущая строка субтитров",

@@ -171,8 +171,8 @@ export default {
     "النص المحدد في النافذة المنبثقة (وإلا فالتعريف الأول)",
   "Not a valid JSON object.": "ليس كائن JSON صالحًا.",
   "Toggle subtitles on/off": "تشغيل/إيقاف الترجمة",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "يخفي كل الترجمات (الأساسية والثانوية)، أو يعيد آخر مسار أساسي.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "يخفي كل الترجمات (الأساسية والثانوية) أو يعيد إظهار الأساسية. وهي مخفية تظل تعمل للتنقل بين السطور والإعادة وبطاقات Anki.",
   "Next subtitle line": "سطر الترجمة التالي",
   "Jump to the start of the next subtitle line.": "ينتقل إلى بداية سطر الترجمة التالي.",
   "Previous subtitle line": "سطر الترجمة السابق",

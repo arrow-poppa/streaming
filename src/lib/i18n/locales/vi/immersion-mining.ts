@@ -173,8 +173,8 @@ export default {
     "Chữ đã chọn trong cửa sổ bật lên (nếu không, định nghĩa đầu tiên)",
   "Not a valid JSON object.": "Không phải đối tượng JSON hợp lệ.",
   "Toggle subtitles on/off": "Bật/tắt phụ đề",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Ẩn mọi phụ đề (chính và phụ), hoặc đưa rãnh chính gần nhất trở lại.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Ẩn mọi phụ đề (chính và phụ) hoặc hiện lại phụ đề chính. Khi bị ẩn, phụ đề vẫn dùng được để nhảy dòng, phát lại và tạo thẻ Anki.",
   "Next subtitle line": "Dòng phụ đề tiếp theo",
   "Jump to the start of the next subtitle line.": "Nhảy đến đầu dòng phụ đề tiếp theo.",
   "Previous subtitle line": "Dòng phụ đề trước",

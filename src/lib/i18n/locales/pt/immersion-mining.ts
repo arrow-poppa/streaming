@@ -176,8 +176,8 @@ export default {
     "Texto selecionado no popup (senão, a primeira definição)",
   "Not a valid JSON object.": "Não é um objeto JSON válido.",
   "Toggle subtitles on/off": "Ligar/desligar legendas",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "Esconde todas as legendas (primária e secundária), ou traz de volta a última faixa primária.",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "Esconde todas as legendas (primária e secundária) ou mostra a primária de novo. Escondidas, elas continuam funcionando para pular falas, repetir e criar cartões do Anki.",
   "Next subtitle line": "Próxima linha da legenda",
   "Jump to the start of the next subtitle line.": "Pula para o início da próxima linha da legenda.",
   "Previous subtitle line": "Linha anterior da legenda",

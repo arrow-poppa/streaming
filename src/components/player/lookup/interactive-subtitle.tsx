@@ -39,9 +39,21 @@ type Props = {
   // ASS/native mode: mpv draws the subtitle; this copy stays invisible until
   // hovered, then replaces mpv's rendering while the user reads/looks up.
   native: boolean;
+  // Subtitles hidden by the user: invisible and not hoverable, shown only
+  // while a word is picked from them with the keyboard or a controller.
+  concealed?: boolean;
 };
 
-export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, startSec, endSec, native }: Props) {
+export function InteractiveSubtitle({
+  lines,
+  textStyle,
+  boxStyle,
+  controls,
+  startSec,
+  endSec,
+  native,
+  concealed = false,
+}: Props) {
   const { settings } = useSettings();
   const lookup = useSubtitleLookup({
     lines,
@@ -84,6 +96,12 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
     const c = controlsRef.current;
     if (nav?.pausedByNav && !c.isPlaying()) c.togglePlay();
   }, [plainClose]);
+
+  // Hiding the subtitles takes an open popup with them (not one opened from
+  // the pick-a-word mode, which shows the line on purpose).
+  useEffect(() => {
+    if (concealed && !navRef.current) plainClose();
+  }, [concealed, plainClose]);
 
   // In the mode, closing the popup (Escape, a click outside) only hides it;
   // leaving the mode is its own key.
@@ -164,7 +182,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
       ? { line: navPos.line, start: navPos.index, length: wordLength(lines[navPos.line], navPos.index) }
       : null;
   const shownHit = lookup.hit ?? navHit;
-  const revealed = !native || hovering || lookup.open || !!navPos;
+  const revealed = concealed ? !!navPos : !native || hovering || lookup.open || !!navPos;
   const popupShown = lookup.open && (!navPos || navPopup);
 
   // With "keep open", the first click outside the subtitle and the popup only
@@ -265,7 +283,7 @@ export function InteractiveSubtitle({ lines, textStyle, boxStyle, controls, star
   return (
     <div
       ref={rootRef}
-      className="pointer-events-auto max-w-[80%] cursor-text"
+      className={`${concealed && !navPos ? "pointer-events-none" : "pointer-events-auto"} max-w-[80%] cursor-text`}
       style={revealed ? boxStyle : undefined}
       onPointerEnter={() => {
         lookup.cancelClose();

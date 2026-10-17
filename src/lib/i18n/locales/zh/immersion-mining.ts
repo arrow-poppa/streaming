@@ -167,8 +167,8 @@ export default {
   "Text selected in the popup (else first definition)": "在弹窗中选中的文本（否则为第一条释义）",
   "Not a valid JSON object.": "不是有效的 JSON 对象。",
   "Toggle subtitles on/off": "开启/关闭字幕",
-  "Hide every subtitle (primary and secondary), or bring the last primary track back.":
-    "隐藏所有字幕（主字幕和副字幕），或恢复上一条主字幕轨道。",
+  "Hide every subtitle (primary and secondary), or show the primary again. Hidden subtitles still work for line seeking, replay and Anki cards.":
+    "隐藏所有字幕（主字幕和副字幕），或重新显示主字幕。隐藏时仍可用于跳转字幕行、重播和制作 Anki 卡片。",
   "Next subtitle line": "下一行字幕",
   "Jump to the start of the next subtitle line.": "跳到下一行字幕的开头。",
   "Previous subtitle line": "上一行字幕",

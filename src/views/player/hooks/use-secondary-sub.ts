@@ -4,6 +4,7 @@ import { resetSecondarySub, useSecondarySubChoice } from "@/lib/player/secondary
 import { pickBestTrack } from "@/lib/subtitles/language";
 import { canBeSecondarySub } from "@/lib/player/sub-format";
 import { applySecondarySubNative } from "@/lib/player/sub-style";
+import { useSubsHidden } from "@/lib/player/subs-hidden";
 import type { Settings } from "@/lib/settings";
 
 function autoPick(tracks: TrackInfo[], lang: string, primaryId: string | null): string | null {
@@ -35,14 +36,15 @@ export function useSecondarySub({
 }): void {
   const choice = useSecondarySubChoice();
   const appliedRef = useRef<string | null | undefined>(undefined);
+  const hidden = useSubsHidden();
 
   useEffect(() => {
     if (!nativeReady) return;
-    void applySecondarySubNative(nativeRender, placement, marginY);
+    void applySecondarySubNative(nativeRender && !hidden, placement, marginY);
     return () => {
       void applySecondarySubNative(false, placement, marginY);
     };
-  }, [nativeReady, nativeRender, bridgeKey, sourceUrl, placement, marginY]);
+  }, [nativeReady, nativeRender, hidden, bridgeKey, sourceUrl, placement, marginY]);
 
   useEffect(() => {
     appliedRef.current = undefined;
