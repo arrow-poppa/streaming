@@ -45,8 +45,8 @@ export default {
   "Scroll popup up": "Rolar o popup para cima",
   "Scroll the definitions up.": "Rola as definições para cima.",
   "Leave word lookup": "Sair da consulta de palavras",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Fecha o popup e retoma o vídeo se escolher a palavra o pausou.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Fecha o popup e retoma o vídeo se escolher a palavra o pausou. Também fecha um popup aberto com o mouse ou com o ponteiro do controle.",
   "Words": "Palavras",
   "Popup": "Popup",
   "Show the popup": "Mostrar o popup",

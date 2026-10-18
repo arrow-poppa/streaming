@@ -84,6 +84,8 @@ function unknownWordTerm(word: string): DictTerm {
 }
 
 const CLOSE_GRACE_MS = 280;
+// The controller pointer crosses the gap to the popup much slower than a mouse.
+const PAD_CLOSE_GRACE_MS = 1000;
 
 // Maps a pointer position to a UTF-16 offset inside one rendered subtitle line.
 // Text spans carry data-hb-line / data-hb-off (offset of their first character).
@@ -143,6 +145,8 @@ export function useSubtitleLookup({
   // Last pointer position over the subtitle, so pressing the scan key can
   // look up whatever the cursor is resting on.
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
+  // Where the pending hover lookup will look.
+  const scanAt = useRef({ x: 0, y: 0 });
 
   const open = !!(hit && result && result.terms.length);
 
@@ -154,6 +158,7 @@ export function useSubtitleLookup({
   const close = useCallback(() => {
     cancelClose();
     if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = null;
     reqId.current++;
     lastKey.current = "";
     setHit(null);
@@ -161,10 +166,14 @@ export function useSubtitleLookup({
     setPinned(false);
   }, []);
 
-  const scheduleClose = useCallback(() => {
-    cancelClose();
-    closeTimer.current = window.setTimeout(close, CLOSE_GRACE_MS);
-  }, [close]);
+  // `fromPad`: the pointer that left is the controller's, not the mouse.
+  const scheduleClose = useCallback(
+    (fromPad = false) => {
+      cancelClose();
+      closeTimer.current = window.setTimeout(close, fromPad ? PAD_CLOSE_GRACE_MS : CLOSE_GRACE_MS);
+    },
+    [close],
+  );
 
   const runLookup = useCallback(
     (line: number, rawIndex: number) => {
@@ -204,14 +213,27 @@ export function useSubtitleLookup({
       const x = e.clientX;
       const y = e.clientY;
       pointerRef.current = { x, y };
+      scanAt.current = { x, y };
       if (pinned) return;
       cancelClose();
-      if (!scanKeyHeld(scanKey, e)) return;
-      if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
-      hoverTimer.current = window.setTimeout(() => {
-        const h = hitTestSubtitle(x, y);
-        if (h) runLookup(h.line, h.index);
-      }, scanKey === "none" ? Math.max(0, Math.min(1000, scanDelayMs)) : 0);
+      // The controller pointer (gamepad-runner's synthetic events) has no
+      // scan key to hold, and it glides without the small stops a hand makes
+      // on a mouse, so waiting for it to rest would only look up once it
+      // stops. It scans every interval while it moves instead.
+      const fromPad = !e.nativeEvent.isTrusted;
+      if (!fromPad && !scanKeyHeld(scanKey, e)) return;
+      if (hoverTimer.current) {
+        if (fromPad) return;
+        window.clearTimeout(hoverTimer.current);
+      }
+      hoverTimer.current = window.setTimeout(
+        () => {
+          hoverTimer.current = null;
+          const h = hitTestSubtitle(scanAt.current.x, scanAt.current.y);
+          if (h) runLookup(h.line, h.index);
+        },
+        scanKey === "none" || fromPad ? Math.max(0, Math.min(1000, scanDelayMs)) : 0,
+      );
     },
     [pinned, runLookup, scanKey, scanDelayMs],
   );

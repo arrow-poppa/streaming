@@ -45,8 +45,8 @@ export default {
   "Scroll popup up": "Прокрутить окно вверх",
   "Scroll the definitions up.": "Прокручивает определения вверх.",
   "Leave word lookup": "Выйти из выбора слов",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Закрывает окно и продолжает воспроизведение, если выбор слова его приостановил.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Закрывает окно и продолжает воспроизведение, если выбор слова его приостановил. Также закрывает окно, открытое мышью или указателем контроллера.",
   "Words": "Слова",
   "Popup": "Окно",
   "Show the popup": "Показать окно",

@@ -18,7 +18,7 @@ import type { ImmersionAction } from "./use-immersion";
 import { subCueSeekTarget } from "@/lib/player/sub-seek";
 import { lineFromSnapshot } from "@/lib/mining/immersion-core";
 import { getPlaybackPosition } from "@/lib/player/playback-clock";
-import { LOOKUP_ACTIONS, isLookupNavActive, sendLookupCommand } from "@/lib/player/lookup-nav";
+import { LOOKUP_ACTIONS, isLookupNavActive, isLookupPopupOpen, sendLookupCommand } from "@/lib/player/lookup-nav";
 import { PLAYER_HOTKEY_EVENT, type PlayerHotkeyDetail } from "@/lib/gamepad/dispatch";
 
 import { SFX } from "@/lib/sfx";
@@ -203,6 +203,14 @@ export function useKeyboardShortcuts(params: {
           sendLookupCommand(hit[1]);
           return;
         }
+      }
+      // A popup opened with the mouse or the controller pointer closes with
+      // the same key, instead of the key also leaving the player.
+      if (!forced && isLookupPopupOpen() && match("lookupExit")) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        sendLookupCommand("exit");
+        return;
       }
       if (match("playerLookupMode") && onLookupMode) {
         e.preventDefault();

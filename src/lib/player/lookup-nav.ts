@@ -48,6 +48,20 @@ export function isLookupNavActive(): boolean {
   return active;
 }
 
+// Subtitles with their dictionary popup on screen, however it was opened (the
+// mouse, the controller pointer or the mode), so the Leave word lookup key
+// can close it instead of doing its player job.
+const openPopups = new Set<object>();
+
+export function setLookupPopupOpen(owner: object, open: boolean): void {
+  if (open) openPopups.add(owner);
+  else openPopups.delete(owner);
+}
+
+export function isLookupPopupOpen(): boolean {
+  return openPopups.size > 0;
+}
+
 export function useLookupNavActive(): boolean {
   return useSyncExternalStore(
     (cb) => {

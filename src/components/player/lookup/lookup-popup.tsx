@@ -31,11 +31,11 @@ type Props = {
   anchor: DOMRect;
   mining: PopupMining;
   onEnter: () => void;
-  onLeave: () => void;
-  onClose: () => void;
+  // `fromPad`: the controller pointer left, not the mouse.
+  onLeave: (fromPad: boolean) => void;
 };
 
-export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose }: Props) {
+export function LookupPopup({ result, anchor, mining, onEnter, onLeave }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   // Above the subtitle the popup is pinned by its bottom edge, below it by its
   // top edge, so content that arrives later (the AI explanation) grows away
@@ -102,14 +102,6 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
     [aiUsable],
   );
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
   const css = useMemo(() => {
     const byDict = new Map<string, string>();
     for (const t of terms) for (const [d, s] of Object.entries(t.styles ?? {})) if (s) byDict.set(d, s);
@@ -123,7 +115,7 @@ export function LookupPopup({ result, anchor, mining, onEnter, onLeave, onClose 
       role="dialog"
       aria-label="Dictionary"
       onPointerEnter={onEnter}
-      onPointerLeave={onLeave}
+      onPointerLeave={(e) => onLeave(!e.nativeEvent.isTrusted)}
       onMouseDown={(e) => e.stopPropagation()}
       onClick={(e) => e.stopPropagation()}
       onWheel={(e) => e.stopPropagation()}

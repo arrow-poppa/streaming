@@ -661,7 +661,8 @@ export const HOTKEYS: HotkeyDef[] = [
     scope: "Lookup",
     group: "Popup",
     label: "Leave word lookup",
-    description: "Close the popup and resume playback if picking a word paused it.",
+    description:
+      "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.",
     defaultBinding: "Escape",
   },
 

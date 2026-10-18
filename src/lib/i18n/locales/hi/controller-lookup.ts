@@ -42,8 +42,8 @@ export default {
   "Scroll popup up": "पॉपअप ऊपर स्क्रॉल करें",
   "Scroll the definitions up.": "परिभाषाएँ ऊपर स्क्रॉल करता है.",
   "Leave word lookup": "शब्द खोज से बाहर निकलें",
-  "Close the popup and resume playback if picking a word paused it.":
-    "पॉपअप बंद करता है और अगर शब्द चुनने से वीडियो रुका था तो उसे फिर चलाता है.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "पॉपअप बंद करता है और अगर शब्द चुनने से वीडियो रुका था तो उसे फिर चलाता है. माउस या कंट्रोलर पॉइंटर से खुला पॉपअप भी बंद करता है.",
   "Words": "शब्द",
   "Popup": "पॉपअप",
   "Show the popup": "पॉपअप दिखाएँ",

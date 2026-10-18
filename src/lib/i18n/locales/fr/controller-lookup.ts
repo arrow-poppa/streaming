@@ -44,8 +44,8 @@ export default {
   "Scroll popup up": "Faire défiler la fenêtre vers le haut",
   "Scroll the definitions up.": "Fait défiler les définitions vers le haut.",
   "Leave word lookup": "Quitter la recherche de mots",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Ferme la fenêtre et reprend la lecture si le choix du mot l’avait mise en pause.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Ferme la fenêtre et reprend la lecture si le choix du mot l’avait mise en pause. Ferme aussi une fenêtre ouverte avec la souris ou le pointeur de la manette.",
   "Words": "Mots",
   "Popup": "Fenêtre",
   "Show the popup": "Afficher la fenêtre",

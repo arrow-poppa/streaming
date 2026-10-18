@@ -42,8 +42,8 @@ export default {
   "Scroll popup up": "تمرير النافذة المنبثقة للأعلى",
   "Scroll the definitions up.": "يمرّر التعريفات للأعلى.",
   "Leave word lookup": "الخروج من البحث عن الكلمات",
-  "Close the popup and resume playback if picking a word paused it.":
-    "يغلق النافذة المنبثقة ويستأنف التشغيل إن كان اختيار الكلمة قد أوقفه مؤقتًا.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "يغلق النافذة المنبثقة ويستأنف التشغيل إن كان اختيار الكلمة قد أوقفه مؤقتًا. يغلق أيضًا النافذة التي فُتحت بالفأرة أو بمؤشر وحدة التحكم.",
   "Words": "الكلمات",
   "Popup": "النافذة المنبثقة",
   "Show the popup": "إظهار النافذة المنبثقة",

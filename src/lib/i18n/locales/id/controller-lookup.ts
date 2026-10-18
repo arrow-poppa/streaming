@@ -45,8 +45,8 @@ export default {
   "Scroll popup up": "Gulir popup ke atas",
   "Scroll the definitions up.": "Menggulir definisi ke atas.",
   "Leave word lookup": "Keluar dari pencarian kata",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Menutup popup dan melanjutkan pemutaran jika memilih kata tadi menjedanya.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Menutup popup dan melanjutkan pemutaran jika memilih kata tadi menjedanya. Juga menutup popup yang dibuka dengan mouse atau penunjuk controller.",
   "Words": "Kata",
   "Popup": "Popup",
   "Show the popup": "Tampilkan popup",

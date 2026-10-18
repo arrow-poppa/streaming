@@ -44,8 +44,8 @@ export default {
   "Scroll popup up": "Pencereyi yukarı kaydır",
   "Scroll the definitions up.": "Tanımları yukarı kaydırır.",
   "Leave word lookup": "Kelime aramadan çık",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Pencereyi kapatır ve kelime seçmek oynatmayı duraklattıysa devam ettirir.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Pencereyi kapatır ve kelime seçmek oynatmayı duraklattıysa devam ettirir. Fareyle veya kumanda işaretçisiyle açılan pencereyi de kapatır.",
   "Words": "Kelimeler",
   "Popup": "Pencere",
   "Show the popup": "Pencereyi göster",

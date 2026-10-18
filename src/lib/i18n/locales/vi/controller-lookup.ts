@@ -42,8 +42,8 @@ export default {
   "Scroll popup up": "Cuộn cửa sổ bật lên lên",
   "Scroll the definitions up.": "Cuộn các định nghĩa lên.",
   "Leave word lookup": "Thoát tra từ",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Đóng cửa sổ bật lên và phát tiếp nếu việc chọn từ đã tạm dừng video.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Đóng cửa sổ bật lên và phát tiếp nếu việc chọn từ đã tạm dừng video. Cũng đóng cửa sổ bật lên đã mở bằng chuột hoặc con trỏ tay cầm.",
   "Words": "Từ",
   "Popup": "Cửa sổ bật lên",
   "Show the popup": "Hiện cửa sổ bật lên",

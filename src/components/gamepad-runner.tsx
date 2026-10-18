@@ -6,6 +6,7 @@ import { useGamepadCapture } from "@/lib/gamepad/capture";
 import { useLiveGamepad } from "@/lib/gamepad/live";
 import { useGamepads } from "@/lib/gamepad/store";
 import { useGamepad } from "@/lib/gamepad/use-gamepad";
+import { POINTER_SHOWN_ATTR, isLookupTarget } from "@/lib/gamepad/pointer-target";
 import { useSettings } from "@/lib/settings";
 import { useT } from "@/lib/i18n";
 
@@ -21,6 +22,13 @@ function hoverCss(rules: CSSRuleList): string {
       return inner ? `${rule.cssText.slice(0, rule.cssText.indexOf("{"))}{${inner}}` : "";
     })
     .join("");
+}
+
+// The pointer's opacity, mirrored on the root so input handlers can tell
+// whether A and the left stick are aimed at what it points at.
+function showPointer(cursor: HTMLDivElement | null, shown: boolean) {
+  cursor?.style.setProperty("opacity", shown ? "1" : "0");
+  document.documentElement.toggleAttribute(POINTER_SHOWN_ATTR, shown);
 }
 
 type TextField = HTMLInputElement | HTMLTextAreaElement;
@@ -91,7 +99,7 @@ export function GamepadRunner() {
   useEffect(() => {
     if (pads.length === 0) {
       active.current = false;
-      cursor.current?.style.setProperty("opacity", "0");
+      showPointer(cursor.current, false);
       return;
     }
     let frame = 0;
@@ -105,7 +113,7 @@ export function GamepadRunner() {
       const dt = Math.min((now - previous) / 1000, 0.05);
       previous = now;
       if (capturedRef.current) {
-        cursor.current?.style.setProperty("opacity", "0");
+        showPointer(cursor.current, false);
         frame = requestAnimationFrame(tick);
         return;
       }
@@ -175,17 +183,18 @@ export function GamepadRunner() {
           tvHover((hovered.current = target));
         }
       }
-      cursor.current?.style.setProperty(
-        "opacity",
+      // Over a subtitle or its popup the pointer stays visible when the
+      // player controls hide, as the mouse cursor does while reading.
+      showPointer(
+        cursor.current,
         cursorEnabled.current &&
           active.current &&
           now - lastActivity.current < cursorHideMs.current &&
-          !(
+          (!(
             document.documentElement.hasAttribute("data-player-chrome-mounted") &&
             !document.documentElement.hasAttribute("data-player-chrome-visible")
-          )
-          ? "1"
-          : "0",
+          ) ||
+            hoverPath.current.some(isLookupTarget)),
       );
       cursor.current?.style.setProperty(
         "transform",
@@ -211,6 +220,7 @@ export function GamepadRunner() {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("blur", refresh);
+      document.documentElement.removeAttribute(POINTER_SHOWN_ATTR);
     };
   }, [pads.length, settings.controllerDeadzone, settings.controllerCursorSpeed]);
 
@@ -222,7 +232,7 @@ export function GamepadRunner() {
       if (!active.current) return;
       active.current = false;
       lastActivity.current = 0;
-      cursor.current?.style.setProperty("opacity", "0");
+      showPointer(cursor.current, false);
       for (const el of hoverPath.current) el.removeAttribute("data-gamepad-hover");
       hoverPath.current = [];
       hovered.current = null;
@@ -258,6 +268,12 @@ export function GamepadRunner() {
       return;
     }
     const target = document.elementFromPoint(position.current.x, position.current.y);
+    // A pointer that faded out over the subtitle leaves A to the player.
+    if (
+      target?.closest("[data-hb-subtitle], .hb-lookup-popup") &&
+      !document.documentElement.hasAttribute(POINTER_SHOWN_ATTR)
+    )
+      return;
     const field = isTextField(target) ? target : selectedField;
     if (field) {
       // A page-owned keyboard must not stack with the generic controller one.
@@ -302,7 +318,18 @@ export function GamepadRunner() {
     const clickable = target?.closest<HTMLElement>(
       "button,a,input,select,textarea,[role='button'],[tabindex]",
     );
-    (clickable ?? (target instanceof HTMLElement ? target : null))?.click();
+    if (clickable) clickable.click();
+    // With the pointer's position, as a mouse click has: a subtitle looks up
+    // the word under it.
+    else if (target instanceof HTMLElement)
+      target.dispatchEvent(
+        new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          clientX: position.current.x,
+          clientY: position.current.y,
+        }),
+      );
   }, [live.buttons.south, captured]);
 
   useEffect(() => {
@@ -332,7 +359,7 @@ export function GamepadRunner() {
   useEffect(() => {
     if (pads.length > 0) return;
     active.current = false;
-    cursor.current?.style.setProperty("opacity", "0");
+    showPointer(cursor.current, false);
     for (const el of hoverPath.current) el.removeAttribute("data-gamepad-hover");
     hoverPath.current = [];
     hovered.current = null;

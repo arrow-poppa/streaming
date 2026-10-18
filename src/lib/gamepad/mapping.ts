@@ -54,6 +54,14 @@ export const PLAYER_BUTTON: Partial<Record<GpButton, PlayerKey>> = {
   ddown: ARROW_DOWN,
 };
 
+/** The arrow key for each direction, for surfaces that move on arrow keys. */
+export const NAV_ARROW: Record<"up" | "down" | "left" | "right", PlayerKey> = {
+  up: ARROW_UP,
+  down: ARROW_DOWN,
+  left: ARROW_LEFT,
+  right: ARROW_RIGHT,
+};
+
 export const PLAYER_REPEATABLE = new Set<GpButton>(["dleft", "dright", "dup", "ddown"]);
 
 export const PLAYER_AXIS: Partial<Record<GpAxis, { neg: PlayerKey; pos: PlayerKey }>> = {

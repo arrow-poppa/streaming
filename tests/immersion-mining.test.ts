@@ -104,3 +104,16 @@ test("hidden subtitles are a player-wide flag that listeners follow", async () =
   setSubsHidden(false);
   assert.equal(isSubsHidden(), false);
 });
+
+test("an open dictionary popup is tracked per subtitle until each one closes", async () => {
+  const { isLookupPopupOpen, setLookupPopupOpen } = await import("../src/lib/player/lookup-nav.ts");
+  const primary = {};
+  const secondary = {};
+  assert.equal(isLookupPopupOpen(), false);
+  setLookupPopupOpen(primary, true);
+  setLookupPopupOpen(secondary, true);
+  setLookupPopupOpen(primary, false);
+  assert.equal(isLookupPopupOpen(), true);
+  setLookupPopupOpen(secondary, false);
+  assert.equal(isLookupPopupOpen(), false);
+});

@@ -45,8 +45,8 @@ export default {
   "Scroll popup up": "Przewiń okienko w górę",
   "Scroll the definitions up.": "Przewija definicje w górę.",
   "Leave word lookup": "Zakończ wybieranie słów",
-  "Close the popup and resume playback if picking a word paused it.":
-    "Zamyka okienko i wznawia odtwarzanie, jeśli wybieranie słowa je wstrzymało.",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "Zamyka okienko i wznawia odtwarzanie, jeśli wybieranie słowa je wstrzymało. Zamyka też okienko otwarte myszą lub wskaźnikiem kontrolera.",
   "Words": "Słowa",
   "Popup": "Okienko",
   "Show the popup": "Pokaż okienko",

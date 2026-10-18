@@ -42,8 +42,8 @@ export default {
   "Scroll popup up": "弹窗向上滚动",
   "Scroll the definitions up.": "向上滚动释义。",
   "Leave word lookup": "退出查词",
-  "Close the popup and resume playback if picking a word paused it.":
-    "关闭弹窗，如果选词时暂停了播放，则继续播放。",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "关闭弹窗，如果选词时暂停了播放，则继续播放。也会关闭用鼠标或手柄指针打开的弹窗。",
   "Words": "单词",
   "Popup": "弹窗",
   "Show the popup": "显示弹窗",

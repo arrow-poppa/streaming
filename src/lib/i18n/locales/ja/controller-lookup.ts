@@ -42,8 +42,8 @@ export default {
   "Scroll popup up": "ポップアップを上にスクロール",
   "Scroll the definitions up.": "定義を上にスクロールします。",
   "Leave word lookup": "単語の検索を終了",
-  "Close the popup and resume playback if picking a word paused it.":
-    "ポップアップを閉じ、単語を選ぶために一時停止していた場合は再生を再開します。",
+  "Close the popup and resume playback if picking a word paused it. Also closes a popup opened with the mouse or the controller pointer.":
+    "ポップアップを閉じ、単語を選ぶために一時停止していた場合は再生を再開します。 マウスやコントローラーのポインターで開いたポップアップも閉じます。",
   "Words": "単語",
   "Popup": "ポップアップ",
   "Show the popup": "ポップアップを表示",
