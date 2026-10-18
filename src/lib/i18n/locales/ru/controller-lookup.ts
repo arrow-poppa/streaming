@@ -55,6 +55,6 @@ export default {
   "Clear the shortcut for {name}": "Очистить сочетание для «{name}»",
   "Clear the shortcut": "Очистить сочетание",
   "Touchpad moves the cursor": "Тачпад двигает курсор",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: проведите пальцем по тачпаду, чтобы двигать этот курсор, только внутри Harbor. Когда выключено, тачпад остаётся системе.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: проведите пальцем по тачпаду, чтобы двигать этот курсор, только внутри Harbor. Когда выключено, тачпад остаётся системе.",
 };

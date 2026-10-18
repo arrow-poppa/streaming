@@ -55,6 +55,6 @@ export default {
   "Clear the shortcut for {name}": "Cancella la scorciatoia di {name}",
   "Clear the shortcut": "Cancella la scorciatoia",
   "Touchpad moves the cursor": "Il touchpad muove il cursore",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: scorri un dito sul touchpad per muovere questo cursore, solo dentro Harbor. Se disattivato, il touchpad resta al sistema.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: scorri un dito sul touchpad per muovere questo cursore, solo dentro Harbor. Se disattivato, il touchpad resta al sistema.",
 };

@@ -55,6 +55,6 @@ export default {
   "Clear the shortcut for {name}": "Wyczyść skrót dla {name}",
   "Clear the shortcut": "Wyczyść skrót",
   "Touchpad moves the cursor": "Touchpad porusza kursorem",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: przesuń palcem po touchpadzie, aby poruszać tym kursorem, tylko w Harbor. Po wyłączeniu touchpad zostaje dla systemu.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: przesuń palcem po touchpadzie, aby poruszać tym kursorem, tylko w Harbor. Po wyłączeniu touchpad zostaje dla systemu.",
 };

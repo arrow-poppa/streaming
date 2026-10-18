@@ -16,7 +16,7 @@ export type GpButton =
   | "ddown"
   | "dleft"
   | "dright"
-  // The DualSense touchpad's click.
+  // A PlayStation pad's touchpad click (DualSense, DualShock 4).
   | "touchpad";
 
 export type GpAxis = "lx" | "ly" | "rx" | "ry";

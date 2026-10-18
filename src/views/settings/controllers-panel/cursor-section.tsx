@@ -99,7 +99,7 @@ export function CursorSection() {
           <ToggleRow
             label={t("Touchpad moves the cursor")}
             sub={t(
-              "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.",
+              "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.",
             )}
             value={settings.controllerTouchpadPointer}
             onChange={(v) => update({ controllerTouchpadPointer: v })}

@@ -54,6 +54,6 @@ export default {
   "Clear the shortcut for {name}": "{name} kısayolunu temizle",
   "Clear the shortcut": "Kısayolu temizle",
   "Touchpad moves the cursor": "Dokunmatik yüzey imleci hareket ettirir",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: bu imleci yalnızca Harbor içinde hareket ettirmek için dokunmatik yüzeyde parmağınızı kaydırın. Kapalıyken dokunmatik yüzey sisteme kalır.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: bu imleci yalnızca Harbor içinde hareket ettirmek için dokunmatik yüzeyde parmağınızı kaydırın. Kapalıyken dokunmatik yüzey sisteme kalır.",
 };

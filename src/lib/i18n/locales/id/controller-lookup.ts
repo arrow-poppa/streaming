@@ -55,6 +55,6 @@ export default {
   "Clear the shortcut for {name}": "Hapus pintasan untuk {name}",
   "Clear the shortcut": "Hapus pintasan",
   "Touchpad moves the cursor": "Touchpad menggerakkan kursor",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: geser jari di touchpad untuk menggerakkan kursor ini, hanya di dalam Harbor. Saat mati, touchpad dibiarkan untuk sistem.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: geser jari di touchpad untuk menggerakkan kursor ini, hanya di dalam Harbor. Saat mati, touchpad dibiarkan untuk sistem.",
 };

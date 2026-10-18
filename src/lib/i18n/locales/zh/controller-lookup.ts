@@ -52,6 +52,6 @@ export default {
   "Clear the shortcut for {name}": "清除“{name}”的快捷键",
   "Clear the shortcut": "清除快捷键",
   "Touchpad moves the cursor": "触控板移动光标",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense：在触控板上滑动手指即可移动此光标，仅在 Harbor 内。关闭时，触控板交还给系统。",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4：在触控板上滑动手指即可移动此光标，仅在 Harbor 内。关闭时，触控板交还给系统。",
 };

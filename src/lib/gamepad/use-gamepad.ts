@@ -21,7 +21,7 @@ import { isGamepadCaptured } from "./capture";
 import { publishGamepads } from "./store";
 import { resetLiveGamepad, setLiveAxis, setLiveButton } from "./live";
 import { pushTouch, resetTouch } from "./touchpad";
-import { isDualSense, startWebGamepadSource } from "./web-source";
+import { isPlayStationPad, startWebGamepadSource } from "./web-source";
 import type { GamepadEventPayload, GamepadInfo, GpAxis, GpButton } from "./protocol";
 import {
   NAV_ARROW,
@@ -378,9 +378,9 @@ export function useGamepad(): void {
         publishMerged();
       },
       inputAllowed: () => backgroundInputRef.current || document.hasFocus(),
-      // A DualSense Harbor reads itself (gamepad/dualsense.rs) would
-      // otherwise press every button twice.
-      skip: (pad) => nativePads.some((p) => p.hid) && isDualSense(pad.id),
+      // A PlayStation pad Harbor reads itself (gamepad/playstation.rs)
+      // would otherwise press every button twice.
+      skip: (pad) => nativePads.some((p) => p.hid) && isPlayStationPad(pad.id),
     });
 
     return () => {

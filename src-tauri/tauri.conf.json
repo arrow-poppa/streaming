@@ -88,7 +88,7 @@
         ],
         "desktopTemplate": "main.desktop",
         "files": {
-          "/usr/lib/udev/rules.d/70-harbor-dualsense.rules": "udev/70-harbor-dualsense.rules"
+          "/usr/lib/udev/rules.d/70-harbor-playstation-touchpad.rules": "udev/70-harbor-playstation-touchpad.rules"
         },
         "postInstallScript": "udev/harbor-postinst.sh"
       },
@@ -104,7 +104,7 @@
         ],
         "desktopTemplate": "main.desktop",
         "files": {
-          "/usr/lib/udev/rules.d/70-harbor-dualsense.rules": "udev/70-harbor-dualsense.rules"
+          "/usr/lib/udev/rules.d/70-harbor-playstation-touchpad.rules": "udev/70-harbor-playstation-touchpad.rules"
         },
         "postInstallScript": "udev/harbor-postinst.sh"
       }

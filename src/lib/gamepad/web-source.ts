@@ -66,12 +66,16 @@ export type WebGamepadHandlers = {
 };
 
 const SONY_VENDOR = "054c";
-// DualSense and DualSense Edge.
-const DUALSENSE_PRODUCTS = ["0ce6", "0df2"];
+// DualSense, DualSense Edge, DualShock 4 v1 and v2, and the DualShock 4 USB
+// wireless adapter: the pads Harbor reads itself (gamepad/playstation.rs).
+const PLAYSTATION_PRODUCTS = ["0ce6", "0df2", "05c4", "09cc", "0ba0"];
 
-export function isDualSense(id: string): boolean {
+export function isPlayStationPad(id: string): boolean {
   const s = id.toLowerCase();
-  return s.includes(SONY_VENDOR) && DUALSENSE_PRODUCTS.some((p) => s.includes(p));
+  return (
+    s.includes(`vendor: ${SONY_VENDOR}`) &&
+    PLAYSTATION_PRODUCTS.some((p) => s.includes(`product: ${p}`))
+  );
 }
 
 export function startWebGamepadSource(h: WebGamepadHandlers): () => void {

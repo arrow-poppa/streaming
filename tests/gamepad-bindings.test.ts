@@ -131,15 +131,20 @@ test("the touchpad moves the cursor by the finger's movement, not its position",
   assert.deepEqual(takeTouchDelta(), { x: 0, y: 0 });
 });
 
-test("a DualSense is recognized by the WebView's id for it", async () => {
-  const { isDualSense } = await import("../src/lib/gamepad/web-source.ts");
+test("PlayStation pads are recognized by the WebView's id for them", async () => {
+  const { isPlayStationPad } = await import("../src/lib/gamepad/web-source.ts");
   assert.equal(
-    isDualSense("DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)"),
+    isPlayStationPad("DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)"),
     true,
   );
   assert.equal(
-    isDualSense("Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)"),
+    isPlayStationPad("Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)"),
+    true,
+  );
+  // A PS3 pad has no touchpad.
+  assert.equal(
+    isPlayStationPad("PLAYSTATION(R)3 Controller (STANDARD GAMEPAD Vendor: 054c Product: 0268)"),
     false,
   );
-  assert.equal(isDualSense("Xbox 360 Controller (XInput STANDARD GAMEPAD)"), false);
+  assert.equal(isPlayStationPad("Xbox 360 Controller (XInput STANDARD GAMEPAD)"), false);
 });

@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use gilrs::{Axis, Button, Event, EventType, GamepadId, Gilrs};
 
-mod dualsense;
+mod playstation;
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
 
@@ -26,7 +26,7 @@ fn gamepads() -> &'static Mutex<Vec<GamepadInfo>> {
 pub struct GamepadInfo {
     pub id: u32,
     pub name: String,
-    /// Read by Harbor straight from the device (the DualSense on Windows), so
+    /// Read by Harbor straight from the device (a PlayStation pad on Windows), so
     /// the WebView's copy of the same pad is ignored.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub hid: bool,
@@ -453,7 +453,7 @@ fn run(app: AppHandle) {
 }
 
 pub fn spawn(app: AppHandle) {
-    dualsense::spawn(app.clone());
+    playstation::spawn(app.clone());
     std::thread::spawn(move || run(app));
 }
 

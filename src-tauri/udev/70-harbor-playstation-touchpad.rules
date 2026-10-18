@@ -1,0 +1,6 @@
+# Lets the signed-in user's Harbor read the touchpad of a DualSense, DualSense
+# Edge or DualShock 4 (and hold it while Harbor is focused, so it moves
+# Harbor's controller pointer instead of the system pointer). The kernel names
+# them "... Wireless Controller Touchpad". Ordered before 73-seat-late.rules,
+# which applies uaccess.
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="*Wireless Controller Touchpad", TAG+="uaccess"

@@ -55,6 +55,6 @@ export default {
   "Clear the shortcut for {name}": "Borrar el atajo de {name}",
   "Clear the shortcut": "Borrar el atajo",
   "Touchpad moves the cursor": "El panel táctil mueve el cursor",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: desliza un dedo por el panel táctil para mover este cursor, solo dentro de Harbor. Si está desactivado, el panel táctil queda para el sistema.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: desliza un dedo por el panel táctil para mover este cursor, solo dentro de Harbor. Si está desactivado, el panel táctil queda para el sistema.",
 };

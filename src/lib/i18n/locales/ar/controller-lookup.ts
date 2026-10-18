@@ -52,6 +52,6 @@ export default {
   "Clear the shortcut for {name}": "مسح اختصار {name}",
   "Clear the shortcut": "مسح الاختصار",
   "Touchpad moves the cursor": "لوحة اللمس تحرّك المؤشر",
-  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
-    "DualSense: مرّر إصبعك على لوحة اللمس لتحريك هذا المؤشر داخل Harbor فقط. عند الإيقاف تبقى لوحة اللمس للنظام.",
+  "DualSense or DualShock 4: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense / DualShock 4: مرّر إصبعك على لوحة اللمس لتحريك هذا المؤشر داخل Harbor فقط. عند الإيقاف تبقى لوحة اللمس للنظام.",
 };
