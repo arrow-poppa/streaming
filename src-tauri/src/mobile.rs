@@ -138,6 +138,7 @@ pub fn run() {
             gamepad::gamepad_list,
             gamepad::gamepad_set_enabled,
             gamepad::gamepad_set_background_input,
+            gamepad::gamepad_set_touchpad_pointer,
             power::power_inhibit,
             stremio_auth::stremio_auth_start,
             transcode::cast_ffmpeg_present,

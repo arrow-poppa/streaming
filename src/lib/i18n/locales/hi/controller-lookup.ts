@@ -51,4 +51,7 @@ export default {
     "चुने गए शब्द का शब्दकोश पॉपअप खोलता या बंद करता है. दूसरे शब्द पर जाने से यह बंद हो जाता है.",
   "Clear the shortcut for {name}": "{name} का शॉर्टकट हटाएँ",
   "Clear the shortcut": "शॉर्टकट हटाएँ",
+  "Touchpad moves the cursor": "टचपैड से कर्सर चलाएं",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: टचपैड पर उंगली सरकाकर यह कर्सर चलाएं, सिर्फ Harbor के अंदर. बंद होने पर टचपैड सिस्टम के पास रहता है.",
 };

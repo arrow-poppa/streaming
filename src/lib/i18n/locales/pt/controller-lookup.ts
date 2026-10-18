@@ -54,4 +54,7 @@ export default {
     "Abre ou fecha o popup do dicionário para a palavra selecionada. Ir para outra palavra o fecha.",
   "Clear the shortcut for {name}": "Limpar o atalho de {name}",
   "Clear the shortcut": "Limpar o atalho",
+  "Touchpad moves the cursor": "O trackpad move o cursor",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: deslize o dedo no trackpad para mover este cursor, só dentro do Harbor. Desligado, o trackpad fica com o sistema.",
 };

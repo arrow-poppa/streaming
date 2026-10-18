@@ -4,6 +4,8 @@ use std::sync::{Mutex, OnceLock};
 use std::time::Duration;
 
 use gilrs::{Axis, Button, Event, EventType, GamepadId, Gilrs};
+
+mod dualsense;
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
 
@@ -13,6 +15,7 @@ const DPAD_THRESHOLD: f32 = 0.5;
 static GAMEPAD_ENABLED: AtomicBool = AtomicBool::new(true);
 static WINDOW_FOCUSED: AtomicBool = AtomicBool::new(true);
 static BACKGROUND_INPUT: AtomicBool = AtomicBool::new(false);
+static TOUCHPAD_POINTER: AtomicBool = AtomicBool::new(true);
 static GAMEPADS: OnceLock<Mutex<Vec<GamepadInfo>>> = OnceLock::new();
 
 fn gamepads() -> &'static Mutex<Vec<GamepadInfo>> {
@@ -23,6 +26,10 @@ fn gamepads() -> &'static Mutex<Vec<GamepadInfo>> {
 pub struct GamepadInfo {
     pub id: u32,
     pub name: String,
+    /// Read by Harbor straight from the device (the DualSense on Windows), so
+    /// the WebView's copy of the same pad is ignored.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub hid: bool,
 }
 
 #[derive(Clone, Serialize)]
@@ -44,6 +51,14 @@ enum GamepadEventPayload {
         id: u32,
         axis: &'static str,
         value: f32,
+    },
+    /// A finger on a controller touchpad, in 0..1 of its width and height.
+    #[cfg_attr(not(any(windows, target_os = "linux")), allow(dead_code))]
+    Touch {
+        id: u32,
+        x: f32,
+        y: f32,
+        touching: bool,
     },
 }
 
@@ -192,14 +207,26 @@ fn emit_input(app: &AppHandle, payload: GamepadEventPayload) {
     }
 }
 
+/// The "Controller touchpad moves the pointer" setting.
+#[cfg_attr(not(any(windows, target_os = "linux")), allow(dead_code))]
+fn touchpad_pointer() -> bool {
+    TOUCHPAD_POINTER.load(Ordering::Relaxed)
+}
+
 fn upsert(id: u32, name: &str) {
+    upsert_info(id, name, false);
+}
+
+fn upsert_info(id: u32, name: &str, hid: bool) {
     let mut list = gamepads().lock().unwrap();
     if let Some(entry) = list.iter_mut().find(|g| g.id == id) {
         entry.name = name.to_string();
+        entry.hid = hid;
     } else {
         list.push(GamepadInfo {
             id,
             name: name.to_string(),
+            hid,
         });
     }
 }
@@ -396,11 +423,13 @@ fn handle_event(
 
 fn seed(gilrs: &Gilrs) {
     let mut list = gamepads().lock().unwrap();
-    list.clear();
+    // Pads read straight from the device are not gilrs's to forget.
+    list.retain(|g| g.hid);
     for (id, pad) in gilrs.gamepads() {
         list.push(GamepadInfo {
             id: numeric_id(id),
             name: pad.name().to_string(),
+            hid: false,
         });
     }
 }
@@ -424,6 +453,7 @@ fn run(app: AppHandle) {
 }
 
 pub fn spawn(app: AppHandle) {
+    dualsense::spawn(app.clone());
     std::thread::spawn(move || run(app));
 }
 
@@ -440,6 +470,11 @@ pub fn gamepad_set_enabled(enabled: bool) {
 #[tauri::command]
 pub fn gamepad_set_background_input(allowed: bool) {
     BACKGROUND_INPUT.store(allowed, Ordering::SeqCst);
+}
+
+#[tauri::command]
+pub fn gamepad_set_touchpad_pointer(enabled: bool) {
+    TOUCHPAD_POINTER.store(enabled, Ordering::SeqCst);
 }
 
 pub fn set_window_focused(focused: bool) {

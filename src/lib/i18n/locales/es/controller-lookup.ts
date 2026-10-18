@@ -54,4 +54,7 @@ export default {
     "Abre o cierra la ventana del diccionario para la palabra seleccionada. Pasar a otra palabra la cierra.",
   "Clear the shortcut for {name}": "Borrar el atajo de {name}",
   "Clear the shortcut": "Borrar el atajo",
+  "Touchpad moves the cursor": "El panel táctil mueve el cursor",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: desliza un dedo por el panel táctil para mover este cursor, solo dentro de Harbor. Si está desactivado, el panel táctil queda para el sistema.",
 };

@@ -51,4 +51,7 @@ export default {
     "يفتح نافذة القاموس المنبثقة للكلمة المحددة أو يغلقها. الانتقال إلى كلمة أخرى يغلقها.",
   "Clear the shortcut for {name}": "مسح اختصار {name}",
   "Clear the shortcut": "مسح الاختصار",
+  "Touchpad moves the cursor": "لوحة اللمس تحرّك المؤشر",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: مرّر إصبعك على لوحة اللمس لتحريك هذا المؤشر داخل Harbor فقط. عند الإيقاف تبقى لوحة اللمس للنظام.",
 };

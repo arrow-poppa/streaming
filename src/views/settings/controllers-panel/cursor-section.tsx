@@ -96,6 +96,15 @@ export function CursorSection() {
 
       {enabled && (
         <>
+          <ToggleRow
+            label={t("Touchpad moves the cursor")}
+            sub={t(
+              "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.",
+            )}
+            value={settings.controllerTouchpadPointer}
+            onChange={(v) => update({ controllerTouchpadPointer: v })}
+          />
+
           <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
             {tiles.map((id) => {
               const on = current === id;

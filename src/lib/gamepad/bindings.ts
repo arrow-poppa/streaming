@@ -28,6 +28,7 @@ export const PAD_BUTTONS: readonly GpButton[] = [
   "guide",
   "lstick",
   "rstick",
+  "touchpad",
 ];
 
 export const PAD_MODIFIERS: readonly GpButton[] = ["lb", "rb", "lt", "rt"];
@@ -202,6 +203,7 @@ const NAMES: Record<Layout, Record<GpButton, string>> = {
     guide: "Guide",
     lstick: "L3",
     rstick: "R3",
+    touchpad: "Touchpad",
   },
   ps: {
     south: "✕",
@@ -221,6 +223,7 @@ const NAMES: Record<Layout, Record<GpButton, string>> = {
     guide: "PS",
     lstick: "L3",
     rstick: "R3",
+    touchpad: "Touchpad",
   },
 };
 

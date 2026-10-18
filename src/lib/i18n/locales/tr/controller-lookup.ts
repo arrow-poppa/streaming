@@ -53,4 +53,7 @@ export default {
     "Seçili kelimenin sözlük penceresini açar veya kapatır. Başka bir kelimeye geçmek onu kapatır.",
   "Clear the shortcut for {name}": "{name} kısayolunu temizle",
   "Clear the shortcut": "Kısayolu temizle",
+  "Touchpad moves the cursor": "Dokunmatik yüzey imleci hareket ettirir",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: bu imleci yalnızca Harbor içinde hareket ettirmek için dokunmatik yüzeyde parmağınızı kaydırın. Kapalıyken dokunmatik yüzey sisteme kalır.",
 };

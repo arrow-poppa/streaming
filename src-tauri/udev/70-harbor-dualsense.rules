@@ -1,0 +1,4 @@
+# Lets the signed-in user's Harbor read the DualSense touchpad (and hold it
+# while Harbor is focused, so it moves Harbor's controller pointer instead of
+# the system pointer). Ordered before 73-seat-late.rules, which applies uaccess.
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="*DualSense*Touchpad", TAG+="uaccess"

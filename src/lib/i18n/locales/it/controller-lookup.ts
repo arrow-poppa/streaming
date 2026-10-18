@@ -54,4 +54,7 @@ export default {
     "Apre o chiude il popup del dizionario per la parola selezionata. Passare a un’altra parola lo chiude.",
   "Clear the shortcut for {name}": "Cancella la scorciatoia di {name}",
   "Clear the shortcut": "Cancella la scorciatoia",
+  "Touchpad moves the cursor": "Il touchpad muove il cursore",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: scorri un dito sul touchpad per muovere questo cursore, solo dentro Harbor. Se disattivato, il touchpad resta al sistema.",
 };

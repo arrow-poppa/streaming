@@ -53,4 +53,7 @@ export default {
     "Ouvre ou ferme la fenêtre du dictionnaire pour le mot sélectionné. Passer à un autre mot la ferme.",
   "Clear the shortcut for {name}": "Effacer le raccourci de {name}",
   "Clear the shortcut": "Effacer le raccourci",
+  "Touchpad moves the cursor": "Le pavé tactile déplace le curseur",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense : glissez un doigt sur le pavé tactile pour déplacer ce curseur, seulement dans Harbor. Désactivé, le pavé tactile reste au système.",
 };

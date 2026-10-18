@@ -51,4 +51,7 @@ export default {
     "選んだ単語の辞書ポップアップを開閉します。別の単語へ移動すると閉じます。",
   "Clear the shortcut for {name}": "{name} のショートカットを解除",
   "Clear the shortcut": "ショートカットを解除",
+  "Touchpad moves the cursor": "タッチパッドでカーソルを動かす",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: タッチパッドを指でなぞると、Harbor の中だけでこのカーソルが動きます。オフにするとタッチパッドはシステムに任せます。",
 };

@@ -116,3 +116,30 @@ test("a cleared keyboard shortcut has no key, and Default brings the key back", 
   assert.equal(effectiveBinding("lookupNextWord", { lookupNextWord: "" }), "");
   assert.equal(effectiveBinding("lookupNextWord", {}), HOTKEY_MAP.lookupNextWord.defaultBinding);
 });
+
+test("the touchpad moves the cursor by the finger's movement, not its position", async () => {
+  const { pushTouch, takeTouchDelta } = await import("../src/lib/gamepad/touchpad.ts");
+  pushTouch(0.5, 0.5, true);
+  assert.deepEqual(takeTouchDelta(), { x: 0, y: 0 });
+  pushTouch(0.6, 0.4, true);
+  pushTouch(0.7, 0.4, true);
+  const moved = takeTouchDelta();
+  assert.ok(Math.abs(moved.x - 0.2) < 1e-9 && Math.abs(moved.y + 0.1) < 1e-9);
+  // Lifting the finger and putting it down elsewhere does not jump the cursor.
+  pushTouch(0.7, 0.4, false);
+  pushTouch(0.1, 0.9, true);
+  assert.deepEqual(takeTouchDelta(), { x: 0, y: 0 });
+});
+
+test("a DualSense is recognized by the WebView's id for it", async () => {
+  const { isDualSense } = await import("../src/lib/gamepad/web-source.ts");
+  assert.equal(
+    isDualSense("DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)"),
+    true,
+  );
+  assert.equal(
+    isDualSense("Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)"),
+    false,
+  );
+  assert.equal(isDualSense("Xbox 360 Controller (XInput STANDARD GAMEPAD)"), false);
+});

@@ -51,4 +51,7 @@ export default {
     "선택한 단어의 사전 팝업을 열거나 닫습니다. 다른 단어로 이동하면 닫힙니다.",
   "Clear the shortcut for {name}": "{name} 단축키 지우기",
   "Clear the shortcut": "단축키 지우기",
+  "Touchpad moves the cursor": "터치패드로 커서 이동",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: 터치패드를 손가락으로 밀어 Harbor 안에서만 이 커서를 움직입니다. 끄면 터치패드는 시스템이 사용합니다.",
 };

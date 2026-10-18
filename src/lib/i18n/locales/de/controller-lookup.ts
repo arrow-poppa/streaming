@@ -54,4 +54,7 @@ export default {
     "Öffnet oder schließt das Wörterbuch-Popup für das gewählte Wort. Der Wechsel zu einem anderen Wort schließt es.",
   "Clear the shortcut for {name}": "Tastenkürzel für {name} entfernen",
   "Clear the shortcut": "Tastenkürzel entfernen",
+  "Touchpad moves the cursor": "Touchpad bewegt den Zeiger",
+  "DualSense: slide a finger on the touchpad to move this cursor, only inside Harbor. When off, the touchpad is left to the system.":
+    "DualSense: Wische über das Touchpad, um diesen Zeiger zu bewegen, nur in Harbor. Aus bleibt das Touchpad beim System.",
 };

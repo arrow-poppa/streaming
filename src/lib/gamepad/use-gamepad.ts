@@ -20,7 +20,8 @@ import { pointerOnLookup } from "./pointer-target";
 import { isGamepadCaptured } from "./capture";
 import { publishGamepads } from "./store";
 import { resetLiveGamepad, setLiveAxis, setLiveButton } from "./live";
-import { startWebGamepadSource } from "./web-source";
+import { pushTouch, resetTouch } from "./touchpad";
+import { isDualSense, startWebGamepadSource } from "./web-source";
 import type { GamepadEventPayload, GamepadInfo, GpAxis, GpButton } from "./protocol";
 import {
   NAV_ARROW,
@@ -112,6 +113,12 @@ export function useGamepad(): void {
   useEffect(() => {
     void invoke("gamepad_set_background_input", { allowed: backgroundInput }).catch(() => {});
   }, [backgroundInput]);
+
+  // Off, the touchpad stays the system's (on Linux Harbor stops holding it).
+  const touchpadPointer = settings.controllerTouchpadPointer && settings.controllerCursorEnabled;
+  useEffect(() => {
+    void invoke("gamepad_set_touchpad_pointer", { enabled: touchpadPointer }).catch(() => {});
+  }, [touchpadPointer]);
 
   const cfgRef = useRef({
     deadzone: settings.controllerDeadzone,
@@ -336,7 +343,11 @@ export function useGamepad(): void {
           break;
         case "disconnected":
           resetLiveGamepad();
+          resetTouch();
           seedList();
+          break;
+        case "touch":
+          pushTouch(p.x, p.y, p.touching);
           break;
         case "button":
           setLiveButton(p.button, p.pressed);
@@ -367,6 +378,9 @@ export function useGamepad(): void {
         publishMerged();
       },
       inputAllowed: () => backgroundInputRef.current || document.hasFocus(),
+      // A DualSense Harbor reads itself (gamepad/dualsense.rs) would
+      // otherwise press every button twice.
+      skip: (pad) => nativePads.some((p) => p.hid) && isDualSense(pad.id),
     });
 
     return () => {

@@ -1503,6 +1503,7 @@ pub fn run() {
             gamepad::gamepad_list,
             gamepad::gamepad_set_enabled,
             gamepad::gamepad_set_background_input,
+            gamepad::gamepad_set_touchpad_pointer,
             discord_rp::discord_set_enabled,
             cast::cast_discover,
             harbor_lan::harbor_lan_identity,
