@@ -16,7 +16,7 @@ import {
 } from "@/lib/player/lookup-nav";
 import { PAD_MODIFIERS, isDefaultPadBinding, modifierInUse, padAction, type PadMode } from "./bindings";
 import { runPadAction } from "./dispatch";
-import { pointerOnLookup } from "./pointer-target";
+import { POINTER_YIELD_EVENT, pointerOnLookup, pointerShown } from "./pointer-target";
 import { isGamepadCaptured } from "./capture";
 import { publishGamepads } from "./store";
 import { resetLiveGamepad, setLiveAxis, setLiveButton } from "./live";
@@ -114,8 +114,10 @@ export function useGamepad(): void {
     void invoke("gamepad_set_background_input", { allowed: backgroundInput }).catch(() => {});
   }, [backgroundInput]);
 
-  // Off, the touchpad stays the system's (on Linux Harbor stops holding it).
-  const touchpadPointer = settings.controllerTouchpadPointer && settings.controllerCursorEnabled;
+  // Off, the touchpad stays the system's (on Linux Harbor stops holding it,
+  // on Windows the WebView reads the pad again).
+  const touchpadPointer =
+    enabled && settings.controllerTouchpadPointer && settings.controllerCursorEnabled;
   useEffect(() => {
     void invoke("gamepad_set_touchpad_pointer", { enabled: touchpadPointer }).catch(() => {});
   }, [touchpadPointer]);
@@ -135,6 +137,8 @@ export function useGamepad(): void {
   playerRef.current = !!player;
   const desktopUiRef = useRef(settings.bigPicturePlayerUi === "desktop");
   desktopUiRef.current = settings.bigPicturePlayerUi === "desktop";
+  const cursorRef = useRef(settings.controllerCursorEnabled);
+  cursorRef.current = settings.controllerCursorEnabled;
 
   const bindRef = useRef({ pad: settings.gamepadHotkeys ?? {}, keys: settings.hotkeys ?? {} });
   bindRef.current = { pad: settings.gamepadHotkeys ?? {}, keys: settings.hotkeys ?? {} };
@@ -195,16 +199,20 @@ export function useGamepad(): void {
           sendLookupCommand("exit");
           return;
         }
-        // On a subtitle or its popup, A is the pointer's click (gamepad-runner).
-        if (plain && button === "south" && !lookupMode() && pointerOnLookup()) return;
+        // While the pointer is on screen A is its click, as the mouse button
+        // (gamepad-runner); the left stick hides it to hand A back.
+        if (plain && button === "south" && !lookupMode() && pointerShown()) return;
         // The on-screen keyboard still takes the D-pad.
         const dir = NAV_BUTTON[button];
         if (plain && DPAD.has(button) && dir && keyboardNav(dir)) return;
         const id = padAction(pad, "normal", chord);
         const isDefault = plain && isDefaultPadBinding(pad, "normal", chord);
         // A button the user bound acts like a keyboard hotkey: it does its
-        // job without bringing up the controls.
-        if (!id || isDefault) window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
+        // job without bringing up the controls. So does the D-pad always, as
+        // the arrow keys do.
+        if (!DPAD.has(button) && (!id || isDefault)) {
+          window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
+        }
         // With the controls up, A presses the focused control unless it was
         // rebound. The D-pad never moves around them; the left stick does.
         const navigates = button === "south" && (!id || isDefault);
@@ -252,9 +260,12 @@ export function useGamepad(): void {
         return;
       }
       if (playerRef.current) {
-        window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
         // The left stick scrolls the popup under the pointer instead.
         if (axis === "ly" && pointerOnLookup()) return;
+        window.dispatchEvent(new Event(CONTROLLER_ACTIVITY));
+        // Moving around the controls starts from the focused one, not from
+        // where the pointer last was, and A then presses it.
+        if (axis === "lx" || axis === "ly") window.dispatchEvent(new Event(POINTER_YIELD_EVENT));
         // Big Picture's own player chrome moves on the arrow keys, which the
         // D-pad used to press there.
         const arrow = isBigPictureActive() && !desktopUiRef.current ? NAV_AXIS[axis]?.[dir] : undefined;
@@ -311,10 +322,18 @@ export function useGamepad(): void {
     // it is what moves around them.
     const axisWakes = (axis: GpAxis) => playerRef.current && (axis === "lx" || axis === "ly");
 
+    // In the player the right stick is only the pointer, when there is one.
+    const pointerAxis = (axis: GpAxis) =>
+      playerRef.current && cursorRef.current && (axis === "rx" || axis === "ry");
+
     const onAxis = (axis: GpAxis, value: number) => {
       const mapped =
         (lookupMode() ? LOOKUP_AXIS[axis] : undefined) ??
-        (axisNavigates(axis) || axisWakes(axis) ? NAV_AXIS[axis] : PLAYER_AXIS[axis]);
+        (pointerAxis(axis)
+          ? undefined
+          : axisNavigates(axis) || axisWakes(axis)
+            ? NAV_AXIS[axis]
+            : PLAYER_AXIS[axis]);
       const dz = Math.max(0.05, cfgRef.current.deadzone);
       const dir: "neg" | "pos" | null = !mapped
         ? null

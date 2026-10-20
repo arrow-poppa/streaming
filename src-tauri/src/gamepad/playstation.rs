@@ -9,7 +9,9 @@
 //! the touchpad until a calibration feature report is read, and the long
 //! report it then sends has no layout the WebView understands, so Harbor
 //! becomes the pad's only source and the frontend drops the WebView's copy
-//! (GamepadInfo::hid).
+//! (GamepadInfo::hid). Only while the touchpad setting is on: off, the WebView
+//! reads the pad as before (a Bluetooth pad already switched to the long
+//! report needs reconnecting first).
 //!
 //! Linux: gilrs keeps the buttons and sticks. The kernel (hid-playstation, or
 //! hid-sony before 6.2) exposes the touchpad as its own touchpad device, which
@@ -133,17 +135,22 @@ enum Report {
     BluetoothShort(PadState),
 }
 
+/// Report 0x01 is the full report over USB but the short one over Bluetooth,
+/// and its length cannot tell them apart: Windows pads every input report of
+/// a Bluetooth pad to the longest one the pad declares, 78 bytes.
 #[cfg(any(windows, test))]
-fn parse_report(model: Model, buf: &[u8]) -> Option<Report> {
+fn parse_report(model: Model, bluetooth: bool, buf: &[u8]) -> Option<Report> {
     match (model, buf.first()?, buf.len()) {
         // USB: the full report right after its id.
-        (Model::DualSense, 0x01, n) if n >= 64 => Some(Report::State(dualsense_report(&buf[1..]))),
-        (Model::DualShock4, 0x01, n) if n >= 64 => {
+        (Model::DualSense, 0x01, n) if !bluetooth && n >= 64 => {
+            Some(Report::State(dualsense_report(&buf[1..])))
+        }
+        (Model::DualShock4, 0x01, n) if !bluetooth && n >= 64 => {
             Some(Report::State(dualshock4_report(&buf[1..])))
         }
         // Bluetooth before the switch, the same on both: sticks, buttons,
         // then the triggers.
-        (_, 0x01, n) if n >= 10 => Some(Report::BluetoothShort(decode(
+        (_, 0x01, n) if bluetooth && n >= 10 => Some(Report::BluetoothShort(decode(
             &buf[1..5],
             &buf[5..8],
             buf[8],
@@ -194,10 +201,11 @@ mod hid_windows {
         emit, emit_input, remove, touchpad_pointer, upsert_info, GamepadEventPayload,
     };
     use super::{parse_report, stick_value, Model, PadState, Report, AXES, BUTTONS, HID_PAD_ID};
-    use std::time::Duration;
+    use std::time::{Duration, Instant};
     use tauri::AppHandle;
 
     const SONY: u16 = 0x054c;
+    const SILENCE: Duration = Duration::from_secs(2);
     // Read over Bluetooth, it switches either pad to its long report.
     const CALIBRATION_REPORT: u8 = 0x05;
 
@@ -210,52 +218,70 @@ mod hid_windows {
             }
         };
         loop {
-            let _ = api.refresh_devices();
-            let found = api
-                .device_list()
-                .filter(|d| d.vendor_id() == SONY)
-                .find_map(|d| {
-                    let model = Model::of(d.product_id())?;
-                    let fallback = match model {
-                        Model::DualSense => "DualSense Wireless Controller",
-                        Model::DualShock4 => "Wireless Controller",
-                    };
-                    let name = d
-                        .product_string()
-                        .filter(|s| !s.is_empty())
-                        .unwrap_or(fallback);
-                    Some((d.path().to_owned(), name.to_string(), model))
-                });
-            if let Some((path, name, model)) = found {
-                if let Ok(device) = api.open_path(&path) {
-                    read_device(&app, &device, &name, model);
+            // With the touchpad setting off the pad is left to the WebView,
+            // which read it before Harbor did.
+            if touchpad_pointer() {
+                let _ = api.refresh_devices();
+                let found = api
+                    .device_list()
+                    .filter(|d| d.vendor_id() == SONY)
+                    .find_map(|d| {
+                        let model = Model::of(d.product_id())?;
+                        let fallback = match model {
+                            Model::DualSense => "DualSense Wireless Controller",
+                            Model::DualShock4 => "Wireless Controller",
+                        };
+                        let name = d
+                            .product_string()
+                            .filter(|s| !s.is_empty())
+                            .unwrap_or(fallback);
+                        Some((d.path().to_owned(), name.to_string(), model, d.bus_type()))
+                    });
+                if let Some((path, name, model, bus)) = found {
+                    if let Ok(device) = api.open_path(&path) {
+                        read_device(&app, &device, &name, model, bus);
+                    }
                 }
             }
             std::thread::sleep(Duration::from_secs(2));
         }
     }
 
-    fn read_device(app: &AppHandle, device: &hidapi::HidDevice, name: &str, model: Model) {
-        upsert_info(HID_PAD_ID, name, true);
-        emit(
-            app,
-            GamepadEventPayload::Connected {
-                id: HID_PAD_ID,
-                name: name.to_string(),
-            },
-        );
+    fn read_device(
+        app: &AppHandle,
+        device: &hidapi::HidDevice,
+        name: &str,
+        model: Model,
+        bus: hidapi::BusType,
+    ) {
+        // Windows keeps a paired Bluetooth pad's device after the pad is
+        // switched off, so the pad only counts as connected once it reports,
+        // and as gone once its reports stop.
+        let mut listed = false;
+        let mut last_report = Instant::now();
         let mut prev = PadState::default();
         let mut asked_for_long_report = false;
         let mut buf = [0u8; 128];
-        loop {
+        while touchpad_pointer() {
             let n = match device.read_timeout(&mut buf, 100) {
                 Ok(n) => n,
                 Err(_) => break,
             };
             if n == 0 {
+                // The full reports stream continuously; the short Bluetooth
+                // one may only come on a change.
+                if listed && prev.touch.is_some() && last_report.elapsed() > SILENCE {
+                    break;
+                }
                 continue;
             }
-            let state = match parse_report(model, &buf[..n]) {
+            let bluetooth = match bus {
+                hidapi::BusType::Usb => false,
+                hidapi::BusType::Bluetooth => true,
+                // A USB report is exactly 64 bytes long.
+                _ => n != 64,
+            };
+            let state = match parse_report(model, bluetooth, &buf[..n]) {
                 Some(Report::State(state)) => state,
                 Some(Report::BluetoothShort(state)) => {
                     if !asked_for_long_report {
@@ -271,9 +297,31 @@ mod hid_windows {
                 }
                 None => continue,
             };
+            last_report = Instant::now();
+            if !listed {
+                listed = true;
+                upsert_info(HID_PAD_ID, name, true);
+                emit(
+                    app,
+                    GamepadEventPayload::Connected {
+                        id: HID_PAD_ID,
+                        name: name.to_string(),
+                    },
+                );
+            }
             emit_changes(app, model, &prev, &state);
             prev = state;
         }
+        if !listed {
+            return;
+        }
+        // Let go of whatever the pad held.
+        let released = PadState {
+            buttons: 0,
+            sticks: [128; 4],
+            touch: None,
+        };
+        emit_changes(app, model, &prev, &released);
         remove(HID_PAD_ID);
         emit(app, GamepadEventPayload::Disconnected { id: HID_PAD_ID });
     }
@@ -503,7 +551,7 @@ mod tests {
         r[10] = 0x02; // touchpad click
                       // Touch point 0 at (1000, 500), finger down.
         r[33..37].copy_from_slice(&[0x01, 0xe8, 0x43, 0x1f]);
-        let Some(Report::State(state)) = parse_report(Model::DualSense, &r) else {
+        let Some(Report::State(state)) = parse_report(Model::DualSense, false, &r) else {
             panic!("not a full report");
         };
         assert_eq!(
@@ -521,7 +569,7 @@ mod tests {
         r[2..6].copy_from_slice(&[10, 20, 30, 40]);
         r[9] = 0x08; // hat 8: D-pad released
         r[34] = 0x80; // no finger
-        let Some(Report::State(state)) = parse_report(Model::DualSense, &r) else {
+        let Some(Report::State(state)) = parse_report(Model::DualSense, true, &r) else {
             panic!("not a full report");
         };
         assert!(pressed(&state).is_empty());
@@ -535,8 +583,27 @@ mod tests {
         r[0] = 0x01;
         r[5] = 0x80 | 0x07; // triangle, D-pad up-left
         assert!(matches!(
-            parse_report(Model::DualSense, &r),
+            parse_report(Model::DualSense, true, &r),
             Some(Report::BluetoothShort(s)) if pressed(&s) == ["north", "dup", "dleft"]
+        ));
+    }
+
+    #[test]
+    fn a_short_bluetooth_report_padded_by_windows_is_still_short() {
+        // Windows hands it over at the pad's longest report length, zeros
+        // after the triggers; read as a USB report the idle L2 byte would be
+        // the D-pad held up.
+        let mut r = [0u8; 78];
+        r[0] = 0x01;
+        r[1..5].copy_from_slice(&[128, 128, 128, 128]);
+        r[5] = 0x08; // D-pad released
+        assert!(matches!(
+            parse_report(Model::DualSense, true, &r),
+            Some(Report::BluetoothShort(s)) if pressed(&s).is_empty()
+        ));
+        assert!(matches!(
+            parse_report(Model::DualShock4, true, &r),
+            Some(Report::BluetoothShort(s)) if pressed(&s).is_empty()
         ));
     }
 
@@ -560,7 +627,7 @@ mod tests {
         // Touch count at 33, the first report's timestamp at 34, then its
         // point 0 at (1919, 941).
         r[35..39].copy_from_slice(&[0x02, 0x7f, 0xd7, 0x3a]);
-        let Some(Report::State(state)) = parse_report(Model::DualShock4, &r) else {
+        let Some(Report::State(state)) = parse_report(Model::DualShock4, false, &r) else {
             panic!("not a full report");
         };
         assert_eq!(
@@ -579,7 +646,7 @@ mod tests {
         r[7] = 0x08 | 0x10; // D-pad released, square
         r[9] = 0x02; // touchpad click
         r[37] = 0x80; // no finger
-        let Some(Report::State(state)) = parse_report(Model::DualShock4, &r) else {
+        let Some(Report::State(state)) = parse_report(Model::DualShock4, true, &r) else {
             panic!("not a full report");
         };
         assert_eq!(pressed(&state), ["west", "touchpad"]);
@@ -587,7 +654,7 @@ mod tests {
         assert_eq!(state.touch, Some(None));
         // The DualSense's long Bluetooth report id means nothing to a DS4.
         r[0] = 0x31;
-        assert_eq!(parse_report(Model::DualShock4, &r), None);
+        assert_eq!(parse_report(Model::DualShock4, true, &r), None);
     }
 
     #[test]

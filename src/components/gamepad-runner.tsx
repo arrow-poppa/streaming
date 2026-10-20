@@ -6,7 +6,12 @@ import { useGamepadCapture } from "@/lib/gamepad/capture";
 import { useLiveGamepad } from "@/lib/gamepad/live";
 import { useGamepads } from "@/lib/gamepad/store";
 import { useGamepad } from "@/lib/gamepad/use-gamepad";
-import { POINTER_SHOWN_ATTR, isLookupTarget } from "@/lib/gamepad/pointer-target";
+import {
+  POINTER_SHOWN_ATTR,
+  POINTER_YIELD_EVENT,
+  isLookupTarget,
+  pointerShown,
+} from "@/lib/gamepad/pointer-target";
 import { takeTouchDelta } from "@/lib/gamepad/touchpad";
 import { padAction } from "@/lib/gamepad/bindings";
 import { useSettings } from "@/lib/settings";
@@ -214,7 +219,10 @@ export function GamepadRunner() {
         "transform",
         `translate(${position.current.x}px,${position.current.y}px) translate(-50%,-50%)`,
       );
-      if (Math.abs(ly) >= deadzone) {
+      // In the player the left stick moves around the controls, so it only
+      // scrolls under a pointer that is on screen (the dictionary popup).
+      const inPlayer = document.documentElement.hasAttribute("data-player-chrome-mounted");
+      if (Math.abs(ly) >= deadzone && (!inPlayer || pointerShown())) {
         let el = document.elementFromPoint(
           position.current.x,
           position.current.y,
@@ -238,11 +246,11 @@ export function GamepadRunner() {
     };
   }, [pads.length, settings.controllerDeadzone, settings.controllerCursorSpeed]);
 
-  // Yield the pointer to the mouse/keyboard. Only real user input counts: the
-  // runner dispatches synthetic events itself, filtered via `isTrusted`.
+  // Yield the pointer to the mouse/keyboard, and in the player to the left
+  // stick. Only real user input counts: the runner dispatches synthetic events
+  // itself, filtered via `isTrusted`.
   useEffect(() => {
-    const hide = (e: Event) => {
-      if (!e.isTrusted) return;
+    const yieldPointer = () => {
       if (!active.current) return;
       active.current = false;
       lastActivity.current = 0;
@@ -252,6 +260,10 @@ export function GamepadRunner() {
       hovered.current = null;
       tvHover(null);
     };
+    const hide = (e: Event) => {
+      if (e.isTrusted) yieldPointer();
+    };
+    window.addEventListener(POINTER_YIELD_EVENT, yieldPointer);
     window.addEventListener("mousemove", hide, true);
     window.addEventListener("mousedown", hide, true);
     window.addEventListener("keydown", hide, true);
@@ -265,13 +277,16 @@ export function GamepadRunner() {
       window.removeEventListener("pointerdown", hide, true);
       window.removeEventListener("wheel", hide, true);
       window.removeEventListener("touchstart", hide, true);
+      window.removeEventListener(POINTER_YIELD_EVENT, yieldPointer);
     };
   }, []);
 
   // The touchpad's click clicks under the cursor too, unless it was bound to
   // an action in Hotkeys.
   const touchClick =
-    !!live.buttons.touchpad && !padAction(settings.gamepadHotkeys, "normal", "touchpad");
+    settings.controllerTouchpadPointer &&
+    !!live.buttons.touchpad &&
+    !padAction(settings.gamepadHotkeys, "normal", "touchpad");
   const clickPressed = !!live.buttons.south || touchClick;
   useEffect(() => {
     if (captured || !clickPressed) return;

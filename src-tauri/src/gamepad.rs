@@ -15,7 +15,7 @@ const DPAD_THRESHOLD: f32 = 0.5;
 static GAMEPAD_ENABLED: AtomicBool = AtomicBool::new(true);
 static WINDOW_FOCUSED: AtomicBool = AtomicBool::new(true);
 static BACKGROUND_INPUT: AtomicBool = AtomicBool::new(false);
-static TOUCHPAD_POINTER: AtomicBool = AtomicBool::new(true);
+static TOUCHPAD_POINTER: AtomicBool = AtomicBool::new(false);
 static GAMEPADS: OnceLock<Mutex<Vec<GamepadInfo>>> = OnceLock::new();
 
 fn gamepads() -> &'static Mutex<Vec<GamepadInfo>> {
